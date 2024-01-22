@@ -22,7 +22,7 @@ class SignupView extends StatelessWidget {
               AccountForm(textLabel: 'Email', obscureText: false),
               SizedBox(height: 34.h),
               AccountForm(textLabel: 'Senha', obscureText: true),
-              SizedBox(height: 38.h),
+              SizedBox(height: 37.h),
               MyButton(
                 onPressed: () async {
                   var snack = ScaffoldMessenger.of(context);
