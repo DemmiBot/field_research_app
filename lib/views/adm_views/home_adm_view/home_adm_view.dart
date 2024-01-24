@@ -56,10 +56,11 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                           ),
                         );
                       } else {
-                        return const Center(
+                        return Center(
                             child: Text(
                           'Nenhum dado disponível',
-                          style: TextStyle(color: Colors.white),
+                          style:
+                              TextStyle(color: Colors.white, fontSize: 14.sp),
                         ));
                       }
                     } else {
@@ -80,7 +81,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                   child: MyButtonAdm(
                     text: 'Gerenciar Pesquisadores',
                     width: 10.w,
-                    onPressed: () => print('oii'),
+                    onPressed: () {},
                   ),
                 ),
               ],

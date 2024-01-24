@@ -1,5 +1,5 @@
 class UserModel {
-  late String name;
+  late String name = 'User';
 
   UserModel({required this.name});
 }

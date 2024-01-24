@@ -5,6 +5,7 @@ import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/views/login_view/signup_view.dart';
+import 'package:fieldresearch/views/register_views/register_view.dart';
 import 'package:fieldresearch/views/researcher_views/reseacher_home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,6 +40,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         routes: {
           '/': (context) => SignupView(),
+          '/register': (context) => RegisterView(),
           '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
           '/researcher': (context) => const HomeResearcherView(),

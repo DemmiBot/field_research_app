@@ -2,9 +2,10 @@ import 'package:fieldresearch/provider/adm_provider.dart';
 import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:flutter/material.dart';
 
-class AccountController {
+class LoginController {
   static var emailController = TextEditingController();
   static var passwordController = TextEditingController();
+
   static AccountRepository repositoryController = AccountRepository();
   static AdmProvider providerController = AdmProvider();
 
@@ -17,11 +18,11 @@ class AccountController {
     if (await AccountRepository.admimVerification()) {
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/adm');
-      AccountController.cleanText();
+      LoginController.cleanText();
     } else {
       // ignore: use_build_context_synchronously
       Navigator.pushNamed(context, '/researcher');
-      AccountController.cleanText();
+      LoginController.cleanText();
     }
   }
 }

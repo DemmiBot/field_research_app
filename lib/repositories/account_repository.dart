@@ -1,5 +1,6 @@
-import 'package:fieldresearch/controller/account_controller.dart';
+import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/errors/error_login.dart';
+import 'package:fieldresearch/controller/register_controller.dart';
 import 'package:fieldresearch/models/user_model.dart';
 import 'package:fieldresearch/utils/repository_utils.dart';
 import 'package:flutter/material.dart';
@@ -25,12 +26,12 @@ class AccountRepository {
     bool validSign = false;
     try {
       response = await supabase.auth.signInWithPassword(
-          email: AccountController.emailController.text,
-          password: AccountController.passwordController.text);
+          email: LoginController.emailController.text.trim(),
+          password: LoginController.passwordController.text.trim());
       validSign = true;
       return validSign;
     } catch (e) {
-      ErrorLogin.errorFeddback(e, snack);
+      ErrorLogin.errorFeddback(e, snack, false);
 
       return validSign;
     }
@@ -40,7 +41,7 @@ class AccountRepository {
     final data = await supabase
         .from('users')
         .select('is_admin')
-        .eq('email', AccountController.emailController.text);
+        .eq('email', LoginController.emailController.text);
 
     if (data[0]['is_admin']) {
       return true;
@@ -53,7 +54,25 @@ class AccountRepository {
     final data = await supabase
         .from('users')
         .select('name')
-        .eq('email', AccountController.emailController.text);
+        .eq('email', LoginController.emailController.text);
     return UserModel(name: data[0]['name'] ?? 'User');
+  }
+
+  // talvez gere users extras por erro do usuário, dps vejo uma solução
+  Future<void> createUser(String email, String password, var snack) async {
+    try {
+      var status = await supabase.from('users').insert({
+        'name': RegisterController.nameRegister.text.trim(),
+        'email': email,
+        'is_admin': false,
+      });
+      response = await supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
+      ErrorLogin.errorFeddback('Verifique seu email', snack, true);
+    } catch (e) {
+      ErrorLogin.errorFeddback(e, snack, false);
+    }
   }
 }

@@ -39,6 +39,7 @@ dependencies:
   flutter_screenutil: ^5.0.1+2
   provider: ^6.1.1
   postgres: ^3.0.6
+  email_validator: ^2.1.17
 
 dev_dependencies:
   flutter_test:
