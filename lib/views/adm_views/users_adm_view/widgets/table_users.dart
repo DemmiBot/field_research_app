@@ -5,16 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 // ignore: must_be_immutable
-class TableUsers extends StatefulWidget {
+class TableUsers extends StatelessWidget {
   AsyncSnapshot<List<UserAdmModel>> snapshot;
 
   TableUsers({Key? key, required this.snapshot}) : super(key: key);
 
-  @override
-  State<TableUsers> createState() => _TableUsersState();
-}
-
-class _TableUsersState extends State<TableUsers> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -49,8 +44,8 @@ class _TableUsersState extends State<TableUsers> {
                 label: Text('Email', style: TextStyle(color: Colors.white)),
               ),
             ],
-            rows: widget.snapshot.data!.map((user) {
-              var index = widget.snapshot.data!.indexOf(user);
+            rows: snapshot.data!.map((user) {
+              var index = snapshot.data!.indexOf(user);
               final color = index.isEven ? Colors.grey[300] : Colors.white;
               return DataRow(
                 color: MaterialStateProperty.all(color),
@@ -63,7 +58,10 @@ class _TableUsersState extends State<TableUsers> {
                     ),
                   ),
                   DataCell(
-                    PopUpButton(adm: user.adm.toString()),
+                    PopUpButton(
+                        adm: user.adm.toString(),
+                        index: index,
+                        snapshot: snapshot),
                   ),
                   DataCell(
                     Text(

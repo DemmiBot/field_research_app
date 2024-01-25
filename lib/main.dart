@@ -1,6 +1,7 @@
 import 'package:fieldresearch/controller/researches_adm_controller.dart';
 import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
+import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
@@ -19,6 +20,9 @@ void main() async {
       providers: [
         ChangeNotifierProvider(
           create: (context) => AdmProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UsersAdmProvider(),
         ),
         Provider(
           create: (context) => ResearchesAdmController(),
