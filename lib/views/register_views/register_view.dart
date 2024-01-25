@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterView extends StatefulWidget {
-  RegisterView({super.key});
+  const RegisterView({super.key});
 
   @override
   State<RegisterView> createState() => _RegisterViewState();
@@ -17,7 +17,6 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     RegisterController.cleanText();
   }
@@ -27,6 +26,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        appBar: AppBar(backgroundColor: Colors.transparent),
         body: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -34,7 +34,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
               padding: EdgeInsets.symmetric(horizontal: 37.w),
               child: Column(
                 children: [
-                  SizedBox(height: 135.h),
+                  SizedBox(height: 90.h),
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
@@ -110,19 +110,27 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                           ]),
                       controller: RegisterController.repitPassRegister),
                   SizedBox(height: 28.h),
+                  if (RegisterController.loading)
+                    const Center(child: CircularProgressIndicator()),
+                  SizedBox(height: 10.h),
                   MyButton(
                       text: 'Registrar',
                       onPressed: () async {
                         if (formKey.currentState?.validate() ?? false) {
-                          var snack = ScaffoldMessenger.of(context);
+                          setState(() async {
+                            RegisterController.loading = true;
+                            var snack = ScaffoldMessenger.of(context);
 
-                          await RegisterController.repositoryController
-                              .createUser(
-                                  RegisterController.emailRegister.text.trim(),
-                                  RegisterController.passwordRegister.text
-                                      .trim(),
-                                  snack);
-                          RegisterController.cleanText();
+                            await RegisterController.repositoryController
+                                .createUser(
+                                    RegisterController.emailRegister.text
+                                        .trim(),
+                                    RegisterController.passwordRegister.text
+                                        .trim(),
+                                    snack);
+                            RegisterController.cleanText();
+                            RegisterController.loading = false;
+                          });
                         }
                       }),
                 ],

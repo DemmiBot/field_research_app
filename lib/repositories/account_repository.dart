@@ -61,7 +61,7 @@ class AccountRepository {
   // talvez gere users extras por erro do usuário, dps vejo uma solução
   Future<void> createUser(String email, String password, var snack) async {
     try {
-      var status = await supabase.from('users').insert({
+      await supabase.from('users').insert({
         'name': RegisterController.nameRegister.text.trim(),
         'email': email,
         'is_admin': false,

@@ -7,9 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-class SignupView extends StatelessWidget with LoginMixin {
+class SignupView extends StatefulWidget {
   SignupView({super.key});
 
+  @override
+  State<SignupView> createState() => _SignupViewState();
+}
+
+class _SignupViewState extends State<SignupView> with LoginMixin {
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -45,17 +50,24 @@ class SignupView extends StatelessWidget with LoginMixin {
                     ]),
                   ),
                   SizedBox(height: 37.h),
+                  if (LoginController.loading)
+                    const Center(child: CircularProgressIndicator()),
+                  SizedBox(height: 15.h),
                   MyButton(
                     text: 'Entrar',
                     onPressed: () async {
                       var snack = ScaffoldMessenger.of(context);
                       if (formKey.currentState?.validate() ?? false) {
+                        setState(() {
+                          LoginController.loading = true;
+                        });
                         if (await LoginController.repositoryController
                                 .signInAccount(snack) !=
                             false) {
                           adm.getnameUser();
                           // ignore: use_build_context_synchronously
                           LoginController.switchPage(context);
+                          LoginController.loading = false;
                         }
                       }
                     },

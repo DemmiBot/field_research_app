@@ -1,4 +1,5 @@
-import 'package:fieldresearch/controller/data_controller.dart';
+import 'package:fieldresearch/controller/researches_adm_controller.dart';
+import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
 import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
@@ -20,7 +21,10 @@ void main() async {
           create: (context) => AdmProvider(),
         ),
         Provider(
-          create: (context) => DataController(),
+          create: (context) => ResearchesAdmController(),
+        ),
+        Provider(
+          create: (contex) => UsersAdmController(),
         ),
       ],
       child: const MyApp(),
@@ -40,7 +44,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         routes: {
           '/': (context) => SignupView(),
-          '/register': (context) => RegisterView(),
+          '/register': (context) => const RegisterView(),
           '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
           '/researcher': (context) => const HomeResearcherView(),

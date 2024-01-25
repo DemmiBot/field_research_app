@@ -7,6 +7,7 @@ class RegisterController {
   static var passwordRegister = TextEditingController();
   static var repitPassRegister = TextEditingController();
   static AccountRepository repositoryController = AccountRepository();
+  static bool loading = false;
 
   static void cleanText() {
     nameRegister.clear();

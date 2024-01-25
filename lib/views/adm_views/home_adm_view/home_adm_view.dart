@@ -1,7 +1,7 @@
-import 'package:fieldresearch/controller/data_controller.dart';
+import 'package:fieldresearch/controller/researches_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
 import 'package:fieldresearch/repositories/data_repository.dart';
-import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/button_adm.dart';
+import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,7 +18,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
   @override
   Widget build(BuildContext context) {
     return Consumer<AdmProvider>(
-      builder: (context, adm, child) => Consumer<DataController>(
+      builder: (context, adm, child) => Consumer<ResearchesAdmController>(
         builder: (context, controller, child) => Scaffold(
             body: SafeArea(
           child: Padding(
@@ -81,7 +81,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                   child: MyButtonAdm(
                     text: 'Gerenciar Pesquisadores',
                     width: 10.w,
-                    onPressed: () {},
+                    onPressed: () => Navigator.pushNamed(context, '/admUsers'),
                   ),
                 ),
               ],
