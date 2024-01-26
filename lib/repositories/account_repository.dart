@@ -20,7 +20,7 @@ class AccountRepository {
     );
   }
 
-  //login verification based on the provided information end feedback error.
+  //login verification based on the provided information and feedback error.
   Future<bool> signInAccount(var snack) async {
     bool validSign = false;
     try {

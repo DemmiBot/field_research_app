@@ -9,7 +9,7 @@ class DataRepository {
 
   Future<List<ResearchesModel>> fetchResearches() async {
     final data = await supabase.from('researches').select();
-    print('dataa $data');
+    print('data $data');
 
     researchesList =
         data.map((data) => ResearchesModel.fromJson(data)).toList();
@@ -18,9 +18,9 @@ class DataRepository {
   }
 
   static void testButton() async {
-    // final data = await supabase
-    //     .rpc('create_table_type1', params: {'t_name': 'mesanova'});
-    // print(data);
+    final data = await supabase
+      .rpc('create_table_type1', params: {'t_name': 'teste2'});
+    print(data);
   }
 
 //   Future<void> createTable() async {
