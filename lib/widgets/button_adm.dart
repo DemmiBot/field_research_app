@@ -1,3 +1,4 @@
+import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -5,7 +6,7 @@ class MyButtonAdm extends StatelessWidget {
   final String text;
   final VoidCallback? onPressed;
   final double width;
-  MyButtonAdm(
+  const MyButtonAdm(
       {super.key,
       required this.text,
       required this.width,
@@ -22,11 +23,11 @@ class MyButtonAdm extends StatelessWidget {
         ),
         padding: MaterialStatePropertyAll(
           EdgeInsets.symmetric(
-            horizontal: width,
+            horizontal: width.w,
           ),
         ),
         backgroundColor: const MaterialStatePropertyAll(
-          Color(0xFF1B1F27),
+          buttonColor,
         ),
       ),
       onPressed: onPressed,

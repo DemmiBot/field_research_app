@@ -1,7 +1,7 @@
 import 'package:fieldresearch/models/researches_model.dart';
 import 'package:fieldresearch/repositories/data_repository.dart';
 
-class DataController {
+class ResearchesAdmController {
   final DataRepository dataProvider = DataRepository();
   List<ResearchesModel> researchesList = [];
 

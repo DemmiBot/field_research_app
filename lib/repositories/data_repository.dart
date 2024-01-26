@@ -9,11 +9,14 @@ class DataRepository {
 
   Future<List<ResearchesModel>> fetchResearches() async {
     final data = await supabase.from('researches').select();
+<<<<<<< HEAD
     print('data $data');
+=======
+>>>>>>> origin/HEAD
 
     researchesList =
         data.map((data) => ResearchesModel.fromJson(data)).toList();
-    print('lista do fromJson ${researchesList[0].name}');
+
     return researchesList;
   }
 
