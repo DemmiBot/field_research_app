@@ -31,7 +31,7 @@ class AccountRepository {
       validSign = true;
       return validSign;
     } catch (e) {
-      ErrorLogin.errorFeddback(e, snack, false);
+      ErrorFeedback.errorFeddback(e, snack, false);
 
       return validSign;
     }
@@ -70,9 +70,9 @@ class AccountRepository {
         email: email,
         password: password,
       );
-      ErrorLogin.errorFeddback('Verifique seu email', snack, true);
+      ErrorFeedback.errorFeddback('Verifique seu email', snack, true);
     } catch (e) {
-      ErrorLogin.errorFeddback(e, snack, false);
+      ErrorFeedback.errorFeddback(e, snack, false);
     }
   }
 }
