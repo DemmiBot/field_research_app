@@ -1,7 +1,7 @@
 import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/errors/error_login.dart';
 import 'package:fieldresearch/controller/register_controller.dart';
-import 'package:fieldresearch/models/user_model.dart';
+import 'package:fieldresearch/models/users_adm_model.dart';
 import 'package:fieldresearch/utils/repository_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -12,16 +12,16 @@ class AccountRepository {
   static late String name;
 
   //connect the app to the database
-  static void inicializeSupabase() async {
+  static void initializeSupabase() async {
     WidgetsFlutterBinding.ensureInitialized();
     var key = SupabaseKey();
     await Supabase.initialize(
       url: key.linkSupa,
-      anonKey: key.anonKeySupa,
+      anonKey: key.serviceKeySupa,
     );
   }
 
-  //login verification based on the provided information end feedback error.
+  //login verification based on the provided information and feedback error.
   Future<bool> signInAccount(var snack) async {
     bool validSign = false;
     try {

@@ -1,5 +1,5 @@
 import 'package:fieldresearch/controller/login_controller.dart';
-import 'package:fieldresearch/controller/mixins/login_mixin.dart';
+import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
@@ -44,9 +44,9 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                     controller: LoginController.passwordController,
                     textLabel: ' Senha',
                     obscureText: true,
-                    validator: (value) => combine([
-                      () => isNotEmpty(value),
-                      () => passwordValidador(value),
+                    validator: (shit) => combine([
+                      () => isNotEmpty(shit),
+                      () => passwordValidador(shit),
                     ]),
                   ),
                   SizedBox(height: 37.h),
@@ -88,6 +88,17 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                           color: Colors.white,
                           decorationColor: Colors.white),
                     ),
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: Color.fromARGB(255, 0, 21, 255),
+                      
+                    ),
+                    child: Text("Tela admin teste"),
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/admCreateTable');
+                    },
                   ),
                 ],
               ),

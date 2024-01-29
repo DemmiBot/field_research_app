@@ -14,7 +14,10 @@ class UsersRepository {
     return usersList;
   }
 
+
+
   Future<void> updateUsers(String email, bool admin) async {
     await supabase.from('users').update({'is_admin': admin}).eq('email', email);
   }
+
 }
