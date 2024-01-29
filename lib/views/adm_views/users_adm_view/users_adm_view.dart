@@ -1,3 +1,4 @@
+import 'package:fieldresearch/controller/csv_controller_repository.dart';
 import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/my_floatbutton.dart';
@@ -24,8 +25,8 @@ class _AdmUsersState extends State<AdmUsers> {
   @override
   Widget build(BuildContext context) {
     return Consumer<UsersAdmController>(
-      builder: (context, controller, child) => Consumer<UsersAdmProvider>(
-        builder: (context, provider, child) => Scaffold(
+      builder: (context, controller, child) => Consumer<CsvController>(
+        builder: (context, csvController, child) => Scaffold(
           floatingActionButton: const MyFloatButton(),
           appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -51,7 +52,10 @@ class _AdmUsersState extends State<AdmUsers> {
                           text: 'Extrair xlsx', width: 9, onPressed: () {}),
                       SizedBox(width: 6.w),
                       MyButtonAdm(
-                          text: 'Extrair CSV', width: 9, onPressed: () {}),
+                          text: 'Extrair CSV',
+                          width: 9,
+                          onPressed: () =>
+                              csvController.generateAndDownloadCSV()),
                       SizedBox(width: 7.w),
                       MyButtonAdm(
                           text: 'Adicionar Pesquisador',
@@ -64,8 +68,6 @@ class _AdmUsersState extends State<AdmUsers> {
                     children: [
                       MyButtonAdm(text: 'Re', width: 32, onPressed: () {}),
                       SizedBox(width: 6.w),
-                      MyButtonAdm(
-                          text: 'Extrair CSV', width: 9, onPressed: () {}),
                       SizedBox(width: 7.w),
                       MyButtonAdm(
                           text: 'Remover Pesquisador',

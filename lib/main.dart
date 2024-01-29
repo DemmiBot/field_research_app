@@ -1,3 +1,4 @@
+import 'package:fieldresearch/controller/csv_controller_repository.dart';
 import 'package:fieldresearch/controller/researches_adm_controller.dart';
 import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
@@ -30,6 +31,9 @@ void main() async {
         ),
         Provider(
           create: (contex) => UsersAdmController(),
+        ),
+        Provider(
+          create: (contex) => CsvController(),
         ),
       ],
       child: const MyApp(),

@@ -1,3 +1,4 @@
+import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -34,25 +35,29 @@ class AlertDialogFill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      backgroundColor: backGroundColor,
-      title: const Text('Salvar alterações?',
-          style: TextStyle(color: Colors.white)),
-      actions: [
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Save', style: TextStyle(color: Colors.white)),
-        ),
-        const SizedBox(width: 7),
-        TextButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel', style: TextStyle(color: Colors.white)),
-        ),
-      ],
+    return Consumer<UsersAdmController>(
+      builder: (context, controller, child) => AlertDialog(
+        backgroundColor: backGroundColor,
+        title: const Text('Salvar alterações?',
+            style: TextStyle(color: Colors.white)),
+        actions: [
+          TextButton(
+            onPressed: () {
+              var snack = ScaffoldMessenger.of(context);
+              controller.updateUser(snack);
+              Navigator.pop(context);
+            },
+            child: const Text('Save', style: TextStyle(color: Colors.white)),
+          ),
+          const SizedBox(width: 7),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Cancel', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
     );
   }
 }
