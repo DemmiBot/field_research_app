@@ -21,7 +21,7 @@ mixin RegisterMixin {
   String? repeatPassword(String? value) {
     if (RegisterController.passwordRegister.text !=
         RegisterController.repitPassRegister.text) {
-      return 'Senhas não coincidem';
+      return 'As senhas não são iguais. Tente novamente.'; // Totalmente profissional agora meu nobre 😎👍
     }
     return null;
   }

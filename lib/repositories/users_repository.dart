@@ -13,16 +13,4 @@ class UsersRepository {
     return usersList;
   }
 
-  // Future<void> updateUsers(bool admin,var snack) async {
-  //   try {
-
-  //     await supabase
-  //         .from('users')
-  //         .update({'is_admin': }).match({'name': 'Auckland'});
-
-  //     ErrorLogin.errorFeddback('Verifique seu email', snack, true);
-  //   } catch (e) {
-  //     ErrorLogin.errorFeddback(e, snack, false);
-  //   }
-  // }
 }

@@ -6,6 +6,7 @@ import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/users_adm_view.dart';
+import 'package:fieldresearch/views/adm_views/create_adm_view/create_adm_view.dart';
 import 'package:fieldresearch/views/login_view/signup_view.dart';
 import 'package:fieldresearch/views/register_views/register_view.dart';
 import 'package:fieldresearch/views/researcher_views/reseacher_home_view.dart';
@@ -14,7 +15,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
-  AccountRepository.inicializeSupabase();
+  AccountRepository.initializeSupabase();
   runApp(
     MultiProvider(
       providers: [
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
           '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
           '/researcher': (context) => const HomeResearcherView(),
+          '/admCreateTable': (context) => const AdminCreateTable(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
