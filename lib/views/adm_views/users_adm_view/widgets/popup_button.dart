@@ -1,5 +1,4 @@
 import 'package:fieldresearch/controller/users_adm_controller.dart';
-import 'package:fieldresearch/models/users_adm_model.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

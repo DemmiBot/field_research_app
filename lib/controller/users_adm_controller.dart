@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:fieldresearch/controller/errors/error_login.dart';
 import 'package:fieldresearch/models/users_adm_model.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
@@ -7,9 +6,9 @@ import 'package:fieldresearch/repositories/users_repository.dart';
 
 class UsersAdmController {
   final UsersRepository dataProvider = UsersRepository();
+
   List<UserAdmModel> researchesList = [];
   static List selectedItem = [];
-  UsersRepository userAux = UsersRepository();
   List<int> indexes = [];
   List<UserAdmModel> snapshot = [];
 
@@ -63,8 +62,12 @@ class UsersAdmController {
 
   void deleteUsers(var snack) async {
     try {
-      for (var i in indexes) {
-        await userAux.removeUsers(snapshot[i].email);
+      if (indexes.isEmpty) {
+        ErrorFeedback.errorFeddback('Nenhum usuário selecionado', snack, true);
+      } else {
+        for (var i in indexes) {
+          await UsersRepository.removeUsers(snapshot[i].email);
+        }
       }
     } catch (e) {
       ErrorFeedback.errorFeddback(e, snack, false);

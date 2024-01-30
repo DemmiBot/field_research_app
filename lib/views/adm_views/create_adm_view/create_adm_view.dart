@@ -55,9 +55,6 @@ class _AdminCreateTable extends State<AdminCreateTable> {
                     child: const Text("Inserir nova coluna"),
                     onPressed: () async {
                       if (_formKey.currentState?.validate() ?? false) {
-                        setState(() {
-                          LoginController.loading = true;
-                        });
                         final data = await supabase.rpc('add_column', params: {
                           'c_name': fieldController.text.trim(),
                           'col_type': valueChoose,

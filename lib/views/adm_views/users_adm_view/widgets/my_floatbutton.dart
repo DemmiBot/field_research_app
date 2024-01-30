@@ -57,6 +57,7 @@ class AlertDialogFill extends StatelessWidget {
                   if (provider.clicked) {
                     var snack = ScaffoldMessenger.of(context);
                     controller.deleteUsers(snack);
+                    provider.updateList();
                     Navigator.pop(context);
                   } else {
                     var snack = ScaffoldMessenger.of(context);

@@ -79,13 +79,15 @@ class _AdmUsersState extends State<AdmUsers> {
                     ),
                     SizedBox(height: 10.h),
                     FutureBuilder(
-                      future: controller.fetchUsers(),
+                      future: provider.refresh
+                          ? controller.fetchUsers()
+                          : controller.fetchUsers(),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.done) {
                           if (snapshot.hasData && snapshot.data != null) {
                             controller.snapshot =
                                 controller.verifyUser(snapshot.data!);
-                            return TableUsers();
+                            return const TableUsers();
                           } else {
                             return Center(
                                 child: Text(

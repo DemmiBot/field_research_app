@@ -1,5 +1,4 @@
 import 'package:fieldresearch/controller/users_adm_controller.dart';
-import 'package:fieldresearch/models/users_adm_model.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/popup_button.dart';
@@ -9,7 +8,7 @@ import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class TableUsers extends StatefulWidget {
-  TableUsers({Key? key}) : super(key: key);
+  const TableUsers({Key? key}) : super(key: key);
 
   @override
   State<TableUsers> createState() => _TableUsersState();

@@ -18,7 +18,7 @@ class UsersRepository {
     await supabase.from('users').update({'is_admin': admin}).eq('email', email);
   }
 
-  Future<void> removeUsers(String email) async {
+  static Future<void> removeUsers(String email) async {
     await await supabase.from('users').delete().match({'email': email});
   }
 }

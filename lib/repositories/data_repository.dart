@@ -17,9 +17,8 @@ class DataRepository {
   }
 
   static void testButton() async {
-    final data = await supabase
-      .rpc('create_table_type1', params: {'t_name': 'teste2'});
-    print(data);
+    // final data = await supabase
+    //   .rpc('create_table_type1', params: {'t_name': 'teste2'});
+    // print(data);
   }
-
 }
