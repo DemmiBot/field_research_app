@@ -50,12 +50,14 @@ class AccountRepository {
     }
   }
 
-  static Future<UserModel> fetchName() async {
+  static Future<UserModel> fetchUser() async {
     final data = await supabase
         .from('users')
         .select('name')
         .eq('email', LoginController.emailController.text);
-    return UserModel(name: data[0]['name'] ?? 'User');
+    return UserModel(
+        name: data[0]['name'] ?? 'User',
+        email: LoginController.emailController.text);
   }
 
   // talvez gere users extras por erro do usuário, dps vejo uma solução

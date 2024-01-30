@@ -4,11 +4,11 @@ import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:flutter/material.dart';
 
 class AdmProvider extends ChangeNotifier {
-  UserModel nameUser = UserModel(name: '');
+  static UserModel nameUser = UserModel(name: '', email: '');
   List<ResearchesModel> researchesList = [];
 
   void getnameUser() async {
-    nameUser = await AccountRepository.fetchName();
+    nameUser = await AccountRepository.fetchUser();
     notifyListeners();
   }
 }

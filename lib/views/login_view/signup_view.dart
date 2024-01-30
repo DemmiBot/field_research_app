@@ -91,11 +91,10 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      foregroundColor: Color.fromARGB(255, 0, 0, 0),
-                      backgroundColor: Color.fromARGB(255, 0, 21, 255),
-                      
+                      foregroundColor: const Color.fromARGB(255, 0, 0, 0),
+                      backgroundColor: const Color.fromARGB(255, 0, 21, 255),
                     ),
-                    child: Text("Tela admin teste"),
+                    child: const Text("Tela admin teste"),
                     onPressed: () {
                       Navigator.pushNamed(context, '/admCreateTable');
                     },

@@ -15,6 +15,6 @@ class UserAdmModel {
 
 class UserModel {
   late String name = 'User';
-
-  UserModel({required this.name});
+  late String email;
+  UserModel({required this.name, required this.email});
 }

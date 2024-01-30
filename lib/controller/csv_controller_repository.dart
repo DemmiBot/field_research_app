@@ -5,7 +5,7 @@ class CsvController {
 
   void generateAndDownloadCSV() {
     // print('começando...');
-    // csvRepository.generateCSV();
+    csvRepository.generateCSV();
     // print('csv Gerado');
 
     // csvRepository.downloadCsv();

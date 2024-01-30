@@ -8,12 +8,8 @@ import 'package:provider/provider.dart';
 class PopUpButton extends StatefulWidget {
   String adm = '';
   int index = -1;
-  AsyncSnapshot<List<UserAdmModel>> snapshot;
-  PopUpButton(
-      {super.key,
-      required this.adm,
-      required this.index,
-      required this.snapshot});
+
+  PopUpButton({super.key, required this.adm, required this.index});
 
   @override
   State<PopUpButton> createState() => _PopUpButtonState();
@@ -29,11 +25,9 @@ class _PopUpButtonState extends State<PopUpButton> {
             setState(() {
               widget.adm = value;
             });
-            print("Opção selecionada: $value index: ${widget.index - 1}");
 
             controller.modifiedUser(
-                widget.snapshot.data![widget.index - 1].email.toString(),
-                value);
+                controller.snapshot[widget.index - 1].email.toString(), value);
           },
           itemBuilder: (BuildContext context) => [
             const PopupMenuItem<String>(

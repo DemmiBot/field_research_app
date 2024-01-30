@@ -1,11 +1,17 @@
+import 'dart:async';
+
 import 'package:fieldresearch/controller/errors/error_login.dart';
 import 'package:fieldresearch/models/users_adm_model.dart';
+import 'package:fieldresearch/provider/adm_provider.dart';
 import 'package:fieldresearch/repositories/users_repository.dart';
 
 class UsersAdmController {
   final UsersRepository dataProvider = UsersRepository();
   List<UserAdmModel> researchesList = [];
   static List selectedItem = [];
+  UsersRepository userAux = UsersRepository();
+  List<int> indexes = [];
+  List<UserAdmModel> snapshot = [];
 
   bool convertBool(String text) {
     if (text.toLowerCase() == 'true') {
@@ -29,10 +35,6 @@ class UsersAdmController {
     }
 
     selectedItem.add({'email': email, 'admin': value});
-
-    selectedItem.forEach((item) {
-      print('Email: ${item['email']}, Admin: ${item['admin']}');
-    });
   }
 
   void updateUser(var snack) async {
@@ -51,5 +53,23 @@ class UsersAdmController {
       }
       ErrorFeedback.errorFeddback('Alterações salvas', snack, true);
     }
+  }
+
+  List<UserAdmModel> verifyUser(List<UserAdmModel> snapshot) {
+    snapshot.removeWhere((user) => user.email == AdmProvider.nameUser.email);
+
+    return snapshot;
+  }
+
+  void deleteUsers(var snack) async {
+    try {
+      for (var i in indexes) {
+        await userAux.removeUsers(snapshot[i].email);
+      }
+    } catch (e) {
+      ErrorFeedback.errorFeddback(e, snack, false);
+    }
+
+    ErrorFeedback.errorFeddback('Usúarios removidos', snack, true);
   }
 }

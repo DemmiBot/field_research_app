@@ -14,10 +14,11 @@ class UsersRepository {
     return usersList;
   }
 
-
-
   Future<void> updateUsers(String email, bool admin) async {
     await supabase.from('users').update({'is_admin': admin}).eq('email', email);
   }
 
+  Future<void> removeUsers(String email) async {
+    await await supabase.from('users').delete().match({'email': email});
+  }
 }
