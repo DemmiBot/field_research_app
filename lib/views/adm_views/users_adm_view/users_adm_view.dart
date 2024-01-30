@@ -66,7 +66,6 @@ class _AdmUsersState extends State<AdmUsers> {
                     SizedBox(height: 10.h),
                     Row(
                       children: [
-                        MyButtonAdm(text: 'Re', width: 32, onPressed: () {}),
                         SizedBox(width: 6.w),
                         SizedBox(width: 7.w),
                         MyButtonAdm(
