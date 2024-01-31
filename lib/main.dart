@@ -6,6 +6,7 @@ import 'package:fieldresearch/provider/loading_provider.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/views/adm_views/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/create_adm_view/create_adm_view.dart';
@@ -60,6 +61,7 @@ class MyApp extends StatelessWidget {
           '/register': (context) => const RegisterView(),
           '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
+          '/admCreateForm': (context) => const CreateFormView(),
           '/researcher': (context) => const HomeResearcherView(),
           '/admCreateTable': (context) => const AdminCreateTable(),
         },

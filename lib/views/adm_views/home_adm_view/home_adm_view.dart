@@ -1,6 +1,5 @@
 import 'package:fieldresearch/controller/researches_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
-import 'package:fieldresearch/repositories/data_repository.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
 import 'package:flutter/material.dart';
@@ -69,10 +68,10 @@ class _HomeAdmViewState extends State<HomeAdmView> {
               SizedBox(height: 24.h),
               Center(
                 child: MyButtonAdm(
-                  text: 'Novo Formulário',
-                  width: 8.w,
-                  onPressed: () => DataRepository.testButton(),
-                ),
+                    text: 'Novo Formulário',
+                    width: 8.w,
+                    onPressed: () =>
+                        Navigator.pushNamed(context, '/admCreateForm')),
               ),
               SizedBox(height: 24.sp),
               Center(

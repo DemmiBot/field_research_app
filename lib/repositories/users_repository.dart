@@ -8,7 +8,6 @@ class UsersRepository {
   Future<List<UserAdmModel>> fetchUsers() async {
     final data =
         await supabase.from('users').select().order('name', ascending: true);
-
     usersList = data.map((data) => UserAdmModel.fromJson(data)).toList();
 
     return usersList;
