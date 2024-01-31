@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import com.example.controller.UserController;
+import com.example.fieldresearch.controller.UserController;
 
 @SpringBootApplication
 @ComponentScan(basePackageClasses = UserController.class)
