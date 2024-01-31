@@ -17,6 +17,11 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID user_id;
+    private String name;
+    @Column(unique=true)
+    private String email;
+    private Boolean is_admin;
+
     public UUID getUser_id() {
         return user_id;
     }
@@ -41,8 +46,5 @@ public class UserModel implements Serializable {
     public void setIs_admin(boolean is_admin) {
         this.is_admin = is_admin;
     }
-    private String name;
-    @Column(unique=true)
-    private String email;
-    private boolean is_admin;
+
 }
