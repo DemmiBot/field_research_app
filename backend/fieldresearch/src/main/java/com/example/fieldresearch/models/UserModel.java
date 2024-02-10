@@ -1,46 +1,76 @@
 package com.example.fieldresearch.models;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
-import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-@Entity
+import com.example.fieldresearch.helpers.UserRole;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+
+@Entity(name = "users")
 @Table(name = "users")
-public class UserModel implements Serializable {
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "user_id")
+public class UserModel implements Serializable, UserDetails {
     private static final long serialVersionUID = 1L;
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID user_id;
-    private String name;
-    @Column(unique=true)
+    @Column(unique = true)
+    private String login;
+    @Column(unique = true)
     private String email;
-    private Boolean is_admin;
-
-    public UUID getUser_id() {
-        return user_id;
+    private String password;
+    private UserRole role;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
     }
-    public void setUser_id(UUID user_id) {
-        this.user_id = user_id;
+    /*@Override
+    public String getPassword() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+    }*/
+    @Override
+    public String getUsername() {
+        return login;
+        //throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
     }
-    public String getName() {
-        return name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+        //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonExpired'");
     }
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+        //throw new UnsupportedOperationException("Unimplemented method 'isAccountNonLocked'");
     }
-    public String getEmail() {
-        return email;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+        //throw new UnsupportedOperationException("Unimplemented method 'isCredentialsNonExpired'");
     }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public boolean isIs_admin() {
-        return is_admin;
-    }
-    public void setIs_admin(boolean is_admin) {
-        this.is_admin = is_admin;
+    @Override
+    public boolean isEnabled() {
+        return true;
+        //throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
     }
 
 }
