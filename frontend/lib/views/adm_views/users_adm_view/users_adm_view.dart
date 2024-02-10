@@ -17,15 +17,18 @@ class AdmUsers extends StatefulWidget {
 class _AdmUsersState extends State<AdmUsers> {
   @override
   void initState() {
-    UsersAdmController.selectedItem = [];
+    context.read<UsersAdmProvider>().clicked = false;
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UsersAdmController>(
-      builder: (context, controller, child) => Consumer<UsersAdmProvider>(
-        builder: (context, provider, child) => Scaffold(
+    return Consumer<UsersAdmProvider>(
+      builder:
+          (BuildContext context, UsersAdmProvider provider, Widget? child) =>
+              Consumer<UsersAdmController>(
+        builder: (context, controller, child) => Scaffold(
           floatingActionButton: const MyFloatButton(),
           appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -51,35 +54,37 @@ class _AdmUsersState extends State<AdmUsers> {
                           text: 'Extrair xlsx', width: 9, onPressed: () {}),
                       SizedBox(width: 6.w),
                       MyButtonAdm(
-                          text: 'Extrair CSV', width: 9, onPressed: () {}),
+                        text: 'Extrair CSV',
+                        width: 9,
+                        onPressed: () {},
+                      ),
                       SizedBox(width: 7.w),
-                      MyButtonAdm(
-                          text: 'Adicionar Pesquisador',
-                          width: 9,
-                          onPressed: () {}),
                     ],
                   ),
                   SizedBox(height: 10.h),
                   Row(
                     children: [
-                      MyButtonAdm(text: 'Re', width: 32, onPressed: () {}),
                       SizedBox(width: 6.w),
-                      MyButtonAdm(
-                          text: 'Extrair CSV', width: 9, onPressed: () {}),
                       SizedBox(width: 7.w),
                       MyButtonAdm(
                           text: 'Remover Pesquisador',
                           width: 9,
-                          onPressed: () {}),
+                          onPressed: () {
+                            provider.checkBox();
+                          }),
                     ],
                   ),
                   SizedBox(height: 10.h),
                   FutureBuilder(
-                    future: controller.fetchUsers(),
+                    future: provider.refresh
+                        ? controller.fetchUsers()
+                        : controller.fetchUsers(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.hasData && snapshot.data != null) {
-                          return TableUsers(snapshot: snapshot);
+                          controller.snapshot =
+                              controller.verifyUser(snapshot.data!);
+                          return const TableUsers();
                         } else {
                           return Center(
                               child: Text(

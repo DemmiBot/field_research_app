@@ -6,17 +6,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTextField extends StatelessWidget {
   String textLabel = '';
   bool obscureText = false;
-  bool? register = false;
+  double? heigth = 15;
   TextEditingController? controller;
   String? Function(String?)? validator;
-
+  Widget? suffixIcon;
   CustomTextField(
       {super.key,
       required this.textLabel,
       required this.obscureText,
       required this.validator,
-      this.register,
-      required this.controller});
+      required this.controller,
+      this.heigth,
+      this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +29,12 @@ class CustomTextField extends StatelessWidget {
       cursorHeight: 28.h,
       style: TextStyle(color: Colors.white, fontSize: 14.sp),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 15.h),
+        suffixIcon: suffixIcon,
+        contentPadding: EdgeInsets.symmetric(vertical: heigth ?? 14.h),
         filled: true,
         fillColor: fillFormColor,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(4),
+          borderRadius: BorderRadius.circular(3.r),
           borderSide: BorderSide.none,
         ),
         hintText: textLabel,

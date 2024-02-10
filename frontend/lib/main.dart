@@ -1,9 +1,12 @@
+import 'package:fieldresearch/controller/form_controller.dart';
 import 'package:fieldresearch/controller/researches_adm_controller.dart';
 import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/provider/adm_provider.dart';
+import 'package:fieldresearch/provider/loading_provider.dart';
 import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/views/adm_views/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/views/adm_views/create_adm_view/create_adm_view.dart';
@@ -23,6 +26,9 @@ void main() async {
           create: (context) => AdmProvider(),
         ),
         ChangeNotifierProvider(
+          create: (context) => LoadingProvider(),
+        ),
+        ChangeNotifierProvider(
           create: (context) => UsersAdmProvider(),
         ),
         Provider(
@@ -30,6 +36,9 @@ void main() async {
         ),
         Provider(
           create: (contex) => UsersAdmController(),
+        ),
+        ChangeNotifierProvider(
+          create: (contex) => FormController(),
         ),
       ],
       child: const MyApp(),
@@ -48,17 +57,18 @@ class MyApp extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
-          '/': (context) => SignupView(),
+          '/': (context) => const SignupView(),
           '/register': (context) => const RegisterView(),
           '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
+          '/admCreateForm': (context) => const CreateFormView(),
           '/researcher': (context) => const HomeResearcherView(),
           '/admCreateTable': (context) => const AdminCreateTable(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             fontFamily: 'Poppins', scaffoldBackgroundColor: backGroundColor),
-        initialRoute: '/',
+        initialRoute: '/admCreateForm',
       ),
     );
   }

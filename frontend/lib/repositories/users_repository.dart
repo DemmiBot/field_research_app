@@ -6,11 +6,18 @@ class UsersRepository {
   static var supabase = Supabase.instance.client;
 
   Future<List<UserAdmModel>> fetchUsers() async {
-    final data = await supabase.from('users').select();
-
+    final data =
+        await supabase.from('users').select().order('name', ascending: true);
     usersList = data.map((data) => UserAdmModel.fromJson(data)).toList();
 
     return usersList;
   }
 
+  Future<void> updateUsers(String email, bool admin) async {
+    await supabase.from('users').update({'is_admin': admin}).eq('email', email);
+  }
+
+  static Future<void> removeUsers(String email) async {
+    await await supabase.from('users').delete().match({'email': email});
+  }
 }

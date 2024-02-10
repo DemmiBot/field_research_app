@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class LoginController {
   static var emailController = TextEditingController();
   static var passwordController = TextEditingController();
-  static bool loading = false;
 
   static AccountRepository repositoryController = AccountRepository();
   static AdmProvider providerController = AdmProvider();
