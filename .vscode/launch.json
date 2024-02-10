@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+
+            "name": "Flutter",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/main.dart"
+        }
+       
+        
+    ]
+    
+
             "type": "java",
             "name": "Current File",
             "request": "launch",
@@ -18,4 +29,5 @@
             "projectName": "fieldresearch"
         }
     ]
+>>>>>>> 32de086e0651b342e2ba8facb182f1e540092b8d
 }
