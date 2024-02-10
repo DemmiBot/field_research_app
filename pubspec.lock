@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
-  buffer:
-    dependency: transitive
-    description:
-      name: buffer
-      sha256: "94f60815065a8f0fd4f05be51faf86cf86519327e039d5c2aac72e1d1cc1dad4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.2.2"
   characters:
     dependency: transitive
     description:
@@ -41,14 +33,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      sha256: fb98c0f6d12c920a02ee2d998da788bca066ca5f148492b7085ee23372b12306
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.3.1"
   clock:
     dependency: transitive
     description:
@@ -73,14 +57,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.3"
-  cupertino_icons:
+  drag_and_drop_lists:
     dependency: "direct main"
     description:
-      name: cupertino_icons
-      sha256: d57953e10f9f8327ce64a508a355f0b1ec902193f66288e8cb5070e7c47eeb2d
+      name: drag_and_drop_lists
+      sha256: "9a14595f9880be7953f23578aef88c15cc9b367eeb39dbc1f1bd6af52f70872b"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.6"
+    version: "0.3.3"
   email_validator:
     dependency: "direct main"
     description:
@@ -118,14 +102,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_downloader:
+  flutter_form_builder:
     dependency: "direct main"
     description:
-      name: flutter_downloader
-      sha256: e130001cf85d8d7450b8318a4670c19e495dd8c102ad4b15a512e9405e7c451d
+      name: flutter_form_builder
+      sha256: "560eb5e367d81170c6ade1e7ae63ecc5167936ae2cdfaae8a345e91bce19d2f2"
       url: "https://pub.dev"
     source: hosted
-    version: "1.11.6"
+    version: "9.2.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -208,6 +192,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.19.0"
   jwt_decode:
     dependency: transitive
     description:
@@ -273,7 +265,7 @@ packages:
     source: hosted
     version: "1.8.3"
   path_provider:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: path_provider
       sha256: b27217933eeeba8ff24845c34003b003b2b22151de3c908d0e679e8fe1aa078b
@@ -320,62 +312,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
-  pedantic:
-    dependency: transitive
-    description:
-      name: pedantic
-      sha256: "67fc27ed9639506c856c840ccce7594d0bdcd91bc8d53d6e52359449a1d50602"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.11.1"
-  permission_handler:
-    dependency: "direct main"
-    description:
-      name: permission_handler
-      sha256: "45ff3fbcb99040fde55c528d5e3e6ca29171298a85436274d49c6201002087d6"
-      url: "https://pub.dev"
-    source: hosted
-    version: "11.2.0"
-  permission_handler_android:
-    dependency: transitive
-    description:
-      name: permission_handler_android
-      sha256: "758284a0976772f9c744d6384fc5dc4834aa61e3f7aa40492927f244767374eb"
-      url: "https://pub.dev"
-    source: hosted
-    version: "12.0.3"
-  permission_handler_apple:
-    dependency: transitive
-    description:
-      name: permission_handler_apple
-      sha256: c6bf440f80acd2a873d3d91a699e4cc770f86e7e6b576dda98759e8b92b39830
-      url: "https://pub.dev"
-    source: hosted
-    version: "9.3.0"
-  permission_handler_html:
-    dependency: transitive
-    description:
-      name: permission_handler_html
-      sha256: "54bf176b90f6eddd4ece307e2c06cf977fb3973719c35a93b85cc7093eb6070d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
-  permission_handler_platform_interface:
-    dependency: transitive
-    description:
-      name: permission_handler_platform_interface
-      sha256: "5c43148f2bfb6d14c5a8162c0a712afe891f2d847f35fcff29c406b37da43c3c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.0"
-  permission_handler_windows:
-    dependency: transitive
-    description:
-      name: permission_handler_windows
-      sha256: "1a790728016f79a41216d88672dbc5df30e686e811ad4e698bfc51f76ad91f1e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.1"
   platform:
     dependency: transitive
     description:
@@ -392,22 +328,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pool:
-    dependency: transitive
-    description:
-      name: pool
-      sha256: "20fe868b6314b322ea036ba325e6fc0711a22948856475e2c2b6306e8ab39c2a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.1"
-  postgres:
-    dependency: "direct main"
-    description:
-      name: postgres
-      sha256: d384c0cce2c30f9b349a133812f976ca16fa916fd567882bb6a01741b194c22a
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.6"
   postgrest:
     dependency: transitive
     description:
@@ -448,22 +368,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
-  sasl_scram:
-    dependency: transitive
-    description:
-      name: sasl_scram
-      sha256: a47207a436eb650f8fdcf54a2e2587b850dc3caef9973ce01f332b07a6fc9cb9
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
-  saslprep:
-    dependency: transitive
-    description:
-      name: saslprep
-      sha256: "79c9e163a82f55da542feaf0f7a59031e74493299c92008b2b404cd88d639bb4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   shared_preferences:
     dependency: transitive
     description:
@@ -605,14 +509,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.2"
-  unorm_dart:
-    dependency: transitive
-    description:
-      name: unorm_dart
-      sha256: "5b35bff83fce4d76467641438f9e867dc9bcfdb8c1694854f230579d68cd8f4b"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   url_launcher:
     dependency: transitive
     description:

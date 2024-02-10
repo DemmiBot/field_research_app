@@ -1,10 +1,10 @@
-import 'package:fieldresearch/utils/utils.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/add_item.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/circle_more.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/obrigatory_field.dart';
-import 'package:fieldresearch/widgets/custom_text_field.dart';
+import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
+import 'package:fieldresearch/controller/form_controller.dart';
+import 'package:fieldresearch/views/adm_views/create_form_view/widgets/my_bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 class CreateFormView extends StatefulWidget {
   const CreateFormView({super.key});
@@ -14,157 +14,115 @@ class CreateFormView extends StatefulWidget {
 }
 
 class _CreateFormViewState extends State<CreateFormView> {
+  final _formKey = GlobalKey<FormBuilderState>();
+
+  @override
+  void initState() {
+    context.read<FormController>().typeDataForm = [];
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-          body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 26.h),
-                Text('Nome da pesquisa...',
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp)),
-                const Divider(),
-                SizedBox(height: 40.w),
-                _layoutFormArrow(' Perfil', null, null, 286.w),
-                SizedBox(height: 4.h),
-                const ObrigatoryField(),
-                SizedBox(height: 26.h),
-                _layoutFormArrow(' Nome do Candidato', null, null, 286.w),
-                SizedBox(height: 4.h),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 286.w),
-                  child: CustomTextField(
-                      textLabel: ' nome_do_candidato',
-                      heigth: 10.h,
-                      obscureText: false,
-                      validator: null,
-                      controller: null),
-                ),
-                SizedBox(height: 4.h),
-                _layoutFormObrigatory(' Texto', 5.w),
-                const Divider(color: fillFormColor),
-                SizedBox(height: 7.h),
-                _layoutFormArrow(' Genêro', null, null, 286.w),
-                SizedBox(height: 4.h),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 286.w),
-                  child: CustomTextField(
-                      textLabel: ' genero',
-                      heigth: 10.h,
-                      obscureText: false,
-                      validator: null,
-                      controller: null),
-                ),
-                SizedBox(height: 4.h),
-                _layoutFormArrow(' Masculino', null, null, 203.w),
-                SizedBox(height: 4.h),
-                _layoutFormArrow(' Feminino', null, null, 203.w),
-                SizedBox(height: 4.h),
-                const AddItem(),
-                SizedBox(height: 4.h),
-                _layoutFormObrigatory(' Enumerado', 5.w),
-                SizedBox(height: 4.h),
-                const Divider(color: fillFormColor),
-                SizedBox(height: 4.h),
-                _layoutFormArrow(' Idade', null, null, 286.w),
-                SizedBox(height: 4.h),
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 286.w),
-                  child: CustomTextField(
-                      textLabel: ' idade',
-                      heigth: 10.h,
-                      obscureText: false,
-                      validator: null,
-                      controller: null),
-                ),
-                SizedBox(height: 4.h),
-                Row(
+      child: Consumer<FormController>(
+        builder:
+            (BuildContext context, FormController controller, Widget? child) =>
+                Scaffold(
+          bottomNavigationBar: const MyBottomNavigator(),
+          body: FormBuilder(
+            key: _formKey,
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 15.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _layoutFormAge(' 18', ' Mínimo', 65.w),
-                    SizedBox(width: 4.h),
-                    _layoutFormAge(' 18', ' Máximo', 65.w),
+                    SizedBox(height: 26.h),
+                    Text('Nome da pesquisa...',
+                        style: TextStyle(color: Colors.white, fontSize: 14.sp)),
+                    const Divider(),
+                    SizedBox(height: 40.w),
+                    Expanded(
+                      child: DragAndDropLists(
+                        children: controller.typeDataForm,
+                        onItemReorder: _onItemReorder,
+                        onListReorder: _onListReorder,
+                        contentsWhenEmpty: const Text('vazioo'),
+                        itemDivider: const Divider(color: Colors.amber),
+                        itemDecorationWhileDragging: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 2,
+                              blurRadius: 3,
+                              offset: const Offset(0, 0),
+                            ),
+                          ],
+                        ),
+                        lastItemTargetHeight: 8,
+                        addLastItemTargetHeightToTop: true,
+                        lastListTargetSize: 40,
+                        listDragHandle: const DragHandle(
+                          verticalAlignment: DragHandleVerticalAlignment.top,
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.transparent,
+                          ),
+                        ),
+                        itemDragHandle: const DragHandle(
+                          child: Icon(
+                            Icons.menu,
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: ElevatedButton(
+                          onPressed: () {
+                            _formKey.currentState?.save();
+                            var value = _formKey.currentState!.fields;
+
+                            print(value);
+                          },
+                          child: const Text('Save and Read')),
+                    ),
                   ],
                 ),
-                SizedBox(height: 4.h),
-                _layoutFormObrigatory(' Inteiro', 5.w),
-                SizedBox(height: 30.h),
-              ],
+              ),
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 
-  Row _layoutFormArrow(textLabel, controller, validator, width) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: width),
-          child: CustomTextField(
-              textLabel: textLabel,
-              obscureText: false,
-              validator: validator,
-              controller: controller,
-              heigth: 10.h),
-        ),
-        SizedBox(width: 2.w),
-        const CircleMore(),
-      ],
-    );
+  _onItemReorder(
+      int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+    setState(() {
+      var movedItem = (context)
+          .read<FormController>()
+          .typeDataForm[oldListIndex]
+          .children
+          .removeAt(oldItemIndex);
+      (context)
+          .read<FormController>()
+          .typeDataForm[newListIndex]
+          .children
+          .insert(newItemIndex, movedItem);
+    });
   }
 
-  Row _layoutFormObrigatory(textLabel, sizedBox) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: 121.w),
-          child: CustomTextField(
-              textLabel: textLabel,
-              suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.expand_more_rounded,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {}),
-              obscureText: false,
-              validator: null,
-              controller: null,
-              heigth: 10.h),
-        ),
-        SizedBox(width: sizedBox),
-        const ObrigatoryField(),
-      ],
-    );
-  }
-
-  Row _layoutFormAge(textLabel, text, maxWidth) {
-    return Row(
-      children: [
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: maxWidth),
-          child: CustomTextField(
-              textLabel: textLabel,
-              suffixIcon: IconButton(
-                  icon: const Icon(
-                    Icons.expand_more_rounded,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {}),
-              obscureText: false,
-              validator: null,
-              controller: null,
-              heigth: 10.h),
-        ),
-        SizedBox(width: 3.w),
-        Text(text, style: TextStyle(color: Colors.white, fontSize: 12.sp)),
-      ],
-    );
+  _onListReorder(int oldListIndex, int newListIndex) {
+    setState(() {
+      var movedList =
+          (context).read<FormController>().typeDataForm.removeAt(oldListIndex);
+      (context)
+          .read<FormController>()
+          .typeDataForm
+          .insert(newListIndex, movedList);
+    });
   }
 }
