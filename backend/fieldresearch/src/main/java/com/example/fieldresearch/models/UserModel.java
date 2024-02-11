@@ -24,8 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "user_id")
-public class UserModel implements Serializable, UserDetails {
-    private static final long serialVersionUID = 1L;
+public class UserModel implements UserDetails {
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
@@ -36,6 +35,13 @@ public class UserModel implements Serializable, UserDetails {
     private String email;
     private String password;
     private UserRole role;
+
+    public UserModel(String login, String password, UserRole role) {
+        this.login = login;
+        this.password = password;
+        this.role = role;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
