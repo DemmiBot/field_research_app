@@ -3,7 +3,9 @@ package com.example.fieldresearch.controller;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.fieldresearch.dtos.AuthenticationDTO;
+import com.example.fieldresearch.dtos.LoginResponseDTO;
 import com.example.fieldresearch.dtos.RegisterDTO;
+import com.example.fieldresearch.infra.security.TokenService;
 import com.example.fieldresearch.models.UserModel;
 import com.example.fieldresearch.repositories.UserRepository;
 
@@ -26,13 +28,18 @@ public class AuthenticationController {
 
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private TokenService tokenService;
     
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((UserModel)auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")
