@@ -1,5 +1,5 @@
 package com.example.fieldresearch.dtos;
 
-public record LoginResponseDTO (String token) {
+public record LoginResponseDTO(String token) {
     
 }

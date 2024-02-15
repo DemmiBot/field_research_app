@@ -25,10 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AuthenticationController {
     @Autowired
     private AuthenticationManager authenticationManager;
-
     @Autowired
     private UserRepository repository;
-
     @Autowired
     private TokenService tokenService;
     
