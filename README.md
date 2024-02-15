@@ -2,9 +2,9 @@
 
 ## https://education.github.com/git-cheat-sheet-education.pdf
 
-git remote add origin (url)
-git fetch --all
-git checkout main
+    git remote add origin (url)
+    git fetch --all
+    git checkout main
 
 ## Checklist
 
@@ -13,11 +13,11 @@ git checkout main
 
 ### Backend
 
-:heavy_exclamation_mark: JWT Auth *(Only for certain methods)*
-:x: Dynamic table creation
-:x: Secure register method
-:heavy_exclamation_mark: User CRUD *(Partially overwriten by auth methods)*
-:white_check_mark: Research CRUD
+:heavy_exclamation_mark: JWT Auth *(Only for certain methods)*  
+:x: Dynamic table creation  
+:x: Secure register method  
+:heavy_exclamation_mark: User CRUD *(Partially overwriten by auth methods)*  
+:white_check_mark: Research CRUD  
 
 
 ## Docs
@@ -28,11 +28,36 @@ git checkout main
 ### Backend
 
 #### Controllers:
-    Auth controller:
-    Manages the Authentication process with two post methods:
-    /login and /register.
 
-    Research Controller:
-    Manages the research table (CRUD)
+Auth controller:  
+  
+    (POST)/login:  
+    {
+        login: "(login)",
+        password: "(password)"
+    }
 
-    User Controller:
+    (POST)/register:
+    {
+        login: "(login)",
+        password: "(password)",
+        role: "ADMIN"/"USER"
+    }
+
+Research Controller:
+  
+    (CRUD)/researches [/{id}]
+    {
+        name: "(name)",
+        description: "(description)",
+        status: "OPEN"/"CLOSED"
+    }
+
+User Controller:  
+
+    (CRUD)/users [/{id}]
+    {
+        name: "(name)",
+        description: "(description)",
+        status: "OPEN"/"CLOSED"
+    }
