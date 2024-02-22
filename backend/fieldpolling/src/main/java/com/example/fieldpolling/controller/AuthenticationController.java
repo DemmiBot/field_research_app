@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +30,7 @@ public class AuthenticationController {
     @Autowired
     private TokenService tokenService;
     
+    @SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
@@ -42,14 +42,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(new LoginResponseDTO(token, (User)repository.findByLogin(data.login())));
     }
 
-    /*    public ResponseEntity<Object> getOneUser(@PathVariable(value="id") UUID id ) {
-        Optional<User> userO = userRepository.findById(id);
-        if(userO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found.");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(userO.get());
-    } */
-
+    @SuppressWarnings("rawtypes")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data) {
         if(this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
