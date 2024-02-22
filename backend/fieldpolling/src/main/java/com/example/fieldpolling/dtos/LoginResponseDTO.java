@@ -1,5 +1,7 @@
 package com.example.fieldpolling.dtos;
 
-public record LoginResponseDTO(String token) {
+import com.example.fieldpolling.models.User;
+
+public record LoginResponseDTO(String token, User user) {
     
 }

@@ -12,10 +12,15 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.NamedStoredProcedureQuery;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.StoredProcedureParameter;
 import jakarta.persistence.Table;
 
 
 @Entity
+@NamedStoredProcedureQuery(name = "create_table_type1", procedureName = "create_table", parameters = {
+  @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class)})
 @Table(name = "polls")
 public class Poll implements Serializable {
     private static final long serialVersionUID = 1L;

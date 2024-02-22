@@ -6,6 +6,12 @@
     git fetch --all
     git checkout main
 
+## How to request:
+
+After getting access to the project's vpn:
+
+26.146.172.113:8080/(method)
+
 ## Checklist
 
 ### Frontend
@@ -31,7 +37,7 @@
 
 Auth controller:  
   
-    (POST)/login:  
+    (POST)/auth/login:  
     {
         login: "(login)",
         password: "(password)"
@@ -46,7 +52,7 @@ Auth controller:
 
 Research Controller:
   
-    (CRUD)/researches [/{id}]
+    (CRUD)/polls [/{id}]
     {
         name: "(name)",
         description: "(description)",
