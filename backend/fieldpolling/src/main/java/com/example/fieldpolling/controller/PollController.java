@@ -30,7 +30,7 @@ public class PollController {
     public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
-        pollRepository.createTableType1(pollRecordDTO.description());
+        //pollRepository.createTableType1(pollRecordDTO.description(), "option text, fielt text");
         
         return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
     }
