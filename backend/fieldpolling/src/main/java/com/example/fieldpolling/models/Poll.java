@@ -2,9 +2,7 @@ package com.example.fieldpolling.models;
 
 import java.io.Serializable;
 import java.util.UUID;
-
 import com.example.fieldpolling.helpers.Status;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -19,8 +17,16 @@ import jakarta.persistence.Table;
 
 
 @Entity
-@NamedStoredProcedureQuery(name = "create_table_type1", procedureName = "create_table", parameters = {
-  @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class)})
+@NamedStoredProcedureQuery(name = "createtable", procedureName = "createtable", parameters = {
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class)
+    }
+)
+@NamedStoredProcedureQuery(name = "addcolumn", procedureName = "addcolumn", parameters = {
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class),
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "c_name", type = String.class),
+    @StoredProcedureParameter(mode = ParameterMode.IN, name = "c_type", type = String.class)
+    }
+)
 @Table(name = "polls")
 public class Poll implements Serializable {
     private static final long serialVersionUID = 1L;

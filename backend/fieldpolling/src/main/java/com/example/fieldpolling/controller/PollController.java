@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.fieldpolling.dtos.PollRecordDTO;
+import com.example.fieldpolling.helpers.Option;
 import com.example.fieldpolling.models.Poll;
 import com.example.fieldpolling.repositories.PollRepository;
 
@@ -30,9 +31,14 @@ public class PollController {
     public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
-        //pollRepository.createTableType1(pollRecordDTO.description(), "option text, fielt text");
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
+        String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
+        pollRepository.createTable(tName);
+        for(Option opt: pollRecordDTO.options()) {
+            pollRepository.addColumn(tName, opt.optionName(), opt.optionType());
+        }
+
+        //return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
     @GetMapping("/polls")

@@ -1,7 +1,7 @@
 createTable:
 
-    CREATE OR REPLACE PROCEDURE create_table_type1(t_name varchar(30))
-        LANGUAGE plpgsql AS
+    CREATE OR REPLACE PROCEDURE createTable(t_name varchar)
+    LANGUAGE plpgsql AS
     $func$
     BEGIN
     EXECUTE format('

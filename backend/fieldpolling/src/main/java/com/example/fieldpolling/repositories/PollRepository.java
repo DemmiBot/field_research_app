@@ -10,19 +10,10 @@ import com.example.fieldpolling.models.Poll;
 
 @Repository
 public interface PollRepository extends JpaRepository<Poll, UUID> {
-    @Procedure("create_table_type1")
-    public void createTableType1(String t_name, String t_options);
+    @Procedure("createtable")
+    public void createTable(String t_name);
+
+    @Procedure("addcolumn")
+    public void addColumn(String t_name, String c_name, String c_type);
 
 }
-
-/*CREATE OR REPLACE PROCEDURE create_table_type1(t_name varchar(30), t_options text)
-  LANGUAGE plpgsql AS
-$func$
-BEGIN
-   EXECUTE format('
-      CREATE TABLE IF NOT EXISTS %I (
-       id serial PRIMARY KEY,
-       %I
-      )', t_name, t_options);
-END
-$func$;*/
