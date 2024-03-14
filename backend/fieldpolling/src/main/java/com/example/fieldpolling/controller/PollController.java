@@ -1,4 +1,5 @@
 package com.example.fieldpolling.controller;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import com.example.fieldpolling.dtos.PollRecordDTO;
 import com.example.fieldpolling.helpers.Option;
 import com.example.fieldpolling.models.Poll;
 import com.example.fieldpolling.repositories.PollRepository;
+import com.example.fieldpolling.services.DynamicTableService;
 
 @RestController
 // @SuppressWarnings("null")
@@ -27,27 +29,40 @@ public class PollController {
     @Autowired
     PollRepository pollRepository;
 
+    @Autowired
+    DynamicTableService dynamicTableService;
+
     @PostMapping("/polls") // Modelo Maturidade Richardson
     public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
-        String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
-        pollRepository.createTable(tName);
-        for(Option opt: pollRecordDTO.options()) {
-            pollRepository.addColumn(tName, opt.optionName(), opt.optionType());
+        // implement try method
+        try {
+            String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
+            pollRepository.createTable(tName);
+            for(Option opt: pollRecordDTO.options()) {
+                pollRepository.addColumn(tName, opt.optionName(), opt.optionType());
+            }
+        } catch (SQLException exception) {
+            throw new RuntimeException("Error while creating new poll, ", exception);
         }
-
-        //return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
-        return ResponseEntity.status(HttpStatus.OK).body(null);
+        // implement catch method for sql exceptions
+        return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
     }
 
     @GetMapping("/polls")
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
     }
+
+    @GetMapping("/polls/{name}")
+    public ResponseEntity<List<Poll>> getAllFromPoll(@RequestBody String tableName) {
+        dynamicTableService.getDynamicTableContents(tableName);
+        return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
+    }
     
     @GetMapping("/polls/{id}")
-    public ResponseEntity<Object> getOneResearch(@PathVariable(value="id") UUID id ) {
+    public ResponseEntity<Object> getOnePoll(@PathVariable(value="id") UUID id ) {
         Optional<Poll> pollO = pollRepository.findById(id);
         if(pollO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("poll not found.");
