@@ -53,6 +53,7 @@ class _DefaultTypeState extends State<DefaultType> {
                 Expanded(
                   flex: 1,
                   child: FormBuilderDropdown(
+                    key: Key('fieldName_${widget.identity}'),
                     style: const TextStyle(
                       color: Colors.white,
                     ),

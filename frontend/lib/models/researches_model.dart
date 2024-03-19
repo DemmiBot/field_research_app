@@ -1,24 +1,21 @@
 class ResearchesModel {
-  String id;
+  late String pollId;
   late String name;
   late String description;
-  late String createdAt;
   late String status;
 
   ResearchesModel({
-    required this.id,
+    required this.pollId,
     required this.name,
     required this.description,
-    required this.createdAt,
     required this.status,
   });
 
   factory ResearchesModel.fromJson(Map<String, dynamic> json) {
     return ResearchesModel(
-      id: json['id'] ?? '',
+      pollId: json['poll_id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
-      createdAt: json['created_at'] ?? '',
       status: json['status'] ?? '',
     );
   }

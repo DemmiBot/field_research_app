@@ -1,4 +1,3 @@
-import 'package:fieldresearch/repositories/account_repository.dart';
 import 'package:flutter/material.dart';
 
 class RegisterController {
@@ -6,7 +5,7 @@ class RegisterController {
   static var emailRegister = TextEditingController();
   static var passwordRegister = TextEditingController();
   static var repitPassRegister = TextEditingController();
-  static AccountRepository repositoryController = AccountRepository();
+
   static bool loading = false;
 
   static void cleanText() {

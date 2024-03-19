@@ -30,7 +30,7 @@ class _SearchTileState extends State<SearchTile> {
               width: 4.w,
               height: 4.h,
               decoration: BoxDecoration(
-                color: widget.status == 'open' ? Colors.green : Colors.red,
+                color: widget.status == 'OPEN' ? Colors.green : Colors.red,
                 shape: BoxShape.circle,
               ),
             ),

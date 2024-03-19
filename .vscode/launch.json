@@ -1,33 +1,30 @@
-{
+
     // Use IntelliSense to learn about possible attributes.
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-        {
-
-            "name": "Flutter",
-            "type": "dart",
-            "request": "launch",
-            "program": "lib/main.dart"
-        }
-       
-        
-    ]
+    {
+        "version": "0.2.0",
+        "configurations": [
+            {
+                "name": "Flutter",
+                "type": "dart",
+                "request": "launch",
+                "program": "frontend/lib/main.dart"
+            },
+            {
+                "type": "java",
+                "name": "Current File",
+                "request": "launch",
+                "mainClass": "${file}"
+            },
+            {
+                "type": "java",
+                "name": "FieldresearchApplication",
+                "request": "launch",
+                "mainClass": "com.example.fieldresearch.FieldresearchApplication",
+                "projectName": "fieldresearch"
+            }
+        ]
+    }
     
-
-            "type": "java",
-            "name": "Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "FieldresearchApplication",
-            "request": "launch",
-            "mainClass": "com.example.fieldresearch.FieldresearchApplication",
-            "projectName": "fieldresearch"
-        }
-    ]
->>>>>>> 32de086e0651b342e2ba8facb182f1e540092b8d
-}
+  

@@ -1,4 +1,4 @@
-import 'package:fieldresearch/models/users_adm_model.dart';
+import 'package:fieldresearch/models/users_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UsersRepository {

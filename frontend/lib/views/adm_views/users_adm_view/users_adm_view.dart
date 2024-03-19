@@ -82,8 +82,6 @@ class _AdmUsersState extends State<AdmUsers> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.done) {
                         if (snapshot.hasData && snapshot.data != null) {
-                          controller.snapshot =
-                              controller.verifyUser(snapshot.data!);
                           return const TableUsers();
                         } else {
                           return Center(
