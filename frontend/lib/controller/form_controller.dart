@@ -23,22 +23,32 @@ class FormController extends ChangeNotifier {
       // Adiciona a nova seção à lista de seções
       typeDataForm.add(sectionList);
     } else {
+      identity++;
       // Adiciona um novo item à última seção criada, se houver alguma
-      if (sectionItems.isNotEmpty) {
-        identity++;
-        sectionItems.last.add(
-          DragAndDropItem(
-            child: DefaultType(
-              identity: identity,
-            ),
+      sectionItems.last.add(
+        DragAndDropItem(
+          child: DefaultType(
+            identity: identity,
           ),
-        );
-      }
-      notifyListeners();
+        ),
+      );
     }
+    notifyListeners();
   }
+
+  List<TypeState> typeState = [
+    TypeState(intType: false, listType: false, textType: false)
+  ];
+  void changeType(value) {}
 }
 
+class TypeState {
+  late bool intType;
+  late bool textType;
+  late bool listType;
+  TypeState(
+      {required this.intType, required this.listType, required this.textType});
+}
 // TO DO
 
 // -state keep the same after drag and drop 'tipo de dado'

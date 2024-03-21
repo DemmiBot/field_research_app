@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'package:fieldresearch/controller/errors/error_login.dart';
-import 'package:fieldresearch/models/users_adm_model.dart';
-import 'package:fieldresearch/provider/adm_provider.dart';
+import 'package:fieldresearch/controller/feedback/error_login.dart';
+import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/repositories/users_repository.dart';
 
 class UsersAdmController {
@@ -54,11 +53,11 @@ class UsersAdmController {
     }
   }
 
-  List<UserAdmModel> verifyUser(List<UserAdmModel> snapshot) {
-    snapshot.removeWhere((user) => user.email == AdmProvider.nameUser.email);
+  // List<UserAdmModel> verifyUser(List<UserAdmModel> snapshot) {
+  //   snapshot.removeWhere((user) => user.email == AdmProvider.nameUser.email);
 
-    return snapshot;
-  }
+  //   return snapshot;
+  // }
 
   void deleteUsers(var snack) async {
     try {
