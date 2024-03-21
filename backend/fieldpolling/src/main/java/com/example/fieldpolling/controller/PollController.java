@@ -1,6 +1,7 @@
 package com.example.fieldpolling.controller;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.BeanUtils;
@@ -12,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,10 +57,10 @@ public class PollController {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
     }
 
-    @GetMapping("/polls/{name}")
-    public ResponseEntity<List<Poll>> getAllFromPoll(@RequestBody String tableName) {
-        dynamicTableService.getDynamicTableContents(tableName);
-        return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
+    @GetMapping("/polls/single")
+    public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
+        List<Map<String, Object>> tableContents = dynamicTableService.getDynamicTableContents(tableName);
+        return ResponseEntity.status(HttpStatus.OK).body(tableContents);
     }
     
     @GetMapping("/polls/{id}")

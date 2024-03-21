@@ -1,39 +1,43 @@
 package com.example.fieldpolling.services;
 
-import org.springframework.jdbc.core.JdbcTemplate;
+/* ARIGATO GOZAIMASU, GPT-SAN! */
 import org.springframework.stereotype.Service;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class DynamicTableService {
 
-    private final JdbcTemplate jdbcTemplate;
-
-    public DynamicTableService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public List<Map<String, Object>> getDynamicTableContents(String tableName) {
-        String query = "SELECT * FROM " + tableName;
+        String queryStr = "SELECT * FROM " + tableName;
+        Query query = entityManager.createNativeQuery(queryStr);
 
-        return jdbcTemplate.query(query, (rs, rowNum) -> mapResultSetToDynamicStructure(rs));
+        List<Object[]> resultList = query.getResultList();
+
+        return mapResultListToDynamicStructure(resultList);
     }
 
-    private Map<String, Object> mapResultSetToDynamicStructure(ResultSet rs) throws SQLException {
+    private List<Map<String, Object>> mapResultListToDynamicStructure(List<Object[]> resultList) {
+        return resultList.stream()
+                .map(this::mapRowToMap)
+                .collect(Collectors.toList());
+    }
+
+    private Map<String, Object> mapRowToMap(Object[] row) {
+        // Assuming the columns are returned in the same order as defined in the query
         Map<String, Object> dynamicRow = new HashMap<>();
-
-        int columnCount = rs.getMetaData().getColumnCount();
-        for (int i = 1; i <= columnCount; i++) {
-            String columnName = rs.getMetaData().getColumnName(i);
-            Object columnValue = rs.getObject(i);
-            dynamicRow.put(columnName, columnValue);
+        for (int i = 0; i < row.length; i++) {
+            dynamicRow.put("column" + i, row[i]);
         }
-
         return dynamicRow;
     }
 }
