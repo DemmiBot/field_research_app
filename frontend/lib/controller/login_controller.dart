@@ -1,27 +1,28 @@
 import 'package:fieldresearch/models/users_model.dart';
-import 'package:fieldresearch/repositories/login_repository.dart';
+import 'package:fieldresearch/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 
+//feedback/errors
+//dps q tiver feedback tirar o try catch
 class LoginController {
   final IUserRepository repository;
   LoginController({required this.repository});
   static var emailController = TextEditingController();
   static var passwordController = TextEditingController();
-  final ValueNotifier<bool> isloading = ValueNotifier(false);
-  UserModel userInfo = UserModel(username: '', adm: '');
+  final ValueNotifier<bool> isLoading = ValueNotifier(false);
+  late UserModel userInfo;
 
-  void userLogin() async {
-    isloading.value = true;
+  Future userLogin() async {
+    isLoading.value = true;
+    late UserModel userInfo;
     try {
-      print('iniciandoooo');
       userInfo = await repository.userLogin(
           login: emailController.text.trim(),
           password: passwordController.text.trim());
-      print('iniciandoooo');
-    } catch (e) {
-      print(e.toString());
-    }
-    isloading.value = false;
+
+      isLoading.value = false;
+      return userInfo;
+    } catch (e) {}
   }
 
   void cleanText() {
@@ -29,19 +30,20 @@ class LoginController {
     passwordController.clear();
   }
 
-  //se o usuario voltar na tela de login o valor do adm é do outro, model n tá recebendo valor dnv
-  void switchPage(BuildContext context) async {
+  void switchPage(BuildContext context, var userInfo) async {
     if (userInfo.adm == 'ADMIN') {
       Navigator.pushNamed(
         context,
         '/adm',
         arguments: userInfo,
       );
+
       cleanText();
-    } else if (userInfo.adm == 'USER') {
+    }
+    if (userInfo.adm == 'USER') {
       Navigator.pushNamed(context, '/researcher');
+
       cleanText();
     }
   }
 }
-//feedback/errors

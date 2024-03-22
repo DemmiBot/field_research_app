@@ -13,21 +13,19 @@ class ResearchesRepository implements IResearchesRepository {
 
   @override
   Future<List<ResearchesModel>> getResearches() async {
-    final response = await client.get(url: 'http://26.146.172.113:8080/polls');
+    final response = await client.get(url: 'http://192.168.15.9:8080/polls');
 
     if (response.statusCode == 200) {
       List<ResearchesModel> researches = [];
-      print(response.body);
+
       var body = jsonDecode(response.body);
 
       body.map((item) {
         researches.add(ResearchesModel.fromJson(item));
       }).toList();
-      print('Lista carregada');
+
       return researches;
-    } else {
-      print(response.statusCode);
-    }
+    } else {}
     return [];
   }
 }

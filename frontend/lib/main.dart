@@ -1,6 +1,4 @@
 import 'package:fieldresearch/controller/form_controller.dart';
-import 'package:fieldresearch/controller/users_adm_controller.dart';
-import 'package:fieldresearch/provider/users_adm_provider.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/views/adm_views/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/home_adm_view.dart';
@@ -16,12 +14,6 @@ void main() async {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => UsersAdmProvider(),
-        ),
-        Provider(
-          create: (contex) => UsersAdmController(),
-        ),
         ChangeNotifierProvider(
           create: (contex) => FormController(),
         ),
