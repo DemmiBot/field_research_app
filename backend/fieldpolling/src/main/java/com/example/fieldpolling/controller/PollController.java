@@ -41,10 +41,7 @@ public class PollController {
         // implement try method
         try {
             String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
-            pollRepository.createTable(tName);
-            for(Option opt: pollRecordDTO.options()) {
-                pollRepository.addColumn(tName, opt.optionName(), opt.optionType());
-            }
+            dynamicTableService.createTable(tName, pollRecordDTO.options());
         } catch (SQLException exception) {
             throw new RuntimeException("Error while creating new poll, ", exception);
         }

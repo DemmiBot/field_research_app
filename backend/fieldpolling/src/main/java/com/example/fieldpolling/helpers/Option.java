@@ -4,11 +4,11 @@ public class Option {
     private String optionName;
     private String optionType;
 
-    public String optionName() {
+    public String getOptionName() {
         return this.optionName;
     }
 
-    public String optionType() {
+    public String getOptionType() {
         return this.optionType;
     }
 
