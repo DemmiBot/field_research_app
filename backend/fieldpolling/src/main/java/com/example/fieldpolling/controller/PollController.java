@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
 import com.example.fieldpolling.dtos.PollRecordDTO;
-import com.example.fieldpolling.helpers.Option;
 import com.example.fieldpolling.models.Poll;
 import com.example.fieldpolling.repositories.PollRepository;
 import com.example.fieldpolling.services.DynamicTableService;
