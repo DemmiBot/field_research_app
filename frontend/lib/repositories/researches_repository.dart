@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/models/researches_model.dart';
+import 'package:fieldresearch/utils/repository_utils.dart';
 
 abstract class IResearchesRepository {
   Future<List<ResearchesModel>> getResearches();
@@ -8,12 +9,13 @@ abstract class IResearchesRepository {
 
 class ResearchesRepository implements IResearchesRepository {
   final IClientHttp client;
+  final SpringConection spConection = SpringConection();
 
   ResearchesRepository({required this.client});
 
   @override
   Future<List<ResearchesModel>> getResearches() async {
-    final response = await client.get(url: 'http://192.168.15.9:8080/polls');
+    final response = await client.get(url: '${spConection.adressIP}/polls');
 
     if (response.statusCode == 200) {
       List<ResearchesModel> researches = [];

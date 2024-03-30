@@ -7,13 +7,14 @@ import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-//Importante otimizar esta tela, muitos usuários podem afetar o desenpenho
-// Opções
-// - Paginação de usuários
-// - Revisar o uso aninhado de ScrollChildView, alterando o layout
+// It's important to optimize this screen, as many users can affect performance
+// Options
+// - User pagination
+// - Review the nested use of ScrollChildView, altering the layout
 
 //To do
 // - Get the current user and remove it from the table
+// - Function to delete and change user states
 class AdmUsers extends StatefulWidget {
   const AdmUsers({super.key});
 
@@ -86,6 +87,7 @@ class _AdmUsersState extends State<AdmUsers> {
                       child: CircularProgressIndicator(),
                     );
                   } else if (controller.users.value.isNotEmpty) {
+                    // var usersData = controller.filterUser();
                     var usersData = controller.users.value;
 
                     return TableUsers(usersData: usersData);

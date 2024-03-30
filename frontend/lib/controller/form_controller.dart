@@ -15,6 +15,7 @@ class FormController extends ChangeNotifier {
 
       // Adiciona uma nova seção
       var sectionList = DragAndDropList(
+        canDrag: false,
         contentsWhenEmpty: const Text(''),
         header: const Divider(),
         children: sectionItems.last,
@@ -27,6 +28,7 @@ class FormController extends ChangeNotifier {
       // Adiciona um novo item à última seção criada, se houver alguma
       sectionItems.last.add(
         DragAndDropItem(
+          canDrag: false,
           child: DefaultType(
             identity: identity,
           ),

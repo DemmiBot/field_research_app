@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/models/users_model.dart';
+import 'package:fieldresearch/utils/repository_utils.dart';
 
 abstract class IUserRepository {
   Future userLogin({required String login, required String password});
@@ -9,6 +10,7 @@ abstract class IUserRepository {
 
 class UserRepository implements IUserRepository {
   final IClientHttp client;
+  final SpringConection spConection = SpringConection();
   UserModel userRepository = UserModel(username: '', adm: '');
 
   UserRepository({required this.client});
@@ -20,7 +22,7 @@ class UserRepository implements IUserRepository {
       'password': password,
     });
     final response = await client.post(
-        url: 'http://192.168.15.9:8080/auth/login', body: body);
+        url: '${spConection.adressIP}/auth/login', body: body);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(response.body);

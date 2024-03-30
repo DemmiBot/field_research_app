@@ -12,14 +12,8 @@ import 'package:provider/provider.dart';
 
 void main() async {
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (contex) => FormController(),
-        ),
-      ],
-      child: const MyApp(),
-    ),
+    ChangeNotifierProvider(
+        create: (_) => FormController(), child: const MyApp()),
   );
 }
 

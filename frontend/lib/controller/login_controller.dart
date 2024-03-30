@@ -14,16 +14,16 @@ class LoginController {
 
   Future userLogin() async {
     isLoading.value = true;
-    late UserModel userInfo;
     try {
       userInfo = await repository.userLogin(
           login: emailController.text.trim(),
           password: passwordController.text.trim());
-
       isLoading.value = false;
       return userInfo;
     } catch (e) {}
   }
+
+  UserModel get getCurrentUser => userInfo;
 
   void cleanText() {
     emailController.clear();

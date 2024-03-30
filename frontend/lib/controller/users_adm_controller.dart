@@ -1,9 +1,15 @@
+import 'package:fieldresearch/controller/login_controller.dart';
+import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/models/users_model.dart';
+import 'package:fieldresearch/repositories/user_repository.dart';
 import 'package:fieldresearch/repositories/users_repository.dart';
 import 'package:flutter/material.dart';
 
 class UsersAdmController {
   final IUsersRepository repository;
+
+  LoginController currentUser =
+      LoginController(repository: UserRepository(client: HttpClient()));
 
   ValueNotifier<List<UserAdmModel>> users =
       ValueNotifier<List<UserAdmModel>>([]);
@@ -23,6 +29,16 @@ class UsersAdmController {
         .values
         .toList();
     isLoading.value = false;
+  }
+
+  List<UserAdmModel> filterUser() {
+    // Obtém o login do usuário atual
+    String currentLogin = currentUser.getCurrentUser.username;
+
+    // Filtra a lista de usuários removendo aqueles que possuem o mesmo login do usuário atual
+    users.value =
+        users.value.where((user) => user.name != currentLogin).toList();
+    return users.value;
   }
 
   // List<UserAdmModel> researchesList = [];
