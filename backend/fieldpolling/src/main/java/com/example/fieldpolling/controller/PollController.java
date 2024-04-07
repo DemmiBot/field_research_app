@@ -37,14 +37,14 @@ public class PollController {
     public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
-        // implement try method
         try {
             String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
             dynamicTableService.createTable(tName, pollRecordDTO.options());
+            String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
+            pollModel.setOptions(tOptions);
         } catch (SQLException exception) {
             throw new RuntimeException("Error while creating new poll, ", exception);
         }
-        // implement catch method for sql exceptions
         return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
     }
 
@@ -56,6 +56,7 @@ public class PollController {
     @GetMapping("/polls/single")
     public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
         List<Map<String, Object>> tableContents = dynamicTableService.getDynamicTableContents(tableName);
+      
         return ResponseEntity.status(HttpStatus.OK).body(tableContents);
     }
     
@@ -85,6 +86,12 @@ public class PollController {
         Optional<Poll> pollO = pollRepository.findById(id);
         if(pollO.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Poll not found.");
+        }
+        String tableName = pollO.get().getName().replace(" ", "_").toLowerCase();
+        try {
+            dynamicTableService.dropTable(tableName);
+        } catch(SQLException exception) {
+            throw new RuntimeException("Error while deleting poll, ", exception);
         }
         pollRepository.delete(pollO.get());
         return ResponseEntity.status(HttpStatus.OK).body("Poll deleted successfully.");
