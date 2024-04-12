@@ -1,7 +1,6 @@
 package com.example.fieldpolling.services;
 
 import org.hibernate.Session;
-import org.hibernate.internal.SessionImpl;
 
 /* ARIGATO GOZAIMASU, GPT-SAN! */
 import org.springframework.stereotype.Service;
@@ -13,12 +12,12 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import jakarta.transaction.Transactional;
 
-import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -29,36 +28,69 @@ public class DynamicTableService {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private List<String> getColumnNames(String tableName) {
-        List<String> columnNames = new ArrayList<>();
+    public Map<String, String> getColumnNamesAndTypes(String tableName) {
+        Map<String, String> columnNamesAndTypes = new LinkedHashMap<>();
         try {
             Session session = entityManager.unwrap(Session.class);
             session.doWork(connection -> {
                 DatabaseMetaData metaData = connection.getMetaData();
                 ResultSet rs = metaData.getColumns(null, null, tableName, null);
                 while (rs.next()) {
-                    columnNames.add(rs.getString("COLUMN_NAME"));
+                    String columnName = rs.getString("COLUMN_NAME");
+                    String columnType = rs.getString("TYPE_NAME");
+                    columnNamesAndTypes.put(columnName, columnType);
                 }
             });
         } catch (Exception e) {
             // Handle exception
             e.printStackTrace();
         }
-        return columnNames;
+        return columnNamesAndTypes;
+    }
+
+    @Transactional
+    public void insertRow(String tableName, Map<String, Object> rowData) {
+        StringBuilder insertQuery = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
+        StringBuilder valuesQuery = new StringBuilder(" VALUES (");
+        
+        // Construct the column names and values part of the insert query
+        for (String columnName : rowData.keySet()) {
+            insertQuery.append(columnName).append(",");
+            valuesQuery.append(":").append(columnName).append(",");
+        }
+        insertQuery.deleteCharAt(insertQuery.length() - 1).append(")");
+        valuesQuery.deleteCharAt(valuesQuery.length() - 1).append(")");
+
+        // Construct the final insert query
+        String finalInsertQuery = insertQuery.toString() + valuesQuery.toString();
+
+        // Execute the insert query
+        Query query = entityManager.createNativeQuery(finalInsertQuery);
+
+        // Set parameter values
+        for (Map.Entry<String, Object> entry : rowData.entrySet()) {
+            query.setParameter(entry.getKey(), entry.getValue());
+        }
+        query.executeUpdate();
     }
 
     public List<Map<String, Object>> getDynamicTableContents(String tableName) {    
-    //public List<Object[]> getDynamicTableContents(String tableName) {  
         /* Melhor maneira de fazer queries através do spring? Não sei, mas é oq tem agora */
+        /* Codigo feito pelo chatgpt ;-; */
         String queryStr = "SELECT * FROM " + tableName;
         Query query = entityManager.createNativeQuery(queryStr);
 
         List<Object[]> resultList = query.getResultList();
 
-        List<String> columnNames = getColumnNames(tableName);
+        Map<String, String> columnMetadata = getColumnNamesAndTypes(tableName);
+
+        List<String> columnNames = new ArrayList<>();
+
+        for(String columnName: columnMetadata.keySet()) {
+            columnNames.add(columnName);
+        }
 
         return mapResultListToDynamicStructure(resultList, columnNames);
-        //return resultList;
     }
 
     private List<Map<String, Object>> mapResultListToDynamicStructure(List<Object[]> resultList, List<String> columnNames) {

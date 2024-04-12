@@ -32,22 +32,7 @@ public class PollController {
 
     @Autowired
     DynamicTableService dynamicTableService;
-
-    @PostMapping("/polls") // Modelo Maturidade Richardson
-    public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
-        var pollModel = new Poll();
-        BeanUtils.copyProperties(pollRecordDTO, pollModel);
-        try {
-            String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
-            dynamicTableService.createTable(tName, pollRecordDTO.options());
-            String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
-            pollModel.setOptions(tOptions);
-        } catch (SQLException exception) {
-            throw new RuntimeException("Error while creating new poll, ", exception);
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
-    }
-
+    
     @GetMapping("/polls")
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
@@ -68,6 +53,22 @@ public class PollController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(pollO.get());
     }
+    
+    @PostMapping("/polls") // Modelo Maturidade Richardson
+    public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
+        var pollModel = new Poll();
+        BeanUtils.copyProperties(pollRecordDTO, pollModel);
+        try {
+            String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
+            dynamicTableService.createTable(tName, pollRecordDTO.options());
+            String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
+            pollModel.setOptions(tOptions);
+        } catch (SQLException exception) {
+            throw new RuntimeException("Error while creating new poll, ", exception);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
+    }
+
 
     @PutMapping("polls/{id}")
     public ResponseEntity<Object> updatePoll(@PathVariable(value="id") UUID id,
