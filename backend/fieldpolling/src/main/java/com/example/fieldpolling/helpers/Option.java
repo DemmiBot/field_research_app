@@ -1,7 +1,5 @@
 package com.example.fieldpolling.helpers;
 
-import java.util.List;
-
 public class Option {
     private String optionName;
     private String optionType;

@@ -37,6 +37,13 @@ public class PollController {
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
     }
+    
+    @GetMapping("/polls/meta")
+    public ResponseEntity<Map<String, String>> getPollMetadata(@RequestParam(value="name") String tableName) {
+        Map<String, String> tableMetadata = dynamicTableService.getColumnNamesAndTypes(tableName);
+    
+        return ResponseEntity.status(HttpStatus.OK).body(tableMetadata);
+    }
 
     @GetMapping("/polls/single")
     public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
