@@ -1,32 +1,27 @@
 package com.example.fieldpolling.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
+
+import com.example.fieldpolling.helpers.Option;
 import com.example.fieldpolling.helpers.Status;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.NamedStoredProcedureQuery;
-import jakarta.persistence.ParameterMode;
-import jakarta.persistence.StoredProcedureParameter;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 
 
 @Entity
-@NamedStoredProcedureQuery(name = "createtable", procedureName = "createtable", parameters = {
-    @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class)
-    }
-)
-@NamedStoredProcedureQuery(name = "addcolumn", procedureName = "addcolumn", parameters = {
-    @StoredProcedureParameter(mode = ParameterMode.IN, name = "t_name", type = String.class),
-    @StoredProcedureParameter(mode = ParameterMode.IN, name = "c_name", type = String.class),
-    @StoredProcedureParameter(mode = ParameterMode.IN, name = "c_type", type = String.class)
-    }
-)
 @Table(name = "polls")
 public class Poll implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -39,7 +34,15 @@ public class Poll implements Serializable {
     private String description;
     @Enumerated(EnumType.STRING)
     private Status status;
+    private String options;
+    
 
+    public String getOptions() {
+        return options;
+    }
+    public void setOptions(String options) {
+        this.options = options;
+    }
     public UUID getpoll_id() {
         return poll_id;
     }
