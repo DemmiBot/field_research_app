@@ -1,5 +1,6 @@
 import 'package:fieldresearch/controller/home_adm_controller.dart';
 import 'package:fieldresearch/http/http_client.dart';
+import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/repositories/researches_repository.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
@@ -28,8 +29,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
 
   @override
   Widget build(BuildContext context) {
-    // Receber os argumentos
-    final args = ModalRoute.of(context)?.settings.arguments;
+    final args = ModalRoute.of(context)?.settings.arguments as UserModel;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -39,7 +39,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             children: [
               SizedBox(height: 5.h),
               Text(
-                'Olá, ${args}!',
+                'Olá, ${args.username}!',
                 style: TextStyle(fontSize: 14.sp, color: Colors.white),
               ),
               SizedBox(height: 14.h),
@@ -72,8 +72,12 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                               status: researches[index].status);
                         });
                   } else {
-                    return const Center(
-                        child: Text('Nenhuma pesquisa disponível'));
+                    return Center(
+                      child: Text(
+                        'Nenhuma pesquisa disponível',
+                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
+                      ),
+                    );
                   }
                 },
               ),

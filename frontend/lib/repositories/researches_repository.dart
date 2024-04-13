@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/models/researches_model.dart';
+import 'package:fieldresearch/utils/repository_utils.dart';
 
 abstract class IResearchesRepository {
   Future<List<ResearchesModel>> getResearches();
@@ -8,26 +9,25 @@ abstract class IResearchesRepository {
 
 class ResearchesRepository implements IResearchesRepository {
   final IClientHttp client;
+  final SpringConection spConection = SpringConection();
 
   ResearchesRepository({required this.client});
 
   @override
   Future<List<ResearchesModel>> getResearches() async {
-    final response = await client.get(url: 'http://26.146.172.113:8080/polls');
+    final response = await client.get(url: '${spConection.adressIP}/polls');
 
     if (response.statusCode == 200) {
       List<ResearchesModel> researches = [];
-      print(response.body);
+
       var body = jsonDecode(response.body);
 
       body.map((item) {
         researches.add(ResearchesModel.fromJson(item));
       }).toList();
-      print('Lista carregada');
+
       return researches;
-    } else {
-      print(response.statusCode);
-    }
+    } else {}
     return [];
   }
 }

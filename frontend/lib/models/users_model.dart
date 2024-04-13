@@ -1,14 +1,20 @@
 class UserAdmModel {
-  late String name = 'User';
+  late String name;
   late String email;
-  late bool adm;
-  UserAdmModel({required this.name, required this.email, required this.adm});
+  late String adm;
+  int index;
+  UserAdmModel(
+      {required this.name,
+      required this.email,
+      required this.adm,
+      required this.index});
 
-  factory UserAdmModel.fromJson(Map<String, dynamic> json) {
+  factory UserAdmModel.fromJson(Map<String, dynamic> json, int index) {
     return UserAdmModel(
-      name: json['name'] ?? '',
+      name: json['login'] ?? '',
       email: json['email'] ?? '',
-      adm: json['is_admin'] ?? '',
+      adm: json['role'] ?? '',
+      index: index,
     );
   }
 }

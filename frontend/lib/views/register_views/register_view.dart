@@ -1,5 +1,7 @@
 import 'package:fieldresearch/controller/mixins/register_mixin.dart';
 import 'package:fieldresearch/controller/register_controller.dart';
+import 'package:fieldresearch/http/http_client.dart';
+import 'package:fieldresearch/repositories/user_repository.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +16,13 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> with RegisterMixin {
   final formKey = GlobalKey<FormState>();
+  final RegisterController controller =
+      RegisterController(repository: UserRepository(client: HttpClient()));
 
   @override
   void initState() {
     super.initState();
-    RegisterController.cleanText();
+    controller.cleanText();
   }
 
   @override
@@ -52,7 +56,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                             () => isNotEmpty(value),
                             () => emailValidator(value),
                           ]),
-                      controller: RegisterController.emailRegister),
+                      controller: controller.emailRegister),
                   SizedBox(height: 14.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -70,7 +74,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                       validator: (value) => combine([
                             () => isNotEmpty(value),
                           ]),
-                      controller: RegisterController.nameRegister),
+                      controller: controller.nameRegister),
                   SizedBox(height: 14.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -110,14 +114,24 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                           ]),
                       controller: RegisterController.repitPassRegister),
                   SizedBox(height: 28.h),
+                  AnimatedBuilder(
+                      animation: controller.isLoading,
+                      builder: (context, child) {
+                        if (controller.isLoading.value) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        } else {
+                          return const SizedBox();
+                        }
+                      }),
                   SizedBox(height: 10.h),
                   MyButton(
                       text: 'Registrar',
                       onPressed: () async {
                         if (formKey.currentState?.validate() ?? false) {
-                          var snack = ScaffoldMessenger.of(context);
-
-                          RegisterController.cleanText();
+                          //var snack = ScaffoldMessenger.of(context);
+                          controller.userRegister();
+                          controller.cleanText();
                         }
                       }),
                 ],

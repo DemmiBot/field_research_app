@@ -1,6 +1,6 @@
+import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:fieldresearch/controller/form_controller.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/my_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +15,8 @@ class CreateFormView extends StatefulWidget {
 
 class _CreateFormViewState extends State<CreateFormView> {
   final _formKey = GlobalKey<FormBuilderState>();
-
+  List<DragAndDropList> sections = [];
+  int index = 0;
   @override
   void initState() {
     context.read<FormController>().typeDataForm = [];
@@ -30,7 +31,6 @@ class _CreateFormViewState extends State<CreateFormView> {
         builder:
             (BuildContext context, FormController controller, Widget? child) =>
                 Scaffold(
-          bottomNavigationBar: const MyBottomNavigator(),
           body: FormBuilder(
             key: _formKey,
             child: SafeArea(
@@ -45,45 +45,46 @@ class _CreateFormViewState extends State<CreateFormView> {
                     const Divider(),
                     SizedBox(height: 40.w),
                     Expanded(
-                      child: DragAndDropLists(
-                        children: controller.typeDataForm,
-                        onItemReorder: _onItemReorder,
-                        onListReorder: _onListReorder,
-                        contentsWhenEmpty: const Text('vazioo'),
-                        itemDivider: const Divider(color: Colors.amber),
-                        itemDecorationWhileDragging: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 2,
-                              blurRadius: 3,
-                              offset: const Offset(0, 0),
-                            ),
-                          ],
-                        ),
-                        lastItemTargetHeight: 8,
-                        addLastItemTargetHeightToTop: true,
-                        lastListTargetSize: 40,
-                        listDragHandle: const DragHandle(
-                          verticalAlignment: DragHandleVerticalAlignment.top,
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.transparent,
-                          ),
-                        ),
-                        itemDragHandle: const DragHandle(
-                          child: Icon(
-                            Icons.menu,
-                            color: Colors.blueGrey,
-                          ),
+                      child: Center(
+                        child: DragAndDropLists(
+                          children: controller.typeDataForm,
+                          onItemReorder: _onItemReorder,
+                          onListReorder: _onListReorder,
                         ),
                       ),
                     ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Center(
+                          child: ElevatedButton(
+                            style: const ButtonStyle(),
+                            onPressed: () {
+                              controller.addType(true);
+                            },
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                        Center(
+                          child: ElevatedButton(
+                            style: const ButtonStyle(),
+                            onPressed: () {
+                              setState(() {
+                                index++;
+                                controller.addType(false);
+                              });
+                            },
+                            child: const Icon(Icons.add),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
                     Center(
                       child: ElevatedButton(
                           onPressed: () {
                             _formKey.currentState?.save();
-                            var value = _formKey.currentState!.fields;
+                            var value = _formKey.currentState!.value;
 
                             print(value);
                           },
@@ -98,31 +99,127 @@ class _CreateFormViewState extends State<CreateFormView> {
       ),
     );
   }
+  // Expanded(
+  //                     child: ListView.builder(
+  //                       itemCount: sections,
+  //                       itemBuilder: (context, index) {
+  //                         return const SectionData();
+  //                       },
+  //                     ),
+  //                   ),
+
+  // _onItemReorder(
+  //     int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
+  //   setState(() {
+  //     var movedItem = (context)
+  //         .read<FormController>()
+  //         .typeDataForm[oldListIndex]
+  //         .children
+  //         .removeAt(oldItemIndex);
+  //     (context)
+  //         .read<FormController>()
+  //         .typeDataForm[newListIndex]
+  //         .children
+  //         .insert(newItemIndex, movedItem);
+  //   });
+  // }
+
+  // _onListReorder(int oldListIndex, int newListIndex) {
+  //   setState(() {
+  //     var movedList =
+  //         (context).read<FormController>().typeDataForm.removeAt(oldListIndex);
+  //     (context)
+  //         .read<FormController>()
+  //         .typeDataForm
+  //         .insert(newListIndex, movedList);
+  //   });
+  // }
 
   _onItemReorder(
       int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {
     setState(() {
-      var movedItem = (context)
-          .read<FormController>()
-          .typeDataForm[oldListIndex]
-          .children
-          .removeAt(oldItemIndex);
-      (context)
-          .read<FormController>()
-          .typeDataForm[newListIndex]
-          .children
-          .insert(newItemIndex, movedItem);
+      var movedItem = sections[oldListIndex].children.removeAt(oldItemIndex);
+      sections[newListIndex].children.insert(newItemIndex, movedItem);
     });
   }
 
   _onListReorder(int oldListIndex, int newListIndex) {
     setState(() {
-      var movedList =
-          (context).read<FormController>().typeDataForm.removeAt(oldListIndex);
-      (context)
-          .read<FormController>()
-          .typeDataForm
-          .insert(newListIndex, movedList);
+      var movedList = sections.removeAt(oldListIndex);
+      sections.insert(newListIndex, movedList);
     });
   }
 }
+
+class SectionData extends StatefulWidget {
+  int index = 0;
+  SectionData({super.key, required this.index});
+
+  @override
+  State<SectionData> createState() => _MyWidgetState();
+}
+
+class _MyWidgetState extends State<SectionData> {
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      // key: Key('${widget.index}'),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 5),
+            Text('Section ${widget.index}'),
+            const Divider(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+// Expanded(
+//                       child: DragAndDropLists(
+//                         children: controller.typeDataForm,
+//                         onItemReorder: _onItemReorder,
+//                         onListReorder: _onListReorder,
+//                         contentsWhenEmpty: const Text('vazioo'),
+//                         itemDivider: const Divider(color: Colors.amber),
+//                         itemDecorationWhileDragging: BoxDecoration(
+//                           boxShadow: [
+//                             BoxShadow(
+//                               color: Colors.grey.withOpacity(0.5),
+//                               spreadRadius: 2,
+//                               blurRadius: 3,
+//                               offset: const Offset(0, 0),
+//                             ),
+//                           ],
+//                         ),
+//                         lastItemTargetHeight: 8,
+//                         addLastItemTargetHeightToTop: true,
+//                         lastListTargetSize: 40,
+//                         listDragHandle: const DragHandle(
+//                           verticalAlignment: DragHandleVerticalAlignment.top,
+//                           child: Icon(
+//                             Icons.delete,
+//                             color: Colors.transparent,
+//                           ),
+//                         ),
+//                         itemDragHandle: const DragHandle(
+//                           child: Icon(
+//                             Icons.menu,
+//                             color: Colors.blueGrey,
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+
+
+
+

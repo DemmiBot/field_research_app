@@ -1,7 +1,7 @@
 import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/repositories/login_repository.dart';
+import 'package:fieldresearch/repositories/user_repository.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends State<SignupView> with LoginMixin {
   final LoginController controller =
-      LoginController(repository: LoginRepository(client: HttpClient()));
+      LoginController(repository: UserRepository(client: HttpClient()));
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -35,11 +35,13 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                   controller: LoginController.emailController,
                   textLabel: ' Email',
                   obscureText: false,
-                  validator: (value) => combine([
-                    () => isNotEmpty(value),
-                    // n esquecer de liberar validação de email!!!!!
-                    //() => emailValidator(value),
-                  ]),
+                  validator: (value) => combine(
+                    [
+                      () => isNotEmpty(value),
+                      // n esquecer de liberar validação de email!!!!!
+                      //() => emailValidator(value),
+                    ],
+                  ),
                 ),
                 SizedBox(height: 34.h),
                 CustomTextField(
@@ -53,9 +55,9 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                 ),
                 SizedBox(height: 37.h),
                 AnimatedBuilder(
-                    animation: controller.isloading,
+                    animation: controller.isLoading,
                     builder: (context, child) {
-                      if (controller.isloading.value) {
+                      if (controller.isLoading.value) {
                         return const Center(child: CircularProgressIndicator());
                       } else {
                         return const SizedBox();
@@ -64,11 +66,11 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                 SizedBox(height: 15.h),
                 MyButton(
                   text: 'Entrar',
-                  onPressed: () {
+                  onPressed: () async {
                     //var snack = ScaffoldMessenger.of(context);
                     if (formKey.currentState?.validate() ?? false) {
-                      controller.userLogin();
-                      controller.switchPage(context);
+                      controller.switchPage(
+                          context, await controller.userLogin());
                     }
                   },
                 ),
