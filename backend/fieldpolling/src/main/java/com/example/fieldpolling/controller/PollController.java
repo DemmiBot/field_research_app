@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
@@ -32,26 +33,15 @@ public class PollController {
 
     @Autowired
     DynamicTableService dynamicTableService;
-    
+
+    /*==============
+    Polls table
+    ================*/
+
     @GetMapping("/polls")
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
     }
-    
-    @GetMapping("/polls/meta")
-    public ResponseEntity<Map<String, String>> getPollMetadata(@RequestParam(value="name") String tableName) {
-        Map<String, String> tableMetadata = dynamicTableService.getColumnNamesAndTypes(tableName);
-    
-        return ResponseEntity.status(HttpStatus.OK).body(tableMetadata);
-    }
-
-    @GetMapping("/polls/single")
-    public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
-        List<Map<String, Object>> tableContents = dynamicTableService.getDynamicTableContents(tableName);
-      
-        return ResponseEntity.status(HttpStatus.OK).body(tableContents);
-    }
-    
     @GetMapping("/polls/{id}")
     public ResponseEntity<Object> getOnePoll(@PathVariable(value="id") UUID id ) {
         Optional<Poll> pollO = pollRepository.findById(id);
@@ -60,8 +50,8 @@ public class PollController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(pollO.get());
     }
-    
-    @PostMapping("/polls") // Modelo Maturidade Richardson
+
+    @PostMapping("/polls")
     public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
@@ -76,7 +66,6 @@ public class PollController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
     }
 
-
     @PutMapping("polls/{id}")
     public ResponseEntity<Object> updatePoll(@PathVariable(value="id") UUID id,
         @RequestBody @Valid PollRecordDTO pollRecordDTO) {
@@ -88,7 +77,7 @@ public class PollController {
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.save(pollModel));
     }
-
+    
     @DeleteMapping("polls/{id}")
     public ResponseEntity<Object> deletePoll(@PathVariable(value="id") UUID id) {
         Optional<Poll> pollO = pollRepository.findById(id);
@@ -103,5 +92,37 @@ public class PollController {
         }
         pollRepository.delete(pollO.get());
         return ResponseEntity.status(HttpStatus.OK).body("Poll deleted successfully.");
+    }
+    /*==============
+    Dynamic Polls
+    ================*/
+    
+    @GetMapping("/polls/meta/{name}")
+    public ResponseEntity<Map<String, String>> getPollMetadata(@PathVariable(value="name") String tableName) {
+        Map<String, String> tableMetadata = dynamicTableService.getColumnNamesAndTypes(tableName);
+    
+        return ResponseEntity.status(HttpStatus.OK).body(tableMetadata);
+    }
+
+    @GetMapping("/polls/poll")
+    public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
+        List<Map<String, Object>> tableContents = dynamicTableService.getDynamicTableContents(tableName);
+      
+        return ResponseEntity.status(HttpStatus.OK).body(tableContents);
+    }
+
+    @PostMapping("polls/poll/{name}")
+    public ResponseEntity<Map<String, Object>> newFormEntry(@PathVariable String name, @RequestBody Map<String, Object> rowData) {
+        dynamicTableService.insertRow(name, rowData);
+        
+        return ResponseEntity.status(HttpStatus.OK).body(rowData);
+    }
+    
+
+    @DeleteMapping("/polls/{name}/{id}")
+    public ResponseEntity<Object> deleteEntryFromPoll(@PathVariable(value="id") Integer id, @PathVariable(value="name") String tableName) {
+        dynamicTableService.deleteRowById(tableName, id);
+    
+        return ResponseEntity.status(HttpStatus.OK).body(id.toString() + " deleted successfully!");
     }
 }
