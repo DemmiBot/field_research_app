@@ -123,6 +123,6 @@ public class PollController {
     public ResponseEntity<Object> deleteEntryFromPoll(@PathVariable(value="id") Integer id, @PathVariable(value="name") String tableName) {
         dynamicTableService.deleteRowById(tableName, id);
     
-        return ResponseEntity.status(HttpStatus.OK).body(id.toString() + " deleted successfully!");
+        return ResponseEntity.status(HttpStatus.OK).body("Entry deleted successfully!");
     }
 }
