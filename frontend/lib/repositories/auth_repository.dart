@@ -10,8 +10,8 @@ abstract class IUserRepository {
 
 class UserRepository implements IUserRepository {
   final IClientHttp client;
-  final SpringConection spConection = SpringConection();
-  UserModel userRepository = UserModel(username: '', adm: '');
+  final SpringConection springConnection = SpringConection();
+  UserModel user = UserModel(login: '', token: '', role: Role.USER);
 
   UserRepository({required this.client});
 
@@ -22,14 +22,15 @@ class UserRepository implements IUserRepository {
       'password': password,
     });
     final response = await client.post(
-        url: '${spConection.adressIP}/auth/login', body: body);
+        url: '${springConnection.adressIP}/auth/login', body: body);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      userRepository = UserModel.fromJson(jsonData);
-      return userRepository;
+      user = UserModel.fromJson(jsonData);
+      return user;
     } else {
-      return userRepository;
+      print(response.body);
+      return user;
     }
   }
 
@@ -43,7 +44,7 @@ class UserRepository implements IUserRepository {
       },
     );
     final response = await client.post(
-        url: 'http://192.168.15.9:8080/auth/register', body: body);
+        url: '${springConnection.adressIP}auth/register', body: body);
 
     if (response.statusCode == 200) {
     } else {}

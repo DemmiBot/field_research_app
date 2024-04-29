@@ -1,9 +1,9 @@
 import 'package:fieldresearch/controller/mixins/register_mixin.dart';
 import 'package:fieldresearch/controller/register_controller.dart';
 import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/repositories/user_repository.dart';
-import 'package:fieldresearch/widgets/my_button.dart';
-import 'package:fieldresearch/widgets/custom_text_field.dart';
+import 'package:fieldresearch/repositories/auth_repository.dart';
+import 'package:fieldresearch/screens/widgets/my_button.dart';
+import 'package:fieldresearch/screens/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

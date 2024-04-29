@@ -1,9 +1,9 @@
 import 'package:fieldresearch/controller/users_adm_controller.dart';
 import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/repositories/users_repository.dart';
-import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/my_floatbutton.dart';
-import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/table_users.dart';
-import 'package:fieldresearch/widgets/button_adm.dart';
+import 'package:fieldresearch/screens/widgets/my_floatbutton.dart';
+import 'package:fieldresearch/screens/widgets/table_users.dart';
+import 'package:fieldresearch/screens/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

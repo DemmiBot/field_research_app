@@ -2,8 +2,8 @@ import 'package:fieldresearch/controller/home_adm_controller.dart';
 import 'package:fieldresearch/http/http_client.dart';
 import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/repositories/researches_repository.dart';
-import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
-import 'package:fieldresearch/widgets/button_adm.dart';
+import 'package:fieldresearch/screens/widgets/search_tile.dart';
+import 'package:fieldresearch/screens/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -39,7 +39,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             children: [
               SizedBox(height: 5.h),
               Text(
-                'Olá, ${args.username}!',
+                'Olá, ${args.login}!',
                 style: TextStyle(fontSize: 14.sp, color: Colors.white),
               ),
               SizedBox(height: 14.h),
@@ -64,13 +64,18 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                     );
                   } else if (controller.researches.value.isNotEmpty) {
                     var researches = controller.researches.value;
-                    return ListView.builder(
+                    return Expanded(
+                      // Wrap the ListView.builder with Expanded
+                      child: ListView.builder(
                         itemCount: researches.length,
                         itemBuilder: (context, index) {
                           return SearchTile(
-                              name: researches[index].name,
-                              status: researches[index].status);
-                        });
+                            name: researches[index].name,
+                            status: researches[index].status,
+                          );
+                        },
+                      ),
+                    );
                   } else {
                     return Center(
                       child: Text(

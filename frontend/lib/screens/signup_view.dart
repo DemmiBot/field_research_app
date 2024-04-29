@@ -1,9 +1,9 @@
 import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/repositories/user_repository.dart';
-import 'package:fieldresearch/widgets/custom_text_field.dart';
-import 'package:fieldresearch/widgets/my_button.dart';
+import 'package:fieldresearch/repositories/auth_repository.dart';
+import 'package:fieldresearch/screens/widgets/custom_text_field.dart';
+import 'package:fieldresearch/screens/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -16,7 +16,7 @@ class SignupView extends StatefulWidget {
 
 class _SignupViewState extends State<SignupView> with LoginMixin {
   final LoginController controller =
-      LoginController(repository: UserRepository(client: HttpClient()));
+      LoginController(iUserRepository: UserRepository(client: HttpClient()));
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -70,7 +70,7 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                     //var snack = ScaffoldMessenger.of(context);
                     if (formKey.currentState?.validate() ?? false) {
                       controller.switchPage(
-                          context, await controller.userLogin());
+                          context, await controller.userLogin(context));
                     }
                   },
                 ),

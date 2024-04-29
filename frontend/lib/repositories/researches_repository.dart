@@ -27,7 +27,7 @@ class ResearchesRepository implements IResearchesRepository {
       }).toList();
 
       return researches;
-    } else {}
+    }
     return [];
   }
 }

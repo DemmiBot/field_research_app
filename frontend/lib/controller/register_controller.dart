@@ -1,4 +1,4 @@
-import 'package:fieldresearch/repositories/user_repository.dart';
+import 'package:fieldresearch/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 
 class RegisterController {

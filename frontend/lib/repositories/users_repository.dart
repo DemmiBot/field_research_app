@@ -23,7 +23,7 @@ class UsersRepository implements IUsersRepository {
 }
 
 class UsersRepositoryy {
-  static List<UserAdmModel> usersList = [];
+  static List<UserModel> userModel = [];
 
   // Future<List<UserAdmModel>> fetchUsers() async {
   // final data =

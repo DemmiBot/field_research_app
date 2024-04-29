@@ -1,6 +1,6 @@
 import 'package:drag_and_drop_lists/drag_and_drop_item.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_list.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/type_data/default_type.dart';
+import 'package:fieldresearch/screens/widgets/type_data/default_type.dart';
 import 'package:flutter/material.dart';
 
 class FormController extends ChangeNotifier {
