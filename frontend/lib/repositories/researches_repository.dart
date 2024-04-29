@@ -1,33 +1,37 @@
-import 'dart:convert';
-import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/models/researches_model.dart';
-import 'package:fieldresearch/utils/repository_utils.dart';
 
-abstract class IResearchesRepository {
-  Future<List<ResearchesModel>> getResearches();
-}
 
-class ResearchesRepository implements IResearchesRepository {
-  final IClientHttp client;
-  final SpringConection spConection = SpringConection();
+//Vai ser alterado 
 
-  ResearchesRepository({required this.client});
+// import 'dart:convert';
 
-  @override
-  Future<List<ResearchesModel>> getResearches() async {
-    final response = await client.get(url: '${spConection.adressIP}/polls');
+// import 'package:fieldresearch/models/researches_model.dart';
+// import 'package:fieldresearch/utils/repository_utils.dart';
 
-    if (response.statusCode == 200) {
-      List<ResearchesModel> researches = [];
+// abstract class IResearchesRepository {
+//   Future<List<ResearchesModel>> getResearches();
+// }
 
-      var body = jsonDecode(response.body);
+// class ResearchesRepository implements IResearchesRepository {
+//  final IClientHttp client;
+//   final SpringConection spConection = SpringConection();
 
-      body.map((item) {
-        researches.add(ResearchesModel.fromJson(item));
-      }).toList();
+//    ResearchesRepository({required this.client});
 
-      return researches;
-    } else {}
-    return [];
-  }
-}
+//   @override
+//   Future<List<ResearchesModel>> getResearches() async {
+//     final response = await client.get(url: '${spConection.adressIP}/polls');
+
+//     if (response.statusCode == 200) {
+//       List<ResearchesModel> researches = [];
+
+//       var body = jsonDecode(response.body);
+
+//       body.map((item) {
+//         researches.add(ResearchesModel.fromJson(item));
+//       }).toList();
+
+//       return researches;
+//     } else {}
+//     return [];
+//   }
+// }

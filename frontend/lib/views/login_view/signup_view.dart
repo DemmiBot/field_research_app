@@ -1,7 +1,6 @@
 import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
-import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/repositories/user_repository.dart';
+
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +14,8 @@ class SignupView extends StatefulWidget {
 }
 
 class _SignupViewState extends State<SignupView> with LoginMixin {
-  final LoginController controller =
-      LoginController(repository: UserRepository(client: HttpClient()));
+  // final LoginController controller =
+  //     LoginController(repository: UserRepository(client: HttpClient()));
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -54,30 +53,32 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                   ]),
                 ),
                 SizedBox(height: 37.h),
-                AnimatedBuilder(
-                    animation: controller.isLoading,
-                    builder: (context, child) {
-                      if (controller.isLoading.value) {
-                        return const Center(child: CircularProgressIndicator());
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
+                // AnimatedBuilder(
+                //     animation: controller.isLoading,
+                //     builder: (context, child) {
+                //       if (controller.isLoading.value) {
+                //         return const Center(child: CircularProgressIndicator());
+                //       } else {
+                //         return const SizedBox();
+                //       }
+                //     }),
                 SizedBox(height: 15.h),
                 MyButton(
                   text: 'Entrar',
                   onPressed: () async {
                     //var snack = ScaffoldMessenger.of(context);
                     if (formKey.currentState?.validate() ?? false) {
-                      controller.switchPage(
-                          context, await controller.userLogin());
+                      // controller.switchPage(
+                      //     // ignore: use_build_context_synchronously
+                      //     context,
+                      //     await controller.userLogin());
                     }
                   },
                 ),
                 SizedBox(height: 34.h),
                 TextButton(
                   onPressed: () {
-                    controller.cleanText();
+                    // controller.cleanText();
                     Navigator.pushNamed(context, '/register');
                   },
                   child: Text(
