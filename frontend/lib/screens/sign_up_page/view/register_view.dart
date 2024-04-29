@@ -1,7 +1,10 @@
 import 'package:fieldresearch/controller/mixins/register_mixin.dart';
 import 'package:fieldresearch/controller/register_controller.dart';
+import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
+import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterView extends StatefulWidget {
@@ -13,14 +16,13 @@ class RegisterView extends StatefulWidget {
 
 class _RegisterViewState extends State<RegisterView> with RegisterMixin {
   final formKey = GlobalKey<FormState>();
-  // final RegisterController controller =
-  //     RegisterController(repository: UserRepository(client: HttpClient()));
 
-  @override
-  void initState() {
-    super.initState();
-    // controller.cleanText();
-  }
+  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordAgainController = TextEditingController();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +30,24 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(backgroundColor: Colors.transparent),
-        body: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 37.w),
-              child: Column(
-                children: [
+        body: BlocListener<SignUpBloc, ISignUpState>(
+          listener: (context, state) {
+            if (state is SignUpProcess) {
+              setState(() {
+                isLoading = true;
+              });
+            } else {
+              setState(() {
+                isLoading = false;
+              });
+            }
+          },
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 37.w),
+                child: Column(children: [
                   SizedBox(height: 90.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -46,15 +59,15 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                       ),
                     ),
                   ),
-                  // CustomTextField(
-                  //   textLabel: '',
-                  //   obscureText: false,
-                  //   validator: (value) => combine([
-                  //     () => isNotEmpty(value),
-                  //     () => emailValidator(value),
-                  //   ]),
-                  // ),
-                  //  controller: controller.emailRegister),
+                  CustomTextField(
+                    controller: emailController,
+                    textLabel: '',
+                    obscureText: false,
+                    validator: (value) => combine([
+                      () => isNotEmpty(value),
+                      () => emailValidator(value),
+                    ]),
+                  ),
                   SizedBox(height: 14.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -66,13 +79,14 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                       ),
                     ),
                   ),
-                  // CustomTextField(
-                  //     textLabel: '',
-                  //     obscureText: false,
-                  //     validator: (value) => combine([
-                  //           () => isNotEmpty(value),
-                  //         ]),
-                  //     controller: controller.nameRegister),
+                  CustomTextField(
+                    textLabel: '',
+                    obscureText: false,
+                    validator: (value) => combine([
+                      () => isNotEmpty(value),
+                    ]),
+                    controller: nameController,
+                  ),
                   SizedBox(height: 14.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -85,13 +99,14 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                     ),
                   ),
                   CustomTextField(
-                      textLabel: '',
-                      obscureText: false,
-                      validator: (value) => combine([
-                            () => isNotEmpty(value),
-                            () => passwordValidador(value),
-                          ]),
-                      controller: RegisterController.passwordRegister),
+                    textLabel: '',
+                    obscureText: false,
+                    validator: (value) => combine([
+                      () => isNotEmpty(value),
+                      () => passwordValidador(value),
+                    ]),
+                    controller: passwordController,
+                  ),
                   SizedBox(height: 14.h),
                   Align(
                     alignment: Alignment.topLeft,
@@ -110,29 +125,22 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                             () => isNotEmpty(value),
                             () => repeatPassword(value),
                           ]),
-                      controller: RegisterController.repitPassRegister),
+                      controller: passwordAgainController),
                   SizedBox(height: 28.h),
-                  // AnimatedBuilder(
-                  //     animation: controller.isLoading,
-                  //     builder: (context, child) {
-                  //       if (controller.isLoading.value) {
-                  //         return const Center(
-                  //             child: CircularProgressIndicator());
-                  //       } else {
-                  //         return const SizedBox();
-                  //       }
-                  //     }),
+                  if (isLoading)
+                    const Center(child: CircularProgressIndicator()),
                   SizedBox(height: 10.h),
-                  // MyButton(
-                  //     text: 'Registrar',
-                  //     onPressed: () async {
-                  //       if (formKey.currentState?.validate() ?? false) {
-                  //         //var snack = ScaffoldMessenger.of(context);
-                  //         controller.userRegister();
-                  //         controller.cleanText();
-                  //       }
-                  //     }),
-                ],
+                  MyButton(
+                      text: 'Registrar',
+                      onPressed: () async {
+                        if (formKey.currentState?.validate() ?? false) {
+                          context.read<SignUpBloc>().add(SignUpRequired(
+                                login: emailController.text.trim(),
+                                password: passwordAgainController.text.trim(),
+                              ));
+                        }
+                      }),
+                ]),
               ),
             ),
           ),

@@ -20,6 +20,8 @@ dependencies:
   drag_and_drop_lists: ^0.3.3
   provider: ^6.1.2
   super_drag_and_drop: ^0.8.5
+  flutter_bloc: ^8.1.5
+  equatable: ^2.0.5
   user_repository:
     path: packages/user_repository
  

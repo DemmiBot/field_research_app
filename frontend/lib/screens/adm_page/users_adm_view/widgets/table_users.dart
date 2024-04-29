@@ -1,6 +1,6 @@
 import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/utils/utils.dart';
-import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/popup_button.dart';
+import 'package:fieldresearch/screens/adm_page/users_adm_view/widgets/popup_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
