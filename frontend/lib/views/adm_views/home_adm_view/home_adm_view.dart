@@ -1,5 +1,5 @@
 import 'package:fieldresearch/controller/home_adm_controller.dart';
-import 'package:fieldresearch/http/http_client.dart';
+
 import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/repositories/researches_repository.dart';
 import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
@@ -15,16 +15,9 @@ class HomeAdmView extends StatefulWidget {
 }
 
 class _HomeAdmViewState extends State<HomeAdmView> {
-  final HomeAdmController controller = HomeAdmController(
-    repository: ResearchesRepository(
-      client: HttpClient(),
-    ),
-  );
-
   @override
   void initState() {
     super.initState();
-    controller.getResearches();
   }
 
   @override
@@ -52,35 +45,35 @@ class _HomeAdmViewState extends State<HomeAdmView> {
               ),
               const Divider(),
               SizedBox(height: 18.h),
-              AnimatedBuilder(
-                animation: Listenable.merge([
-                  controller.isLoading,
-                  controller.researches,
-                ]),
-                builder: (context, child) {
-                  if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (controller.researches.value.isNotEmpty) {
-                    var researches = controller.researches.value;
-                    return ListView.builder(
-                        itemCount: researches.length,
-                        itemBuilder: (context, index) {
-                          return SearchTile(
-                              name: researches[index].name,
-                              status: researches[index].status);
-                        });
-                  } else {
-                    return Center(
-                      child: Text(
-                        'Nenhuma pesquisa disponível',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                      ),
-                    );
-                  }
-                },
-              ),
+              // AnimatedBuilder(
+              //   animation: Listenable.merge([
+              //     controller.isLoading,
+              //     controller.researches,
+              //   ]),
+              //   builder: (context, child) {
+              //     if (controller.isLoading.value) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(),
+              //       );
+              //     } else if (controller.researches.value.isNotEmpty) {
+              //       var researches = controller.researches.value;
+              //       return ListView.builder(
+              //           itemCount: researches.length,
+              //           itemBuilder: (context, index) {
+              //             return SearchTile(
+              //                 name: researches[index].name,
+              //                 status: researches[index].status);
+              //           });
+              //     } else {
+              //       return Center(
+              //         child: Text(
+              //           'Nenhuma pesquisa disponível',
+              //           style: TextStyle(fontSize: 14.sp, color: Colors.white),
+              //         ),
+              //       );
+              //     }
+              //   },
+              // ),
               SizedBox(height: 24.h),
               Center(
                 child: MyButtonAdm(

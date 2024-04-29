@@ -1,8 +1,4 @@
-import 'package:fieldresearch/controller/users_adm_controller.dart';
-import 'package:fieldresearch/http/http_client.dart';
-import 'package:fieldresearch/repositories/users_repository.dart';
 import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/my_floatbutton.dart';
-import 'package:fieldresearch/views/adm_views/users_adm_view/widgets/table_users.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,15 +19,15 @@ class AdmUsers extends StatefulWidget {
 }
 
 class _AdmUsersState extends State<AdmUsers> {
-  final controller = UsersAdmController(
-    repository: UsersRepository(
-      client: HttpClient(),
-    ),
-  );
+  // final controller = UsersAdmController(
+  //   repository: UsersRepository(
+  //     client: HttpClient(),
+  //   ),
+  // );
   @override
   void initState() {
     super.initState();
-    controller.fetchUsers();
+    // controller.fetchUsers();
   }
 
   @override
@@ -76,31 +72,31 @@ class _AdmUsersState extends State<AdmUsers> {
                 ],
               ),
               SizedBox(height: 10.h),
-              AnimatedBuilder(
-                animation: Listenable.merge([
-                  controller.isLoading,
-                  controller.users,
-                ]),
-                builder: (context, child) {
-                  if (controller.isLoading.value) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  } else if (controller.users.value.isNotEmpty) {
-                    // var usersData = controller.filterUser();
-                    var usersData = controller.users.value;
+              // AnimatedBuilder(
+              //   animation: Listenable.merge([
+              //     controller.isLoading,
+              //     controller.users,
+              //   ]),
+              //   builder: (context, child) {
+              //     if (controller.isLoading.value) {
+              //       return const Center(
+              //         child: CircularProgressIndicator(),
+              //       );
+              //     } else if (controller.users.value.isNotEmpty) {
+              //       // var usersData = controller.filterUser();
+              //       var usersData = controller.users.value;
 
-                    return TableUsers(usersData: usersData);
-                  } else {
-                    return Center(
-                      child: Text(
-                        'Nenhum usuário disponível',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                      ),
-                    );
-                  }
-                },
-              ),
+              //       return TableUsers(usersData: usersData);
+              //     } else {
+              //       return Center(
+              //         child: Text(
+              //           'Nenhum usuário disponível',
+              //           style: TextStyle(fontSize: 14.sp, color: Colors.white),
+              //         ),
+              //       );
+              //     }
+              //   },
+              // ),
             ],
           ),
         ),
