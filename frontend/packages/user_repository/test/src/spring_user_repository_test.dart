@@ -10,15 +10,18 @@ void main() {
 
   group('Validação de requisições', () {
     test(' Teste de Login ', () async {
-      try {
-        final resultToken = await spring.signIn(
-          login: 'gabrielfelix20211@hotmail.com',
-          password: '123456789',
-        );
-        expect(resultToken, isNotNull);
-      } catch (e) {
-        log('logggg => ${e.toString()}');
-      }
+      final resultToken = await spring.signIn(
+        login: 'gabrielfelix20211@hotmail.com',
+        password: '123456789',
+      );
+      expect(resultToken, isNotNull);
+    });
+
+    test('Teste de Registro', () async {
+      final String resultToken =
+          await spring.signUp(login: 'neguinho', password: '123456789');
+
+      expect(resultToken, equals(''));
     });
   });
 }

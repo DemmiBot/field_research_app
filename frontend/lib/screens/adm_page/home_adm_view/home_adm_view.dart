@@ -16,13 +16,7 @@ class HomeAdmView extends StatefulWidget {
 
 class _HomeAdmViewState extends State<HomeAdmView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as UserModel;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -32,7 +26,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             children: [
               SizedBox(height: 5.h),
               Text(
-                'Olá, ${args.username}!',
+                'Olá, !',
                 style: TextStyle(fontSize: 14.sp, color: Colors.white),
               ),
               SizedBox(height: 14.h),

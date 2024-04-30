@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:fieldresearch/controller/register_controller.dart';
 
 mixin RegisterMixin {
   String? isNotEmpty(String? value) {
@@ -18,13 +17,13 @@ mixin RegisterMixin {
     return null;
   }
 
-  String? repeatPassword(String? value) {
-    if (RegisterController.passwordRegister.text !=
-        RegisterController.repitPassRegister.text) {
-      return 'As senhas não são iguais. Tente novamente.'; // Totalmente profissional agora meu nobre 😎👍
-    }
-    return null;
-  }
+  // String? repeatPassword(String? value) {
+  //   if (RegisterController.passwordRegister.text !=
+  //       RegisterController.repitPassRegister.text) {
+  //     return 'As senhas não são iguais. Tente novamente.'; // Totalmente profissional agora meu nobre 😎👍
+  //   }
+  //   return null;
+  // }
 
   String? combine(List<String? Function()> validators) {
     for (final func in validators) {

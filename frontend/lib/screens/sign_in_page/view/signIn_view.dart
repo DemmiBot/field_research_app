@@ -1,7 +1,5 @@
-import 'package:fieldresearch/controller/login_controller.dart';
 import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
-
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:flutter/material.dart';

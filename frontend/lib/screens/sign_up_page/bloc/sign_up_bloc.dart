@@ -16,14 +16,10 @@ class SignUpBloc extends Bloc<ISignUpEvent, ISignUpState> {
         super(SignUpInitial()) {
     on<SignUpRequired>((event, emit) async {
       emit(SignUpProcess());
-      try {
-        final response = await _userRepository.signUp(
-            login: event.login, password: event.password);
-        log('responseee => $response');
+      final response = await _userRepository.signUp(
+          login: event.login, password: event.password);
+      if (response == '') {
         emit(SignUpSuccess());
-      } catch (failure) {
-        log(' log signup ==>${failure.toString()}');
-        emit(SignUpFailure(message: failure.toString()));
       }
     });
   }

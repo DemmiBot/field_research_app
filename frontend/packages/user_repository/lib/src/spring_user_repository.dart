@@ -42,29 +42,22 @@ class SpringUserRepository implements IUserRepository {
         url: '${SpringConection.adressIP}/auth/login', body: body);
     Map<String, dynamic> jsonData = jsonDecode(response.body);
     return jsonData;
-    // if (response.statusCode == 200) {
-    //   Map<String, dynamic> jsonData = jsonDecode(response.body);
-    //   userRepository = UserModel.fromJson(jsonData);
-    //   return userRepository;
-    // } else {
-    //   return userRepository;
-    // }
   }
 
   @override
-  Future<Map<String, dynamic>> signUp(
+  Future<String> signUp(
       {required String login, required String password}) async {
     final body = jsonEncode(
       {
         'login': login,
         'password': password,
-        'role': "USER",
+        'role': "ADMIN",
       },
     );
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/register', body: body);
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    return jsonData;
+
+    return response.body;
   }
 }

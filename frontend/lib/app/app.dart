@@ -5,7 +5,7 @@ import 'package:fieldresearch/screens/researcher_page/reseacher_home_view.dart';
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/screens/sign_in_page/view/signIn_view.dart';
 import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
-import 'package:fieldresearch/screens/sign_up_page/view/register_view.dart';
+import 'package:fieldresearch/screens/sign_up_page/view/sign_up_view.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -6,8 +6,7 @@ abstract class IUserRepository {
 
   Future logOut();
 
-  Future<Map<String, dynamic>> signUp(
-      {required String login, required String password});
+  Future<String> signUp({required String login, required String password});
 
   Future resetPassword();
 

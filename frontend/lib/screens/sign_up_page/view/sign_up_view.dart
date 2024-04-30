@@ -1,5 +1,4 @@
 import 'package:fieldresearch/controller/mixins/register_mixin.dart';
-import 'package:fieldresearch/controller/register_controller.dart';
 import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
@@ -35,6 +34,15 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
             if (state is SignUpProcess) {
               setState(() {
                 isLoading = true;
+              });
+            } else if (state is SignUpSuccess) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Cadastrado com sucesso'),
+                ),
+              );
+              setState(() {
+                isLoading = false;
               });
             } else {
               setState(() {
@@ -123,7 +131,7 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                       obscureText: false,
                       validator: (value) => combine([
                             () => isNotEmpty(value),
-                            () => repeatPassword(value),
+                            // () => repeatPassword(value),
                           ]),
                       controller: passwordAgainController),
                   SizedBox(height: 28.h),
@@ -138,6 +146,10 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                                 login: emailController.text.trim(),
                                 password: passwordAgainController.text.trim(),
                               ));
+                          emailController.clear();
+                          nameController.clear();
+                          passwordController.clear();
+                          passwordAgainController.clear();
                         }
                       }),
                 ]),
