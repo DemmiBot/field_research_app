@@ -2,7 +2,7 @@ import 'package:fieldresearch/controller/home_adm_controller.dart';
 
 import 'package:fieldresearch/models/users_model.dart';
 import 'package:fieldresearch/repositories/researches_repository.dart';
-import 'package:fieldresearch/views/adm_views/home_adm_view/widgets/search_tile.dart';
+import 'package:fieldresearch/screens/adm_page/home_adm_view/widgets/search_tile.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -16,13 +16,7 @@ class HomeAdmView extends StatefulWidget {
 
 class _HomeAdmViewState extends State<HomeAdmView> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)?.settings.arguments as UserModel;
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -32,7 +26,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             children: [
               SizedBox(height: 5.h),
               Text(
-                'Olá, ${args.username}!',
+                'Olá, !',
                 style: TextStyle(fontSize: 14.sp, color: Colors.white),
               ),
               SizedBox(height: 14.h),

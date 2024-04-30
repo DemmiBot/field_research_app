@@ -1,7 +1,8 @@
 import 'models/models.dart';
 
 abstract class IUserRepository {
-  Future<String> signIn({required String login, required String password});
+  Future<Map<String, dynamic>> signIn(
+      {required String login, required String password});
 
   Future logOut();
 

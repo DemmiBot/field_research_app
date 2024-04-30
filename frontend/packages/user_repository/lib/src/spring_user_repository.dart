@@ -7,7 +7,7 @@ import 'user_repo.dart';
 
 class SpringConection {
   SpringConection._();
-  static String adressIP = 'http://192.168.15.12:8080';
+  static String adressIP = 'http://192.168.15.11:8080';
 }
 
 class SpringUserRepository implements IUserRepository {
@@ -31,7 +31,7 @@ class SpringUserRepository implements IUserRepository {
   }
 
   @override
-  Future<String> signIn(
+  Future<Map<String, dynamic>> signIn(
       {required String login, required String password}) async {
     final body = jsonEncode({
       'login': login,
@@ -40,15 +40,8 @@ class SpringUserRepository implements IUserRepository {
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/login', body: body);
-
-    return response;
-    // if (response.statusCode == 200) {
-    //   Map<String, dynamic> jsonData = jsonDecode(response.body);
-    //   userRepository = UserModel.fromJson(jsonData);
-    //   return userRepository;
-    // } else {
-    //   return userRepository;
-    // }
+    Map<String, dynamic> jsonData = jsonDecode(response.body);
+    return jsonData;
   }
 
   @override
@@ -58,13 +51,13 @@ class SpringUserRepository implements IUserRepository {
       {
         'login': login,
         'password': password,
-        'role': "USER",
+        'role': "ADMIN",
       },
     );
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/register', body: body);
 
-    return response;
+    return response.body;
   }
 }

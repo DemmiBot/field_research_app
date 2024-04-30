@@ -1,6 +1,6 @@
 import 'package:fieldresearch/controller/form_controller.dart';
 import 'package:fieldresearch/utils/utils.dart';
-import 'package:fieldresearch/views/adm_views/create_form_view/widgets/type_data/int_type_data.dart';
+import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/int_type_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

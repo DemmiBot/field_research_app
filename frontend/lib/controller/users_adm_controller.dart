@@ -1,5 +1,3 @@
-import 'package:fieldresearch/controller/login_controller.dart';
-
 import 'package:fieldresearch/models/users_model.dart';
 
 import 'package:fieldresearch/repositories/users_repository.dart';
