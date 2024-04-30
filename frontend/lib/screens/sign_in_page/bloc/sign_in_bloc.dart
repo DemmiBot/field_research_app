@@ -18,18 +18,30 @@ class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
     //trigger signIn event
     on<SignInRequired>((event, emit) async {
       emit(SignInProcess());
-      try {
-        final response = await _userRepository.signIn(
-            login: event.email, password: event.password);
-        log(response["error"]);
-      } catch (failure) {
-        log('log: ${failure.toString()}');
-        emit(SignInFailure(message: failure.toString()));
+
+      final response = await _userRepository.signIn(
+          login: event.email, password: event.password);
+
+      if (response.containsKey('user')) {
+        emit(SignInSuccess(typeUser: getTypeUser(response)));
+      } else {
+        emit(SignInFailure(message: response['error']));
       }
     });
     //trigger logOut event
     on<SignOutRequired>((event, emit) async {
       await _userRepository.logOut();
     });
+  }
+
+  TypeUser getTypeUser(final response) {
+    switch (response['user']['role']) {
+      case 'USER':
+        return TypeUser.user;
+      case 'ADMIN':
+        return TypeUser.admin;
+      default:
+        return TypeUser.user;
+    }
   }
 }

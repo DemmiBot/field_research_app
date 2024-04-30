@@ -35,6 +35,16 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
               setState(() {
                 isLoading = true;
               });
+            } else if (state is SignInFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content:
+                      Text(state.message ?? 'Erro ao autenticar seu usuário.'),
+                ),
+              );
+              setState(() {
+                isLoading = false;
+              });
             } else {
               setState(() {
                 isLoading = false;
