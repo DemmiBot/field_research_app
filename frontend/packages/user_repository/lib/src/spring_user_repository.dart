@@ -7,7 +7,7 @@ import 'user_repo.dart';
 
 class SpringConection {
   SpringConection._();
-  static String adressIP = 'http://192.168.15.11:8080';
+  static String adressIP = 'http://192.168.15.3:8080';
 }
 
 class SpringUserRepository implements IUserRepository {
@@ -16,8 +16,11 @@ class SpringUserRepository implements IUserRepository {
   final IClientHttp client;
 
   @override
-  Future<UserModel> getMyUser() {
-    throw UnimplementedError();
+  Future<UserModel> getMyUser({required String userId}) async {
+    final response =
+        await client.get(url: '${SpringConection.adressIP}/users/$userId');
+    Map<String, dynamic> jsonData = jsonDecode(response.body);
+    return UserModel.fromJson(jsonData);
   }
 
   @override

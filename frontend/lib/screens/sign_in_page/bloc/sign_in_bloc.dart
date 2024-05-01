@@ -9,8 +9,6 @@ part 'sign_in_bloc_state.dart';
 class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
   final IUserRepository _userRepository;
 
-//{"timestamp":"2024-04-29T22:29:10.828+00:00","status":403,"error":"Forbidden","path":"/auth/login"}
-
   //state inital in constructor
   SignInBloc({required IUserRepository userRepository})
       : _userRepository = userRepository,
@@ -23,7 +21,10 @@ class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
           login: event.email, password: event.password);
 
       if (response.containsKey('user')) {
-        emit(SignInSuccess(typeUser: getTypeUser(response)));
+        log(response.toString());
+        emit(SignInSuccess(
+            typeUser: getTypeUser(response),
+            userId: response['user']['user_id']));
       } else {
         emit(SignInFailure(message: response['error']));
       }

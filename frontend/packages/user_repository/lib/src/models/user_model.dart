@@ -16,6 +16,14 @@ class UserModel extends Equatable {
         id: id ?? this.id, email: email ?? this.email, name: name ?? this.name);
   }
 
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['user_id'] ?? '',
+      name: json['username'] ?? '',
+      email: json['login'] ?? '',
+    );
+  }
+
   // Convenience getter to determine whether the current user is empty
   bool get isEmpty => this == UserModel.empty;
   // Convenience getter to determine whether the current user is not empty

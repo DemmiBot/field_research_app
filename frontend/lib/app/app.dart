@@ -1,3 +1,4 @@
+import 'package:fieldresearch/app/bloc/user_model_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
@@ -52,15 +53,31 @@ class MyAppView extends StatelessWidget {
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            fontFamily: 'Poppins', scaffoldBackgroundColor: backGroundColor),
+          fontFamily: 'Poppins',
+          scaffoldBackgroundColor: backGroundColor,
+        ),
         home: BlocBuilder<SignInBloc, ISignInState>(
           builder: (context, state) {
+            //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return const HomeAdmView();
-            } else if (state is SignInSuccess &&
+              return BlocProvider(
+                create: (context) => UserModelBloc(
+                  repository: userRepository,
+                )..add(
+                    GetUserData(userId: state.userId),
+                  ),
+                child: const HomeAdmView(),
+              );
+            }
+
+            // success login researcher
+            else if (state is SignInSuccess &&
                 state.typeUser == TypeUser.user) {
               return const HomeResearcherView();
-            } else {
+            }
+
+            // failure login
+            else {
               return const SignupView();
             }
           },
