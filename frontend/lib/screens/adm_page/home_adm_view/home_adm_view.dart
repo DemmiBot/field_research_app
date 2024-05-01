@@ -1,8 +1,3 @@
-import 'package:fieldresearch/controller/home_adm_controller.dart';
-
-import 'package:fieldresearch/models/users_model.dart';
-import 'package:fieldresearch/repositories/researches_repository.dart';
-import 'package:fieldresearch/screens/adm_page/home_adm_view/widgets/search_tile.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
