@@ -1,4 +1,3 @@
-import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:fieldresearch/controller/form_controller.dart';
 import 'package:flutter/material.dart';
@@ -85,8 +84,6 @@ class _CreateFormViewState extends State<CreateFormView> {
                           onPressed: () {
                             _formKey.currentState?.save();
                             var value = _formKey.currentState!.value;
-
-                            print(value);
                           },
                           child: const Text('Save and Read')),
                     ),

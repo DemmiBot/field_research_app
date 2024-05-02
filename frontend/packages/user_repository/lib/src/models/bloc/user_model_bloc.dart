@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:user_repository/user_repository.dart';
 
 part 'user_model_event.dart';
@@ -19,6 +20,7 @@ class UserModelBloc extends Bloc<IUserModelEvent, UserModelState> {
         emit(UserModelState.success(user: response));
       } catch (e) {
         log('log[UserModelBloc] => $e');
+        emit(const UserModelState.failure());
       }
     });
   }
