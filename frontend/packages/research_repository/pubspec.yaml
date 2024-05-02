@@ -1,5 +1,5 @@
-name: user_repository
-description: "Dart package which manages the user."
+name: research_repository
+description: "Dart package which manages the researches."
 publish_to: 'none' 
 
 version: 1.0.0+1
@@ -11,10 +11,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.5
   http: ^1.2.0
+  equatable: ^2.0.5
   flutter_bloc: ^8.1.5
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

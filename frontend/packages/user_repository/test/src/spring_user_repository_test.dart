@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -22,6 +20,15 @@ void main() {
           await spring.signUp(login: 'neguinho', password: '123456789');
 
       expect(resultToken, equals(''));
+    });
+  });
+
+  group('Requisição de dados do usuário', () {
+    test('Retorno de requisição', () async {
+      final resultToken = await spring.getMyUser(
+          userId: '46df25f3-ef5b-465f-a894-8717b4e5c6d9');
+
+      expect(resultToken, isNotEmpty);
     });
   });
 }

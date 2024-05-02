@@ -24,7 +24,8 @@ dependencies:
   equatable: ^2.0.5
   user_repository:
     path: packages/user_repository
- 
+  research_repository:
+    path: packages/research_repository
 
 dev_dependencies:
   flutter_test:

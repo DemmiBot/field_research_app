@@ -10,5 +10,5 @@ abstract class IUserRepository {
 
   Future resetPassword();
 
-  Future<UserModel> getMyUser();
+  Future<UserModel> getMyUser({required String userId});
 }

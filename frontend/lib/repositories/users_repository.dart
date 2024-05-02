@@ -1,7 +1,3 @@
-import 'dart:convert';
-import 'package:fieldresearch/models/users_model.dart';
-import 'package:fieldresearch/utils/repository_utils.dart';
-
 abstract class IUsersRepository {
   Future fetchUsers();
 }
