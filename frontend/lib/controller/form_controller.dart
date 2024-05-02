@@ -51,10 +51,3 @@ class TypeState {
   TypeState(
       {required this.intType, required this.listType, required this.textType});
 }
-// TO DO
-
-// -state keep the same after drag and drop 'tipo de dado'
-// - 1º map order 
-// -add type "gender"
-// -resolve bug add list (final)
-

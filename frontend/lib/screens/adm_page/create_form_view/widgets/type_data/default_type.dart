@@ -5,10 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ignore: must_be_immutable
 class DefaultType extends StatefulWidget {
-  int identity = 0;
-  DefaultType({super.key, required this.identity});
+  final int identity;
+
+  const DefaultType({
+    super.key,
+    required this.identity,
+  });
 
   @override
   State<DefaultType> createState() => _DefaultTypeState();
@@ -42,7 +45,7 @@ class _DefaultTypeState extends State<DefaultType> {
               hintText: ' Nome do campo',
               hintStyle: TextStyle(color: textColorForm, fontSize: 16.sp),
             ),
-            name: 'fielName${widget.identity}',
+            name: 'fielItem${widget.identity}',
           ),
           SizedBox(height: 4.h),
           Row(
