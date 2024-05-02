@@ -103,6 +103,7 @@ public class DynamicTableService {
         return columnNamesAndTypes;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Map<String, Object>> getDynamicTableContents(String tableName) {    
         /* Melhor maneira de fazer queries através do spring? Não sei, mas é oq tem agora */
         /* Codigo feito pelo chatgpt ;-; */
