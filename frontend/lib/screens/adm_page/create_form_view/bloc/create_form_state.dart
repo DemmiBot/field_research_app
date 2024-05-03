@@ -13,4 +13,11 @@ final class CreateFormLoading extends ICreateFormState {}
 
 final class CreateFormSuccess extends ICreateFormState {}
 
-final class CreateFormFailure extends ICreateFormState {}
+final class CreateFormFailure extends ICreateFormState {
+  final String message;
+
+  const CreateFormFailure({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}

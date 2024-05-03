@@ -19,11 +19,11 @@ class DefaultType extends StatefulWidget {
 
 class _DefaultTypeState extends State<DefaultType> {
   final FormController controller = FormController();
-  final typeOptions = ['TEXTO', 'INTEIRO', 'LISTA SUSPENSA'];
+  final typeOptions = ['TEXTO', 'INTEIRO'];
   bool textType = false;
   bool intType = false;
-  bool listType = false;
-
+  // bool listType = false;
+//'LISTA SUSPENSA'
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,7 +32,7 @@ class _DefaultTypeState extends State<DefaultType> {
         children: [
           SizedBox(height: 15.h),
           FormBuilderTextField(
-            key: Key('fieldName_${widget.identity}'), // Add a unique key
+            key: Key('fieldName${widget.identity}'),
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 14.h),
@@ -45,7 +45,7 @@ class _DefaultTypeState extends State<DefaultType> {
               hintText: ' Nome do campo',
               hintStyle: TextStyle(color: textColorForm, fontSize: 16.sp),
             ),
-            name: 'fielItem${widget.identity}',
+            name: 'fieldItem${widget.identity}',
           ),
           SizedBox(height: 4.h),
           Row(
@@ -73,15 +73,15 @@ class _DefaultTypeState extends State<DefaultType> {
                       if (value == 'INTEIRO') {
                         intType = true;
                         textType = false;
-                        listType = false;
+                        // listType = false;
                       }
                       if (value == 'TEXTO') {
                         textType = true;
                         intType = false;
-                        listType = false;
+                        // listType = false;
                       }
                       if (value == 'LISTA SUSPENSA') {
-                        listType = true;
+                        // listType = true;
                         textType = false;
                         intType = false;
                       }
@@ -117,8 +117,6 @@ class _DefaultTypeState extends State<DefaultType> {
           ),
           SizedBox(height: 5.h),
           if (intType) IntTypeData(identity: widget.identity),
-          if (textType) const Text('textooooo'),
-          if (listType) const Text('COMING SOON'),
           SizedBox(height: 20.h),
         ],
       ),

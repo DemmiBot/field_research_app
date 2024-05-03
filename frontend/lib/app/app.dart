@@ -1,3 +1,4 @@
+import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
@@ -59,7 +60,12 @@ class MyAppView extends StatelessWidget {
               ),
           //  '/adm': (context) => const HomeAdmView(),
           '/admUsers': (context) => const AdmUsers(),
-          '/admCreateForm': (context) => const CreateFormView(),
+          '/admCreateForm': (context) => BlocProvider(
+                create: (context) => CreateFormBloc(
+                  repository: researchRepository,
+                ),
+                child: const CreateFormView(),
+              ),
           //  '/researcher': (context) => const HomeResearcherView(),
         },
         debugShowCheckedModeBanner: false,

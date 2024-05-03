@@ -7,4 +7,10 @@ abstract class ICreateFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class AddNewItem extends ICreateFormEvent {}
+final class CreateFormRequired extends ICreateFormEvent {
+  final Map<String, dynamic> pollData;
+
+  const CreateFormRequired({required this.pollData});
+  @override
+  List<Object> get props => [pollData];
+}
