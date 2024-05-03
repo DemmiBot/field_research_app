@@ -95,10 +95,11 @@ class _CreateFormViewState extends State<CreateFormView> {
                     const Divider(),
                     Expanded(
                       child: ListView.builder(
-                          itemCount: textFields.length,
-                          itemBuilder: (context, index) {
-                            return textFields[index];
-                          }),
+                        itemCount: textFields.length,
+                        itemBuilder: (context, index) {
+                          return textFields[index];
+                        },
+                      ),
                     ),
                     const SizedBox(height: 10),
                     if (textFields.isNotEmpty)

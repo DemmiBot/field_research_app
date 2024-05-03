@@ -45,50 +45,48 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             }
             return Scaffold(
               body: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Olá, ${user.name}!',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                      ),
-                      SizedBox(height: 14.h),
-                      Text(
-                        'Pesquisas',
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(),
-                      SizedBox(height: 18.h),
-                      if (isLoading)
-                        const Center(child: CircularProgressIndicator())
-                      else if (research.isEmpty)
-                        Column(
-                          children: [
-                            Icon(Icons.description,
-                                color: Colors.white, size: 25.sp),
-                            Center(
-                              child: Text(
-                                'Nenhuma pesquisa disponível',
-                                style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.white),
+                child: RefreshIndicator(
+                  onRefresh: () async =>
+                      context.read<ResearchModelBloc>().add(GetAllResearches()),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 5.h),
+                        Text(
+                          'Olá, ${user.name}!',
+                          style:
+                              TextStyle(fontSize: 14.sp, color: Colors.white),
+                        ),
+                        SizedBox(height: 14.h),
+                        Text(
+                          'Pesquisas',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const Divider(),
+                        SizedBox(height: 18.h),
+                        if (isLoading)
+                          const Center(child: CircularProgressIndicator())
+                        else if (research.isEmpty)
+                          Column(
+                            children: [
+                              Icon(Icons.description,
+                                  color: Colors.white, size: 25.sp),
+                              Center(
+                                child: Text(
+                                  'Nenhuma pesquisa disponível',
+                                  style: TextStyle(
+                                      fontSize: 14.sp, color: Colors.white),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      else
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              context
-                                  .read<ResearchModelBloc>()
-                                  .add(GetAllResearches());
-                            },
+                            ],
+                          )
+                        else
+                          Expanded(
                             child: ListView.builder(
                               itemCount: research.length,
                               itemBuilder: (context, index) {
@@ -99,34 +97,34 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                               },
                             ),
                           ),
-                        ),
-                      if (failure)
+                        if (failure)
+                          Center(
+                            child: Text(
+                              'Erro ao buscar pesquisas',
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: Colors.white),
+                            ),
+                          ),
+                        SizedBox(height: 24.h),
                         Center(
-                          child: Text(
-                            'Erro ao buscar pesquisas',
-                            style:
-                                TextStyle(fontSize: 14.sp, color: Colors.white),
+                          child: MyButtonAdm(
+                            text: 'Novo Formulário',
+                            width: 8.w,
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/admCreateForm'),
                           ),
                         ),
-                      SizedBox(height: 24.h),
-                      Center(
-                        child: MyButtonAdm(
-                          text: 'Novo Formulário',
-                          width: 8.w,
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/admCreateForm'),
+                        SizedBox(height: 24.sp),
+                        Center(
+                          child: MyButtonAdm(
+                            text: 'Gerenciar Pesquisadores',
+                            width: 10.w,
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/admUsers'),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 24.sp),
-                      Center(
-                        child: MyButtonAdm(
-                          text: 'Gerenciar Pesquisadores',
-                          width: 10.w,
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/admUsers'),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
