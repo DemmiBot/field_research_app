@@ -1,26 +1,29 @@
-import 'package:fieldresearch/controller/form_controller.dart';
+import 'package:app_mixins/app_mixins.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/int_type_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-// ignore: must_be_immutable
 class DefaultType extends StatefulWidget {
-  int identity = 0;
-  DefaultType({super.key, required this.identity});
+  final int identity;
+
+  const DefaultType({
+    super.key,
+    required this.identity,
+  });
 
   @override
   State<DefaultType> createState() => _DefaultTypeState();
 }
 
-class _DefaultTypeState extends State<DefaultType> {
-  final FormController controller = FormController();
-  final typeOptions = ['TEXTO', 'INTEIRO', 'LISTA SUSPENSA'];
+class _DefaultTypeState extends State<DefaultType> with FormMixin {
+  final typeOptions = ['TEXTO', 'INTEIRO'];
   bool textType = false;
   bool intType = false;
-  bool listType = false;
-
+  // bool listType = false;
+//'LISTA SUSPENSA'
+// refatorar logica
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,7 +32,8 @@ class _DefaultTypeState extends State<DefaultType> {
         children: [
           SizedBox(height: 15.h),
           FormBuilderTextField(
-            key: Key('fieldName_${widget.identity}'), // Add a unique key
+            key: Key('fieldName${widget.identity}'),
+            validator: (value) => isNotEmptyFlutterForm(value),
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 14.h),
@@ -42,7 +46,7 @@ class _DefaultTypeState extends State<DefaultType> {
               hintText: ' Nome do campo',
               hintStyle: TextStyle(color: textColorForm, fontSize: 16.sp),
             ),
-            name: 'fielName${widget.identity}',
+            name: 'fieldItem${widget.identity}',
           ),
           SizedBox(height: 4.h),
           Row(
@@ -50,6 +54,7 @@ class _DefaultTypeState extends State<DefaultType> {
               Expanded(
                 flex: 1,
                 child: FormBuilderDropdown(
+                  validator: (value) => isNotEmptyFlutterForm(value),
                   key: Key('fieldName_${widget.identity}'),
                   style: const TextStyle(
                     color: Colors.white,
@@ -70,15 +75,15 @@ class _DefaultTypeState extends State<DefaultType> {
                       if (value == 'INTEIRO') {
                         intType = true;
                         textType = false;
-                        listType = false;
+                        // listType = false;
                       }
                       if (value == 'TEXTO') {
                         textType = true;
                         intType = false;
-                        listType = false;
+                        // listType = false;
                       }
                       if (value == 'LISTA SUSPENSA') {
-                        listType = true;
+                        // listType = true;
                         textType = false;
                         intType = false;
                       }
@@ -114,8 +119,6 @@ class _DefaultTypeState extends State<DefaultType> {
           ),
           SizedBox(height: 5.h),
           if (intType) IntTypeData(identity: widget.identity),
-          if (textType) const Text('textooooo'),
-          if (listType) const Text('COMING SOON'),
           SizedBox(height: 20.h),
         ],
       ),
