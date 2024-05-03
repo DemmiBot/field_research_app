@@ -23,6 +23,7 @@ class _DefaultTypeState extends State<DefaultType> with FormMixin {
   bool intType = false;
   // bool listType = false;
 //'LISTA SUSPENSA'
+// refatorar logica
   @override
   Widget build(BuildContext context) {
     return Padding(
