@@ -1,5 +1,4 @@
 import 'package:app_mixins/app_mixins.dart';
-import 'package:fieldresearch/controller/form_controller.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/int_type_data.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +18,6 @@ class DefaultType extends StatefulWidget {
 }
 
 class _DefaultTypeState extends State<DefaultType> with FormMixin {
-  final FormController controller = FormController();
   final typeOptions = ['TEXTO', 'INTEIRO'];
   bool textType = false;
   bool intType = false;
