@@ -1,6 +1,6 @@
 import 'dart:developer';
 
-import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
+import 'package:app_mixins/app_mixins.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/default_type.dart';
 import 'package:fieldresearch/utils/utils.dart';

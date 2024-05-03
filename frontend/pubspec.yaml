@@ -26,6 +26,8 @@ dependencies:
     path: packages/user_repository
   research_repository:
     path: packages/research_repository
+  app_mixins:
+    path: packages/app_mixins
 
 dev_dependencies:
   flutter_test:
