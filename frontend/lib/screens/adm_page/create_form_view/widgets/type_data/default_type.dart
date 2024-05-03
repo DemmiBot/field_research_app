@@ -1,4 +1,5 @@
 import 'package:fieldresearch/controller/form_controller.dart';
+import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/int_type_data.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class DefaultType extends StatefulWidget {
   State<DefaultType> createState() => _DefaultTypeState();
 }
 
-class _DefaultTypeState extends State<DefaultType> {
+class _DefaultTypeState extends State<DefaultType> with FormMixin {
   final FormController controller = FormController();
   final typeOptions = ['TEXTO', 'INTEIRO'];
   bool textType = false;
@@ -33,6 +34,7 @@ class _DefaultTypeState extends State<DefaultType> {
           SizedBox(height: 15.h),
           FormBuilderTextField(
             key: Key('fieldName${widget.identity}'),
+            validator: (value) => isNotEmptyFlutterForm(value),
             style: const TextStyle(color: Colors.white),
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 14.h),
@@ -53,6 +55,7 @@ class _DefaultTypeState extends State<DefaultType> {
               Expanded(
                 flex: 1,
                 child: FormBuilderDropdown(
+                  validator: (value) => isNotEmptyFlutterForm(value),
                   key: Key('fieldName_${widget.identity}'),
                   style: const TextStyle(
                     color: Colors.white,

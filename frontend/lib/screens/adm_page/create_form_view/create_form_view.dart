@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/default_type.dart';
 import 'package:fieldresearch/utils/utils.dart';
@@ -16,7 +17,7 @@ class CreateFormView extends StatefulWidget {
   State<CreateFormView> createState() => _CreateFormViewState();
 }
 
-class _CreateFormViewState extends State<CreateFormView> {
+class _CreateFormViewState extends State<CreateFormView> with FormMixin {
   final _formKey = GlobalKey<FormBuilderState>();
 
   List<DefaultType> textFields = [];
@@ -69,6 +70,7 @@ class _CreateFormViewState extends State<CreateFormView> {
                   children: [
                     SizedBox(height: 26.h),
                     FormBuilderTextField(
+                      validator: (value) => isNotEmptyFlutterForm(value),
                       name: 'name',
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(
@@ -78,6 +80,7 @@ class _CreateFormViewState extends State<CreateFormView> {
                       ),
                     ),
                     FormBuilderTextField(
+                      validator: (value) => isNotEmptyFlutterForm(value),
                       maxLines: 3,
                       name: 'description',
                       style: const TextStyle(color: Colors.white),
@@ -106,7 +109,7 @@ class _CreateFormViewState extends State<CreateFormView> {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            _formKey.currentState?.save();
+                            _formKey.currentState?.saveAndValidate();
                             var value = _formKey.currentState!.value;
                             log('log[formKey] ==> $value');
                             context.read<CreateFormBloc>().add(

@@ -1,4 +1,4 @@
-import 'package:fieldresearch/controller/mixins/register_mixin.dart';
+import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
 import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
@@ -13,7 +13,7 @@ class RegisterView extends StatefulWidget {
   State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> with RegisterMixin {
+class _RegisterViewState extends State<RegisterView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();

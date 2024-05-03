@@ -13,7 +13,7 @@ class SignupView extends StatefulWidget {
   State<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> with LoginMixin {
+class _SignupViewState extends State<SignupView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
