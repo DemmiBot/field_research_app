@@ -51,7 +51,7 @@ public class PollController {
     }
 
     @PostMapping("/polls")
-    public ResponseEntity<Poll> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
+    public ResponseEntity<Object> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
         try {
@@ -60,7 +60,7 @@ public class PollController {
             String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
             pollModel.setOptions(tOptions);
         } catch (SQLException exception) {
-            throw new RuntimeException("Error while creating new poll, ", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("SQL Exception: " + exception);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
     }
@@ -87,7 +87,7 @@ public class PollController {
         try {
             dynamicTableService.dropTable(tableName);
         } catch(SQLException exception) {
-            throw new RuntimeException("Error while deleting poll, ", exception);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("SQL Exception: " + exception);
         }
         pollRepository.delete(pollO.get());
         return ResponseEntity.status(HttpStatus.OK).body("Poll deleted successfully.");
@@ -99,6 +99,9 @@ public class PollController {
     @GetMapping("/polls/meta/{name}")
     public ResponseEntity<Map<String, String>> getPollMetadata(@PathVariable(value="name") String tableName) {
         Map<String, String> tableMetadata = dynamicTableService.getColumnNamesAndTypes(tableName);
+
+        if(tableMetadata.isEmpty())
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(tableMetadata);
     
         return ResponseEntity.status(HttpStatus.OK).body(tableMetadata);
     }
@@ -107,20 +110,30 @@ public class PollController {
     public ResponseEntity<List<Map<String, Object>>> getAllFromPoll(@RequestParam(value="name") String tableName) {
         List<Map<String, Object>> tableContents = dynamicTableService.getDynamicTableContents(tableName);
       
+        if(tableContents.isEmpty())
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(tableContents);
+
         return ResponseEntity.status(HttpStatus.OK).body(tableContents);
     }
 
     @PostMapping("polls/poll/{name}")
     public ResponseEntity<Map<String, Object>> newFormEntry(@PathVariable String name, @RequestBody Map<String, Object> rowData) {
-        dynamicTableService.insertRow(name, rowData);
-        
+        try {
+            dynamicTableService.insertRow(name, rowData);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
         return ResponseEntity.status(HttpStatus.OK).body(rowData);
     }
     
 
     @DeleteMapping("/polls/{name}/{id}")
     public ResponseEntity<Object> deleteEntryFromPoll(@PathVariable(value="id") Integer id, @PathVariable(value="name") String tableName) {
-        dynamicTableService.deleteRowById(tableName, id);
+        try {
+            dynamicTableService.deleteRowById(tableName, id);
+        } catch(Exception e) {
+
+        }
     
         return ResponseEntity.status(HttpStatus.OK).body("Entry deleted successfully!");
     }
