@@ -29,15 +29,16 @@ public class DynamicTableService {
     private EntityManager entityManager;
 
     @Transactional
-    public void deleteRowById(String tableName, Integer id) {
+    public void deleteRowById(String tableName, Integer id) throws Exception {
         String deleteQuery = "DELETE FROM " + tableName + " WHERE id = " + id.toString() + ";";
 
         Query query = entityManager.createNativeQuery(deleteQuery);
+
         query.executeUpdate();
     }
     
     @Transactional
-    public void insertRow(String tableName, Map<String, Object> rowData) {
+    public void insertRow(String tableName, Map<String, Object> rowData) throws Exception {
         StringBuilder insertQuery = new StringBuilder("INSERT INTO ").append(tableName).append(" (");
         StringBuilder valuesQuery = new StringBuilder(" VALUES (");
         
@@ -59,7 +60,11 @@ public class DynamicTableService {
         for (Map.Entry<String, Object> entry : rowData.entrySet()) {
             query.setParameter(entry.getKey(), entry.getValue());
         }
-        query.executeUpdate();
+        try {
+            query.executeUpdate();
+        } catch(Exception e) {
+            throw new RuntimeException("Error inserting into table: ", e);
+        }
     }
 
     @Transactional
