@@ -12,11 +12,15 @@ class SpringUserRepository implements IUserRepository {
   final IClientHttp client;
 
   @override
-  Future<UserModel> getMyUser({required String userId}) async {
-    final response =
-        await client.get(url: '${SpringConection.adressIP}/users/$userId');
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    return UserModel.fromJson(jsonData);
+  Future<Either<Failure, UserModel>> getMyUser({required String userId}) async {
+    try {
+      final response =
+          await client.get(url: '${SpringConection.adressIP}/users/$userId');
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      return Right(UserModel.fromJson(jsonData));
+    } catch (e) {
+      return const Left(Failure(message: ''));
+    }
   }
 
   @override
@@ -72,7 +76,7 @@ class SpringUserRepository implements IUserRepository {
     Map<String, dynamic> jsonData = {};
 
     if (response.body == '') {
-      return const Right('');
+      return const Right('Cadastro realizado com sucesso');
     } else {
       if (response != null && response.body.isNotEmpty) {
         jsonData = jsonDecode(response.body);

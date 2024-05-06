@@ -41,8 +41,8 @@ class _RegisterViewState extends State<RegisterView> with FormMixin {
             }
             if (state is SignUpSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Uauário cadastrado com sucesso'),
+                SnackBar(
+                  content: Text(state.message),
                 ),
               );
               setState(() {

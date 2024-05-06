@@ -39,8 +39,8 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
           }
           if (state is CreateFormSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Pesquisa criada com sucesso'),
+              SnackBar(
+                content: Text(state.message),
               ),
             );
           }
@@ -112,6 +112,9 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
                             if (_formKey.currentState!.saveAndValidate()) {
                               var value = _formKey.currentState!.value;
                               log('log[formKey] ==> $value');
+                              context.read<CreateFormBloc>().add(
+                                    ResetStateBloc(),
+                                  );
                               context.read<CreateFormBloc>().add(
                                     CreateFormRequired(pollData: value),
                                   );

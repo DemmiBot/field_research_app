@@ -2,13 +2,9 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:app_client/app_client.dart';
-import 'package:http/http.dart';
-import 'package:research_repository/research_repository.dart';
+import 'package:dartz/dartz.dart';
 
-class SpringConection {
-  SpringConection._();
-  static String adressIP = 'http://192.168.15.9:8080';
-}
+import 'package:research_repository/research_repository.dart';
 
 class SpringResearchRepository implements IResearchRepository {
   SpringResearchRepository({required this.client});
@@ -16,22 +12,28 @@ class SpringResearchRepository implements IResearchRepository {
   final IClientHttp client;
 
   @override
-  Future<List<ResearchModel>> fetchResearches() async {
-    final response = await client.get(url: '${SpringConection.adressIP}/polls');
-    if (response.statusCode == 200) {
+  Future<Either<Failure, List<ResearchModel>>> fetchResearches() async {
+    try {
+      final response =
+          await client.get(url: '${SpringConection.adressIP}/polls');
+
       final List<dynamic> responseData = json.decode(response.body);
+
       List<ResearchModel> researchList = responseData.map((itemJson) {
         return ResearchModel.fromJson(itemJson);
       }).toList();
+
       log('log[fetchResearches] ==> $researchList');
-      return researchList;
-    } else {
-      throw Exception('Failed to fetch researches');
+
+      return Right(researchList);
+    } catch (e) {
+      return const Left(Failure(message: 'Falha ao carregar pesquisas'));
     }
   }
 
   @override
-  Future<Response> createPoll({required Map<String, dynamic> pollData}) async {
+  Future<Either<Failure, String>> createPoll(
+      {required Map<String, dynamic> pollData}) async {
     List<Map<String, dynamic>> drops = [];
 
     List<Map<String, dynamic>> fieldItem = [];
@@ -75,7 +77,12 @@ class SpringResearchRepository implements IResearchRepository {
     final response =
         await client.post(url: '${SpringConection.adressIP}/polls', body: body);
     log('log[createPoll]==> ${response.body}');
-    return response;
+
+    if (response.statusCode == 201) {
+      return const Right('Pesquisa criada com sucesso');
+    } else {
+      return const Left(Failure(message: 'Erro ao criar pesquisa'));
+    }
   }
 }
 

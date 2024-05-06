@@ -14,3 +14,5 @@ final class CreateFormRequired extends ICreateFormEvent {
   @override
   List<Object> get props => [pollData];
 }
+
+final class ResetStateBloc extends ICreateFormEvent {}

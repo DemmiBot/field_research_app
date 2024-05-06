@@ -41,6 +41,6 @@ void main() {
       "required4": null
     });
 
-    expect(resultToken.body, equals(''));
+    expect(resultToken, equals(''));
   });
 }

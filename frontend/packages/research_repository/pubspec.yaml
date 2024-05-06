@@ -14,6 +14,7 @@ dependencies:
   http: ^1.2.0
   equatable: ^2.0.5
   flutter_bloc: ^8.1.5
+  dartz: ^0.10.1
   app_client:
     path: ../app_client
 dev_dependencies:

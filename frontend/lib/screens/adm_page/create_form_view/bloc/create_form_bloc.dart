@@ -12,11 +12,14 @@ class CreateFormBloc extends Bloc<ICreateFormEvent, ICreateFormState> {
         super(CreateFormInitial()) {
     on<CreateFormRequired>((event, emit) async {
       final response = await _repository.createPoll(pollData: event.pollData);
-      if (response.statusCode == 201) {
-        emit(CreateFormSuccess());
-      } else {
-        emit(const CreateFormFailure(message: 'Erro ao criar pesquisa'));
-      }
+
+      response.fold(
+        (failure) => emit(CreateFormFailure(message: failure.message)),
+        (success) => emit(CreateFormSuccess(message: success)),
+      );
+    });
+    on<ResetStateBloc>((event, emit) {
+      emit(CreateFormInitial());
     });
   }
 }

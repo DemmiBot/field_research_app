@@ -23,7 +23,7 @@ class SignUpBloc extends Bloc<ISignUpEvent, ISignUpState> {
         (failure) => emit(
           SignUpFailure(message: failure.message),
         ),
-        (success) => emit(SignUpSuccess()),
+        (success) => emit(SignUpSuccess(message: success)),
       );
     });
   }
