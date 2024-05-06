@@ -1,9 +1,12 @@
-import 'package:http/http.dart';
+import 'package:app_client/app_client.dart';
+import 'package:dartz/dartz.dart';
 
 import 'models/models.dart';
 
 abstract class IResearchRepository {
-  Future<List<ResearchModel>> fetchResearches();
+  Future<Either<Failure, List<ResearchModel>>> fetchResearches();
 
-  Future<Response> createPoll({required Map<String, dynamic> pollData});
+  Future<Either<Failure, String>> createPoll({
+    required Map<String, dynamic> pollData,
+  });
 }

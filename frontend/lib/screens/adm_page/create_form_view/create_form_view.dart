@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:app_mixins/app_mixins.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/type_data/default_type.dart';
+import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/default_type.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,8 +39,8 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
           }
           if (state is CreateFormSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Pesquisa criada com sucesso'),
+              SnackBar(
+                content: Text(state.message),
               ),
             );
           }
@@ -109,12 +109,16 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
                       Center(
                         child: ElevatedButton(
                           onPressed: () {
-                            _formKey.currentState?.saveAndValidate();
-                            var value = _formKey.currentState!.value;
-                            log('log[formKey] ==> $value');
-                            context.read<CreateFormBloc>().add(
-                                  CreateFormRequired(pollData: value),
-                                );
+                            if (_formKey.currentState!.saveAndValidate()) {
+                              var value = _formKey.currentState!.value;
+                              log('log[formKey] ==> $value');
+                              context.read<CreateFormBloc>().add(
+                                    ResetStateBloc(),
+                                  );
+                              context.read<CreateFormBloc>().add(
+                                    CreateFormRequired(pollData: value),
+                                  );
+                            }
                           },
                           child: const Text('Save and Read'),
                         ),

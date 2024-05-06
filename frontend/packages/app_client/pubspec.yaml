@@ -1,5 +1,6 @@
-name: research_repository
-description: "Dart package which manages the researches."
+name: app_client
+description: "Dart package which manages the client."
+
 publish_to: 'none' 
 
 version: 1.0.0+1
@@ -13,10 +14,8 @@ dependencies:
     sdk: flutter
   http: ^1.2.0
   equatable: ^2.0.5
-  flutter_bloc: ^8.1.5
-  dartz: ^0.10.1
-  app_client:
-    path: ../app_client
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,6 +23,10 @@ dev_dependencies:
   
   flutter_lints: ^2.0.0
 
+
+
 flutter:
 
   uses-material-design: true
+
+

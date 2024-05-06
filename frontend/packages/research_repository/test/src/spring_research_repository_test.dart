@@ -1,3 +1,4 @@
+import 'package:app_client/app_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:research_repository/research_repository.dart';
 
@@ -40,6 +41,6 @@ void main() {
       "required4": null
     });
 
-    expect(resultToken.body, equals(''));
+    expect(resultToken, equals(''));
   });
 }

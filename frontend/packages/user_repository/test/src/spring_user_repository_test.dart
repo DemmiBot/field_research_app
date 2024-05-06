@@ -1,3 +1,4 @@
+import 'package:app_client/app_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -16,8 +17,8 @@ void main() {
     });
 
     test('Teste de Registro', () async {
-      final String resultToken =
-          await spring.signUp(login: 'neguinho', password: '123456789');
+      final String resultToken = (await spring.signUp(
+          login: 'neguinho', password: '123456789')) as String;
 
       expect(resultToken, equals(''));
     });
