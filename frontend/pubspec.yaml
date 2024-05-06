@@ -28,6 +28,8 @@ dependencies:
     path: packages/research_repository
   app_mixins:
     path: packages/app_mixins
+  app_client:
+    path: packages/app_client
 
 dev_dependencies:
   flutter_test:

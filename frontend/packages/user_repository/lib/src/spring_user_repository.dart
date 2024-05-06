@@ -1,14 +1,8 @@
 import 'dart:convert';
 
+import 'package:app_client/app_client.dart';
 import 'package:user_repository/src/models/user_model.dart';
-
-import 'http/http_client.dart';
 import 'user_repo.dart';
-
-class SpringConection {
-  SpringConection._();
-  static String adressIP = 'http://192.168.15.3:8080';
-}
 
 class SpringUserRepository implements IUserRepository {
   SpringUserRepository({required this.client});

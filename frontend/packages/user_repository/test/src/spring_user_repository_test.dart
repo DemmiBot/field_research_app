@@ -1,3 +1,4 @@
+import 'package:app_client/app_client.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:user_repository/user_repository.dart';
 

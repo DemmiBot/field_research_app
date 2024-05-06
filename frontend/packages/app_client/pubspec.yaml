@@ -1,5 +1,6 @@
-name: user_repository
-description: "Dart package which manages the user."
+name: app_client
+description: "Dart package which manages the client."
+
 publish_to: 'none' 
 
 version: 1.0.0+1
@@ -11,12 +12,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  equatable: ^2.0.5
   http: ^1.2.0
-  flutter_bloc: ^8.1.5
   
-  app_client:
-    path: ../app_client
+  
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -24,6 +23,10 @@ dev_dependencies:
   
   flutter_lints: ^2.0.0
 
+
+
 flutter:
 
   uses-material-design: true
+
+

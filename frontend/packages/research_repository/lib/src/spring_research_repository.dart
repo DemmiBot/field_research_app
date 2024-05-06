@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:app_client/app_client.dart';
 import 'package:http/http.dart';
 import 'package:research_repository/research_repository.dart';
 
 class SpringConection {
   SpringConection._();
-  static String adressIP = 'http://192.168.15.3:8080';
+  static String adressIP = 'http://192.168.15.9:8080';
 }
 
 class SpringResearchRepository implements IResearchRepository {
