@@ -8,6 +8,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,14 +57,20 @@ public class PollController {
         var pollModel = new Poll();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);
         try {
+            if(pollModel.getDescription().length() >= 255)
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: Description exceeds max length: "+ pollModel.getDescription().length() + " chars");
+            // Save the poll model
+            pollModel = pollRepository.save(pollModel);
             String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
             dynamicTableService.createTable(tName, pollRecordDTO.options());
             String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
             pollModel.setOptions(tOptions);
-        } catch (SQLException exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("SQL Exception: " + exception);
+            
+        } catch (Exception exception) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + exception);
+
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(pollRepository.save(pollModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(pollModel);
     }
 
     @PutMapping("polls/{id}")
@@ -70,7 +78,7 @@ public class PollController {
         @RequestBody @Valid PollRecordDTO pollRecordDTO) {
         Optional<Poll> pollO = pollRepository.findById(id);
         if(pollO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("poll not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Poll not found.");
         }
         var pollModel = pollO.get();
         BeanUtils.copyProperties(pollRecordDTO, pollModel);

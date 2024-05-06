@@ -68,24 +68,16 @@ public class DynamicTableService {
     }
 
     @Transactional
-    public void createTable(String tableName, List<Option> options) throws SQLException {
-        try {
+    public void createTable(String tableName, List<Option> options) {
             String optionsString = optionsToString(options);
             String query = "CREATE TABLE " + tableName + "(id SERIAL PRIMARY KEY" + optionsString +")";
             entityManager.createNativeQuery(query).executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating table: ", e);
-        }
     }
 
     @Transactional
     public void dropTable(String tableName) throws SQLException {
-        try {
             String query = "DROP TABLE " + tableName;
             entityManager.createNativeQuery(query).executeUpdate();
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating table: ", e);
-        }
     }
     
     public Map<String, String> getColumnNamesAndTypes(String tableName) {
