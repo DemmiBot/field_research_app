@@ -52,11 +52,7 @@ public class User implements UserDetails {
         else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
         // throw new UnsupportedOperationException("Unimplemented method 'getAuthorities'");
     }
-    /*@Override
-    public String getPassword() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
-    }*/
+
     @Override
     public String getUsername() {
         return login;

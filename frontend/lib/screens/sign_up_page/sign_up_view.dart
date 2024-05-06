@@ -160,10 +160,10 @@ class _RegisterViewState extends State<RegisterView> with FormMixin {
                                 login: emailController.text.trim(),
                                 password: passwordAgainController.text.trim(),
                               ));
-                          // emailController.clear();
-                          // nameController.clear();
-                          // passwordController.clear();
-                          // passwordAgainController.clear();
+                           emailController.clear();
+                           nameController.clear();
+                           passwordController.clear();
+                           passwordAgainController.clear();
                         }
                       }),
                 ]),
