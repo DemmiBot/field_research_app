@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^1.2.0
-  
+  equatable: ^2.0.5
   
 
 dev_dependencies:

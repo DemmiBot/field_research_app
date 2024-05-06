@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:app_client/app_client.dart';
+import 'package:dartz/dartz.dart';
 import 'package:user_repository/src/models/user_model.dart';
 import 'user_repo.dart';
 
@@ -28,7 +30,7 @@ class SpringUserRepository implements IUserRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> signIn(
+  Future<Either<Failure, Map<String, dynamic>>> signIn(
       {required String login, required String password}) async {
     final body = jsonEncode({
       'login': login,
@@ -37,8 +39,20 @@ class SpringUserRepository implements IUserRepository {
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/login', body: body);
+
+    log(response.body.toString());
+
     Map<String, dynamic> jsonData = jsonDecode(response.body);
-    return jsonData;
+    if (jsonData.containsKey('user')) {
+      Map<String, dynamic> userData = {
+        'userId': jsonData['user']['user_id'],
+        'typeUser': jsonData['user']['role']
+      };
+
+      return Right(userData);
+    } else {
+      return Left(Failure(message: jsonData['error']));
+    }
   }
 
   @override

@@ -22,6 +22,7 @@ dependencies:
   super_drag_and_drop: ^0.8.5
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
+  dartz: ^0.10.1
   user_repository:
     path: packages/user_repository
   research_repository:
@@ -30,6 +31,7 @@ dependencies:
     path: packages/app_mixins
   app_client:
     path: packages/app_client
+  
 
 dev_dependencies:
   flutter_test:
