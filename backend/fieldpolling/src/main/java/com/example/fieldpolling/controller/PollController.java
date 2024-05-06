@@ -59,16 +59,16 @@ public class PollController {
         try {
             if(pollModel.getDescription().length() >= 255)
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: Description exceeds max length: "+ pollModel.getDescription().length() + " chars");
-            
+            // Save the poll model
             pollModel = pollRepository.save(pollModel);
             String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
             dynamicTableService.createTable(tName, pollRecordDTO.options());
             String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
             pollModel.setOptions(tOptions);
-
-            // Save the poll model
+            
         } catch (Exception exception) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + exception);
+
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(pollModel);
     }

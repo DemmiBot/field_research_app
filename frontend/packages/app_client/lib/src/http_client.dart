@@ -1,9 +1,5 @@
+import 'package:app_client/src/client_repo.dart';
 import 'package:http/http.dart' as http;
-
-abstract class IClientHttp {
-  Future post({required String url, required String body});
-  Future get({required String url});
-}
 
 class HttpClient implements IClientHttp {
   final client = http.Client();
