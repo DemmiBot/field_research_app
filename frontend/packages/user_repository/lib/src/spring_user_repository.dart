@@ -43,7 +43,8 @@ class SpringUserRepository implements IUserRepository {
     log(response.body.toString());
 
     Map<String, dynamic> jsonData = jsonDecode(response.body);
-    if (jsonData.containsKey('user')) {
+
+    if (response.statusCode == 200) {
       Map<String, dynamic> userData = {
         'userId': jsonData['user']['user_id'],
         'typeUser': jsonData['user']['role']
@@ -51,12 +52,12 @@ class SpringUserRepository implements IUserRepository {
 
       return Right(userData);
     } else {
-      return Left(Failure(message: jsonData['error']));
+      return Left(jsonData['error']);
     }
   }
 
   @override
-  Future<String> signUp(
+  Future<Either<Failure, String>> signUp(
       {required String login, required String password}) async {
     final body = jsonEncode(
       {
@@ -68,7 +69,17 @@ class SpringUserRepository implements IUserRepository {
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/register', body: body);
+    Map<String, dynamic> jsonData = {};
 
-    return response.body;
+    if (response.body == '') {
+      return const Right('');
+    } else {
+      if (response != null && response.body.isNotEmpty) {
+        jsonData = jsonDecode(response.body);
+        return Left(Failure(message: jsonData['error']));
+      } else {
+        return const Left(Failure(message: 'Erro ao cadastrar usuário'));
+      }
+    }
   }
 }

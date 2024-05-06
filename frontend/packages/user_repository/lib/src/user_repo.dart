@@ -4,12 +4,17 @@ import 'package:dartz/dartz.dart';
 import 'models/models.dart';
 
 abstract class IUserRepository {
-  Future<Either<Failure, Map<String, dynamic>>> signIn(
-      {required String login, required String password});
+  Future<Either<Failure, Map<String, dynamic>>> signIn({
+    required String login,
+    required String password,
+  });
 
   Future logOut();
 
-  Future<String> signUp({required String login, required String password});
+  Future<Either<Failure, String>> signUp({
+    required String login,
+    required String password,
+  });
 
   Future resetPassword();
 
