@@ -117,8 +117,9 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                           child: MyButtonAdm(
                             text: 'Gerenciar Pesquisadores',
                             width: 10.w,
-                            onPressed: () =>
-                                Navigator.pushNamed(context, '/admUsers'),
+                            onPressed: () => Navigator.pushNamed(
+                                context, '/admUsers',
+                                arguments: user),
                           ),
                         ),
                       ],
