@@ -19,4 +19,6 @@ abstract class IUserRepository {
   Future resetPassword();
 
   Future<Either<Failure, UserModel>> getMyUser({required String userId});
+
+  Future<Either<Failure, List<UserModel>>> fetchUsers();
 }

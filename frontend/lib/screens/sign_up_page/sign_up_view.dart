@@ -7,15 +7,29 @@ import 'package:fieldresearch/widgets/my_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:user_repository/user_repository.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
+class SignUpPage extends StatelessWidget {
+  final IUserRepository userRepository;
+  const SignUpPage({super.key, required this.userRepository});
 
   @override
-  State<RegisterView> createState() => _RegisterViewState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => SignUpBloc(userRepository: userRepository),
+      child: const SignUpView(),
+    );
+  }
 }
 
-class _RegisterViewState extends State<RegisterView> with FormMixin {
+class SignUpView extends StatefulWidget {
+  const SignUpView({super.key});
+
+  @override
+  State<SignUpView> createState() => _SignUpViewState();
+}
+
+class _SignUpViewState extends State<SignUpView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -160,10 +174,10 @@ class _RegisterViewState extends State<RegisterView> with FormMixin {
                                 login: emailController.text.trim(),
                                 password: passwordAgainController.text.trim(),
                               ));
-                           emailController.clear();
-                           nameController.clear();
-                           passwordController.clear();
-                           passwordAgainController.clear();
+                          emailController.clear();
+                          nameController.clear();
+                          passwordController.clear();
+                          passwordAgainController.clear();
                         }
                       }),
                 ]),

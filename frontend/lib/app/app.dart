@@ -1,3 +1,4 @@
+import 'package:fieldresearch/repositories/users_repository.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
@@ -54,19 +55,10 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
-          '/register': (context) => BlocProvider<SignUpBloc>(
-                create: (_) => SignUpBloc(userRepository: userRepository),
-                child: const RegisterView(),
-              ),
-          //  '/adm': (context) => const HomeAdmView(),
-          '/admUsers': (context) => const AdmUsers(),
-          '/admCreateForm': (context) => BlocProvider(
-                create: (context) => CreateFormBloc(
-                  repository: researchRepository,
-                ),
-                child: const CreateFormView(),
-              ),
-          //  '/researcher': (context) => const HomeResearcherView(),
+          '/register': (context) => SignUpPage(userRepository: userRepository),
+          '/admUsers': (context) => AdmUsers(usersRepository: userRepository),
+          '/admCreateForm': (context) =>
+              CreateFormPage(researchRepository: researchRepository),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

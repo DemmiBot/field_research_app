@@ -17,7 +17,11 @@ class SpringUserRepository implements IUserRepository {
       final response =
           await client.get(url: '${SpringConection.adressIP}/users/$userId');
       Map<String, dynamic> jsonData = jsonDecode(response.body);
-      return Right(UserModel.fromJson(jsonData));
+      if (response.statusCode == 200) {
+        return Right(UserModel.fromJson(jsonData));
+      } else {
+        return const Left(Failure(message: ''));
+      }
     } catch (e) {
       return const Left(Failure(message: ''));
     }
@@ -40,23 +44,26 @@ class SpringUserRepository implements IUserRepository {
       'login': login,
       'password': password,
     });
+    try {
+      final response = await client.post(
+          url: '${SpringConection.adressIP}/auth/login', body: body);
 
-    final response = await client.post(
-        url: '${SpringConection.adressIP}/auth/login', body: body);
+      log(response.body.toString());
 
-    log(response.body.toString());
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
 
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        Map<String, dynamic> userData = {
+          'userId': jsonData['user']['user_id'],
+          'typeUser': jsonData['user']['role']
+        };
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> userData = {
-        'userId': jsonData['user']['user_id'],
-        'typeUser': jsonData['user']['role']
-      };
-
-      return Right(userData);
-    } else {
-      return Left(jsonData['error']);
+        return Right(userData);
+      } else {
+        return Left(Failure(message: jsonData['error']));
+      }
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
     }
   }
 
@@ -70,20 +77,42 @@ class SpringUserRepository implements IUserRepository {
         'role': "ADMIN",
       },
     );
+    try {
+      final response = await client.post(
+          url: '${SpringConection.adressIP}/auth/register', body: body);
+      Map<String, dynamic> jsonData = {};
 
-    final response = await client.post(
-        url: '${SpringConection.adressIP}/auth/register', body: body);
-    Map<String, dynamic> jsonData = {};
-
-    if (response.body == '') {
-      return const Right('Cadastro realizado com sucesso');
-    } else {
-      if (response != null && response.body.isNotEmpty) {
-        jsonData = jsonDecode(response.body);
-        return Left(Failure(message: jsonData['error']));
+      if (response.body == '') {
+        return const Right('Cadastro realizado com sucesso');
       } else {
-        return const Left(Failure(message: 'Erro ao cadastrar usuário'));
+        if (response != null && response.body.isNotEmpty) {
+          jsonData = jsonDecode(response.body);
+          return Left(Failure(message: jsonData['error']));
+        } else {
+          return const Left(Failure(message: 'Erro ao cadastrar usuário'));
+        }
       }
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserModel>>> fetchUsers() async {
+    try {
+      final response =
+          await client.get(url: '${SpringConection.adressIP}/users');
+      List<dynamic> jsonData = jsonDecode(response.body);
+      List<UserModel> users = jsonData.map((e) {
+        return UserModel.fromJson(e);
+      }).toList();
+      if (response.statusCode == 200) {
+        return Right(users);
+      } else {
+        return const Left(Failure(message: ''));
+      }
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
     }
   }
 }
