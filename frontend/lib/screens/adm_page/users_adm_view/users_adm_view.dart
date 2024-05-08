@@ -40,7 +40,7 @@ class AdmUsersView extends StatefulWidget {
 
 class _AdmUsersView extends State<AdmUsersView> {
   List<UserModel> users = [];
-
+  int index = -1;
   @override
   Widget build(BuildContext context) {
     final UserModel currentUser =
@@ -53,20 +53,18 @@ class _AdmUsersView extends State<AdmUsersView> {
       ),
       body: BlocBuilder<ManageUsersCubit, ManageUsersState>(
         builder: (context, state) {
-          if (state.state == UsersState.success && state.users == []) {
-            return const Center(child: Text('Nenhum usuário Disponível'));
-          } else if (state.state == UsersState.loading) {
+          if (state.state == UsersState.loading) {
             return const Center(child: CircularProgressIndicator());
           } else if (state.state == UsersState.success) {
             users = state.users!;
             if (users.any((user) => user.name == currentUser.name)) {
               users.removeWhere((user) => user.name == currentUser.name);
-            } else {
-              users = state.users!;
-            }
+            } 
             return SafeArea(
               child: RefreshIndicator(
-                onRefresh: () => context.read<ManageUsersCubit>().fetchUsers(),
+                onRefresh: () async {
+                  context.read<ManageUsersCubit>().fetchUsers();
+                },
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   child: Column(
@@ -107,7 +105,7 @@ class _AdmUsersView extends State<AdmUsersView> {
                         ],
                       ),
                       SizedBox(height: 10.h),
-                      if (users.isNotEmpty) TableUsers(usersData: users)
+                      TableUsers(usersData: users, index: index)
                     ],
                   ),
                 ),

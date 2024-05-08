@@ -1,5 +1,5 @@
 name: fieldresearch
-description: "A new Flutter project."
+description: "A survey app"
 
 publish_to: 'none' 
 
@@ -15,10 +15,8 @@ dependencies:
 
   
   flutter_screenutil: ^5.0.1+2
-  email_validator: ^2.1.17
   flutter_form_builder: ^9.2.1
   drag_and_drop_lists: ^0.3.3
-  provider: ^6.1.2
   super_drag_and_drop: ^0.8.5
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
@@ -31,7 +29,10 @@ dependencies:
     path: packages/app_mixins
   app_client:
     path: packages/app_client
-  
+  flutter_native_splash: ^2.4.0
+  flutter_launcher_icons: ^0.13.1
+
+
 
 dev_dependencies:
   flutter_test:
@@ -50,6 +51,8 @@ flutter:
  
   assets:
     - lib/assets/images/google.png
+    - lib/assets/app/logo.png
+    - lib/assets/app/logo_splash.png
 
 
 

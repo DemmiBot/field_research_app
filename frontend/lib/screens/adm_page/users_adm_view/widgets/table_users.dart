@@ -4,16 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:user_repository/user_repository.dart';
 
+// ignore: must_be_immutable
 class TableUsers extends StatefulWidget {
   final List<UserModel> usersData;
-  const TableUsers({Key? key, required this.usersData}) : super(key: key);
+  int index;
+  TableUsers({Key? key, required this.usersData, required this.index})
+      : super(key: key);
 
   @override
   State<TableUsers> createState() => _TableUsersState();
 }
 
 class _TableUsersState extends State<TableUsers> {
-  int index = -1;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -52,13 +54,13 @@ class _TableUsersState extends State<TableUsers> {
               ),
             ],
             rows: widget.usersData.map((user) {
-              index++;
+              widget.index++;
               return DataRow(
                 color: MaterialStateProperty.all(
-                    index.isEven ? Colors.grey[300] : Colors.white),
+                    widget.index.isEven ? Colors.grey[300] : Colors.white),
                 cells: [
                   DataCell(
-                    Text((index + 1).toString()),
+                    Text((widget.index + 1).toString()),
                   ),
                   DataCell(
                     ConstrainedBox(
