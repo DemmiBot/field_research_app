@@ -10,7 +10,7 @@ Easily copy the postman workspace for API endpoint testing!
 
 https://education.github.com/git-cheat-sheet-education.pdf
 
-###Docker and database:
+### Docker and database:
 
 To facilitate the testing and development of the project, we need to have a convenient way of testing database functionality. This can be achieved trough a docker container.
 To do this run the following on a cmd **after installing docker**:
