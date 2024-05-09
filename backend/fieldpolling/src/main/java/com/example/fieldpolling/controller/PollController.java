@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
@@ -35,10 +35,6 @@ public class PollController {
     @Autowired
     DynamicTableService dynamicTableService;
 
-    /*==============
-    Polls table
-    ================*/
-
     @GetMapping("/polls")
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
@@ -54,23 +50,27 @@ public class PollController {
 
     @PostMapping("/polls")
     public ResponseEntity<Object> savePoll(@RequestBody @Valid PollRecordDTO pollRecordDTO) {
-        var pollModel = new Poll();
-        BeanUtils.copyProperties(pollRecordDTO, pollModel);
+        Poll pollModel;
         try {
-            if(pollModel.getDescription().length() >= 255)
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: Description exceeds max length: "+ pollModel.getDescription().length() + " chars");
-            
-            pollModel = pollRepository.save(pollModel);
-            String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
-            dynamicTableService.createTable(tName, pollRecordDTO.options());
-            String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
-            pollModel.setOptions(tOptions);
-
-            // Save the poll model
-        } catch (Exception exception) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Exception: " + exception);
+            pollModel = createPoll(pollRecordDTO);
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("SQL Exception: " + e);
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(pollModel);
+    }
+
+    @Transactional
+    private Poll createPoll(@Valid PollRecordDTO pollRecordDTO) throws Exception{
+        var pollModel = new Poll();
+        BeanUtils.copyProperties(pollRecordDTO, pollModel);
+        String tName = pollRecordDTO.name().replace(" ", "_").toLowerCase();
+        
+        dynamicTableService.createTable(tName, pollRecordDTO.options());
+        String tOptions = dynamicTableService.optionsToString(pollRecordDTO.options());
+        pollModel.setOptions(tOptions);
+                
+        pollModel = pollRepository.save(pollModel);
+        return pollModel;
     }
 
     @PutMapping("polls/{id}")
@@ -100,9 +100,6 @@ public class PollController {
         pollRepository.delete(pollO.get());
         return ResponseEntity.status(HttpStatus.OK).body("Poll deleted successfully.");
     }
-    /*==============
-    Dynamic Polls
-    ================*/
     
     @GetMapping("/polls/meta/{name}")
     public ResponseEntity<Map<String, String>> getPollMetadata(@PathVariable(value="name") String tableName) {
