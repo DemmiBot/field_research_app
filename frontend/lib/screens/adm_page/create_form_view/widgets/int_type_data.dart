@@ -22,6 +22,7 @@ class _IntTypeDataState extends State<IntTypeData> {
             SizedBox(
                 width: 50.w,
                 child: FormBuilderTextField(
+                    key: Key('fieldName_${widget.identity}_min'),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(
@@ -48,6 +49,7 @@ class _IntTypeDataState extends State<IntTypeData> {
             SizedBox(
                 width: 50.w,
                 child: FormBuilderTextField(
+                    key: Key('fieldName_${widget.identity}_max'),
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.white),
                     decoration: InputDecoration(

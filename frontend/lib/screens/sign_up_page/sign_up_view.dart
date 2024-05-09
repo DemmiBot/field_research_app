@@ -1,4 +1,6 @@
-import 'package:fieldresearch/controller/mixins/register_mixin.dart';
+import 'dart:developer';
+
+import 'package:app_mixins/app_mixins.dart';
 import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
@@ -13,7 +15,7 @@ class RegisterView extends StatefulWidget {
   State<RegisterView> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends State<RegisterView> with RegisterMixin {
+class _RegisterViewState extends State<RegisterView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
@@ -31,20 +33,28 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
         appBar: AppBar(backgroundColor: Colors.transparent),
         body: BlocListener<SignUpBloc, ISignUpState>(
           listener: (context, state) {
+            log(state.toString());
             if (state is SignUpProcess) {
               setState(() {
                 isLoading = true;
               });
-            } else if (state is SignUpSuccess) {
+            }
+            if (state is SignUpSuccess) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Cadastrado com sucesso'),
+                SnackBar(
+                  content: Text(state.message),
                 ),
               );
               setState(() {
                 isLoading = false;
               });
-            } else {
+            }
+            if (state is SignUpFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
               setState(() {
                 isLoading = false;
               });
@@ -131,7 +141,11 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                       obscureText: false,
                       validator: (value) => combine([
                             () => isNotEmpty(value),
-                            // () => repeatPassword(value),
+                            () => repeatPassword(
+                                  value: value,
+                                  password: passwordController,
+                                  passwordagain: passwordAgainController,
+                                ),
                           ]),
                       controller: passwordAgainController),
                   SizedBox(height: 28.h),
@@ -146,10 +160,10 @@ class _RegisterViewState extends State<RegisterView> with RegisterMixin {
                                 login: emailController.text.trim(),
                                 password: passwordAgainController.text.trim(),
                               ));
-                          emailController.clear();
-                          nameController.clear();
-                          passwordController.clear();
-                          passwordAgainController.clear();
+                           emailController.clear();
+                           nameController.clear();
+                           passwordController.clear();
+                           passwordAgainController.clear();
                         }
                       }),
                 ]),

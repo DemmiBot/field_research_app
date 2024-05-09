@@ -1,14 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:app_client/app_client.dart';
+import 'package:dartz/dartz.dart';
 import 'package:user_repository/src/models/user_model.dart';
-
-import 'http/http_client.dart';
 import 'user_repo.dart';
-
-class SpringConection {
-  SpringConection._();
-  static String adressIP = 'http://192.168.15.3:8080';
-}
 
 class SpringUserRepository implements IUserRepository {
   SpringUserRepository({required this.client});
@@ -16,11 +12,15 @@ class SpringUserRepository implements IUserRepository {
   final IClientHttp client;
 
   @override
-  Future<UserModel> getMyUser({required String userId}) async {
-    final response =
-        await client.get(url: '${SpringConection.adressIP}/users/$userId');
-    Map<String, dynamic> jsonData = jsonDecode(response.body);
-    return UserModel.fromJson(jsonData);
+  Future<Either<Failure, UserModel>> getMyUser({required String userId}) async {
+    try {
+      final response =
+          await client.get(url: '${SpringConection.adressIP}/users/$userId');
+      Map<String, dynamic> jsonData = jsonDecode(response.body);
+      return Right(UserModel.fromJson(jsonData));
+    } catch (e) {
+      return const Left(Failure(message: ''));
+    }
   }
 
   @override
@@ -34,7 +34,7 @@ class SpringUserRepository implements IUserRepository {
   }
 
   @override
-  Future<Map<String, dynamic>> signIn(
+  Future<Either<Failure, Map<String, dynamic>>> signIn(
       {required String login, required String password}) async {
     final body = jsonEncode({
       'login': login,
@@ -43,12 +43,25 @@ class SpringUserRepository implements IUserRepository {
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/login', body: body);
+
+    log(response.body.toString());
+
     Map<String, dynamic> jsonData = jsonDecode(response.body);
-    return jsonData;
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> userData = {
+        'userId': jsonData['user']['user_id'],
+        'typeUser': jsonData['user']['role']
+      };
+
+      return Right(userData);
+    } else {
+      return Left(jsonData['error']);
+    }
   }
 
   @override
-  Future<String> signUp(
+  Future<Either<Failure, String>> signUp(
       {required String login, required String password}) async {
     final body = jsonEncode(
       {
@@ -60,7 +73,17 @@ class SpringUserRepository implements IUserRepository {
 
     final response = await client.post(
         url: '${SpringConection.adressIP}/auth/register', body: body);
+    Map<String, dynamic> jsonData = {};
 
-    return response.body;
+    if (response.body == '') {
+      return const Right('Cadastro realizado com sucesso');
+    } else {
+      if (response != null && response.body.isNotEmpty) {
+        jsonData = jsonDecode(response.body);
+        return Left(Failure(message: jsonData['error']));
+      } else {
+        return const Left(Failure(message: 'Erro ao cadastrar usuário'));
+      }
+    }
   }
 }

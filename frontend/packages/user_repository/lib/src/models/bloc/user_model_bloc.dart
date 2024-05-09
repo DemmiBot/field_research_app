@@ -14,14 +14,11 @@ class UserModelBloc extends Bloc<IUserModelEvent, UserModelState> {
   UserModelBloc({required this.repository})
       : super(const UserModelState.loading()) {
     on<GetUserData>((event, emit) async {
-      try {
-        final UserModel response =
-            await repository.getMyUser(userId: event.userId);
-        emit(UserModelState.success(user: response));
-      } catch (e) {
-        log('log[UserModelBloc] => $e');
-        emit(const UserModelState.failure());
-      }
+      final response = await repository.getMyUser(userId: event.userId);
+      response.fold(
+        (failure) => emit(const UserModelState.failure()),
+        (success) => emit(UserModelState.success(user: success)),
+      );
     });
   }
 }

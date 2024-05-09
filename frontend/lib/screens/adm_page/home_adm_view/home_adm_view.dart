@@ -5,8 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-import 'widgets/search_tile.dart';
-
 class HomeAdmView extends StatefulWidget {
   const HomeAdmView({super.key});
 
@@ -45,50 +43,48 @@ class _HomeAdmViewState extends State<HomeAdmView> {
             }
             return Scaffold(
               body: SafeArea(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 5.h),
-                      Text(
-                        'Olá, ${user.name}!',
-                        style: TextStyle(fontSize: 14.sp, color: Colors.white),
-                      ),
-                      SizedBox(height: 14.h),
-                      Text(
-                        'Pesquisas',
-                        style: TextStyle(
-                            fontSize: 14.sp,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const Divider(),
-                      SizedBox(height: 18.h),
-                      if (isLoading)
-                        const Center(child: CircularProgressIndicator())
-                      else if (research.isEmpty)
-                        Column(
-                          children: [
-                            Icon(Icons.description,
-                                color: Colors.white, size: 25.sp),
-                            Center(
-                              child: Text(
-                                'Nenhuma pesquisa disponível',
-                                style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.white),
+                child: RefreshIndicator(
+                  onRefresh: () async =>
+                      context.read<ResearchModelBloc>().add(GetAllResearches()),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 5.h),
+                        Text(
+                          'Olá, ${user.name}!',
+                          style:
+                              TextStyle(fontSize: 14.sp, color: Colors.white),
+                        ),
+                        SizedBox(height: 14.h),
+                        Text(
+                          'Pesquisas',
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        const Divider(),
+                        SizedBox(height: 18.h),
+                        if (isLoading)
+                          const Center(child: CircularProgressIndicator())
+                        else if (research.isEmpty)
+                          Column(
+                            children: [
+                              Icon(Icons.description,
+                                  color: Colors.white, size: 25.sp),
+                              Center(
+                                child: Text(
+                                  'Nenhuma pesquisa disponível',
+                                  style: TextStyle(
+                                      fontSize: 14.sp, color: Colors.white),
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      else
-                        Expanded(
-                          child: RefreshIndicator(
-                            onRefresh: () async {
-                              context
-                                  .read<ResearchModelBloc>()
-                                  .add(GetAllResearches());
-                            },
+                            ],
+                          )
+                        else
+                          Expanded(
                             child: ListView.builder(
                               itemCount: research.length,
                               itemBuilder: (context, index) {
@@ -99,34 +95,34 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                               },
                             ),
                           ),
-                        ),
-                      if (failure)
+                        if (failure)
+                          Center(
+                            child: Text(
+                              'Erro ao buscar pesquisas',
+                              style: TextStyle(
+                                  fontSize: 14.sp, color: Colors.white),
+                            ),
+                          ),
+                        SizedBox(height: 24.h),
                         Center(
-                          child: Text(
-                            'Erro ao buscar pesquisas',
-                            style:
-                                TextStyle(fontSize: 14.sp, color: Colors.white),
+                          child: MyButtonAdm(
+                            text: 'Novo Formulário',
+                            width: 8.w,
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/admCreateForm'),
                           ),
                         ),
-                      SizedBox(height: 24.h),
-                      Center(
-                        child: MyButtonAdm(
-                          text: 'Novo Formulário',
-                          width: 8.w,
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/admCreateForm'),
+                        SizedBox(height: 24.sp),
+                        Center(
+                          child: MyButtonAdm(
+                            text: 'Gerenciar Pesquisadores',
+                            width: 10.w,
+                            onPressed: () =>
+                                Navigator.pushNamed(context, '/admUsers'),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 24.sp),
-                      Center(
-                        child: MyButtonAdm(
-                          text: 'Gerenciar Pesquisadores',
-                          width: 10.w,
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/admUsers'),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -134,6 +130,51 @@ class _HomeAdmViewState extends State<HomeAdmView> {
           },
         );
       },
+    );
+  }
+}
+
+// widget for discovered searches
+class SearchTile extends StatefulWidget {
+  final String name;
+  final String status;
+  const SearchTile({super.key, required this.name, required this.status});
+
+  @override
+  State<SearchTile> createState() => _SearchTileState();
+}
+
+class _SearchTileState extends State<SearchTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            widget.name,
+            style: TextStyle(fontSize: 14.sp, color: Colors.white),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Row(
+          children: [
+            Container(
+              width: 4.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: widget.status == 'OPEN' ? Colors.green : Colors.red,
+                shape: BoxShape.circle,
+              ),
+            ),
+            Text(
+              ' ${widget.status} | 1246 entradas',
+              style: TextStyle(fontSize: 10.sp, color: Colors.white),
+            ),
+          ],
+        ),
+        SizedBox(height: 20.h),
+      ],
     );
   }
 }

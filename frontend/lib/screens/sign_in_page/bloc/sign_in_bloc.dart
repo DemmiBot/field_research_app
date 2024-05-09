@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:app_client/app_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
@@ -20,14 +21,16 @@ class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
       final response = await _userRepository.signIn(
           login: event.email, password: event.password);
 
-      if (response.containsKey('user')) {
-        log(response.toString());
-        emit(SignInSuccess(
-            typeUser: getTypeUser(response),
-            userId: response['user']['user_id']));
-      } else {
-        emit(SignInFailure(message: response['error']));
-      }
+      response.fold(
+        (failure) => emit(
+          SignInFailure(message: failure.message),
+        ),
+        (success) => emit(
+          SignInSuccess(
+              typeUser: getTypeUser(success['typeUser']),
+              userId: success['userId']),
+        ),
+      );
     });
     //trigger logOut event
     on<SignOutRequired>((event, emit) async {
@@ -35,8 +38,8 @@ class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
     });
   }
 
-  TypeUser getTypeUser(final response) {
-    switch (response['user']['role']) {
+  TypeUser getTypeUser(String response) {
+    switch (response) {
       case 'USER':
         return TypeUser.user;
       case 'ADMIN':
