@@ -12,13 +12,12 @@ class ResearchModelBloc extends Bloc<IResearchModelEvent, ResearchModelState> {
   ResearchModelBloc({required this.repository})
       : super(const ResearchModelState.loading()) {
     on<GetAllResearches>((event, emit) async {
-      try {
-        final List<ResearchModel> response = await repository.fetchResearches();
-        emit(ResearchModelState.success(researches: response));
-      } catch (e) {
-        log('log [ResearchesModelBloc] ==> $e');
-        emit(const ResearchModelState.failure());
-      }
+      final response = await repository.fetchResearches();
+
+      response.fold(
+        (failure) => emit(const ResearchModelState.failure()),
+        (success) => emit(ResearchModelState.success(researches: success)),
+      );
     });
   }
 }

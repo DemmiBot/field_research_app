@@ -1,4 +1,5 @@
-import 'package:fieldresearch/controller/mixins/text_field_mixin.dart';
+import 'package:app_mixins/app_mixins.dart';
+
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
 import 'package:fieldresearch/widgets/my_button.dart';
@@ -13,7 +14,7 @@ class SignupView extends StatefulWidget {
   State<SignupView> createState() => _SignupViewState();
 }
 
-class _SignupViewState extends State<SignupView> with LoginMixin {
+class _SignupViewState extends State<SignupView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();

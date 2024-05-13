@@ -7,7 +7,11 @@ abstract class ISignUpState extends Equatable {
 
 final class SignUpInitial extends ISignUpState {}
 
-final class SignUpSuccess extends ISignUpState {}
+final class SignUpSuccess extends ISignUpState {
+  final String message;
+
+  SignUpSuccess({required this.message});
+}
 
 final class SignUpFailure extends ISignUpState {
   final String message;
