@@ -1,6 +1,7 @@
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
+import 'package:fieldresearch/screens/draggable_list.dart';
 import 'package:fieldresearch/screens/researcher_page/reseacher_home_view.dart';
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/screens/sign_in_page/view/sign_in_view.dart';
@@ -53,6 +54,7 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
+          '/draggable': (context) => MyForm(),
           '/register': (context) => BlocProvider<SignUpBloc>(
                 create: (_) => SignUpBloc(userRepository: userRepository),
                 child: const RegisterView(),

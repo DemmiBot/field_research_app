@@ -110,6 +110,20 @@ class _SignupViewState extends State<SignupView> with LoginMixin {
                           decorationColor: Colors.white),
                     ),
                   ),
+                  TextButton(
+                    onPressed: () {
+                      // controller.cleanText();
+                      Navigator.pushNamed(context, '/draggable');
+                    },
+                    child: Text(
+                      'Teste Draggable',
+                      style: TextStyle(
+                          fontSize: 14.sp,
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                          decorationColor: Colors.white),
+                    ),
+                  ),
                 ],
               ),
             ),
