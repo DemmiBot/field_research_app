@@ -34,16 +34,21 @@ public class User implements UserDetails {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private UUID user_id;
     @Column(unique = true)
-    private String login;
+    private String username;
     @Column(unique = true)
     private String email;
     private String password;
     private UserRole role;
 
-    public User(String login, String password, UserRole role) {
-        this.login = login;
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    public User(String email, String username, String password, UserRole role) {
+        this.email = email;
+        this.username = username;
         this.password = password;
         this.role = role;
+        this.enabled = false;
     }
 
     @Override
@@ -55,7 +60,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return login;
+        return username;
         //throw new UnsupportedOperationException("Unimplemented method 'getUsername'");
     }
     @Override
@@ -75,8 +80,12 @@ public class User implements UserDetails {
     }
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
         //throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
+    }
+
+    public void setEnabled(boolean b) {
+        this.enabled = b;
     }
 
 }
