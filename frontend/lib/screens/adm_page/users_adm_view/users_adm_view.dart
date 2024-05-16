@@ -56,8 +56,15 @@ class _AdmUsersView extends State<AdmUsersView> {
       ),
       body: BlocListener<ManageUsersCubit, ManageUsersState>(
         listener: (context, state) {
-          if (state.state == UsersState.deletionSuccess ||
-              state.state == UsersState.deletionSuccess) {
+          if (state.state == UsersState.deletionSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message!),
+              ),
+            );
+            context.read<ManageUsersCubit>().fetchUsers();
+          }
+          if (state.state == UsersState.deletionFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(state.message!),
@@ -72,7 +79,6 @@ class _AdmUsersView extends State<AdmUsersView> {
             selectedMap = {
               for (var index in users.asMap().keys) index: false,
             };
-            context.read<ManageUsersCubit>().fetchUsers();
           }
         },
         child: SafeArea(
