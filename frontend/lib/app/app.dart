@@ -67,22 +67,10 @@ class MyAppView extends StatelessWidget {
           builder: (context, state) {
             //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => UserModelBloc(
-                      repository: userRepository,
-                    )..add(
-                        GetUserData(userId: state.userId),
-                      ),
-                  ),
-                  BlocProvider(
-                    create: (context) =>
-                        ResearchModelBloc(repository: researchRepository)
-                          ..add(GetAllResearches()),
-                  ),
-                ],
-                child: const HomeAdmView(),
+              return HomeAdmPage(
+                userId: state.userId,
+                userRepository: userRepository,
+                researchRepository: researchRepository,
               );
             }
 

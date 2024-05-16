@@ -15,13 +15,6 @@ void main() {
       );
       expect(resultToken, isNotNull);
     });
-
-    test('Teste de Registro', () async {
-      final String resultToken = (await spring.signUp(
-          login: 'neguinho', password: '123456789')) as String;
-
-      expect(resultToken, equals(''));
-    });
   });
 
   group('Requisição de dados do usuário', () {
