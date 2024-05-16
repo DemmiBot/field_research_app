@@ -33,7 +33,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
   TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
+  TextEditingController userNameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordAgainController = TextEditingController();
 
@@ -117,7 +117,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                     validator: (value) => combine([
                       () => isNotEmpty(value),
                     ]),
-                    controller: nameController,
+                    controller: userNameController,
                   ),
                   SizedBox(height: 14.h),
                   Align(
@@ -151,17 +151,18 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                     ),
                   ),
                   CustomTextField(
-                      textLabel: '',
-                      obscureText: false,
-                      validator: (value) => combine([
-                            () => isNotEmpty(value),
-                            () => repeatPassword(
-                                  value: value,
-                                  password: passwordController,
-                                  passwordagain: passwordAgainController,
-                                ),
-                          ]),
-                      controller: passwordAgainController),
+                    textLabel: '',
+                    obscureText: false,
+                    validator: (value) => combine([
+                      () => isNotEmpty(value),
+                      () => repeatPassword(
+                            value: value,
+                            password: passwordController,
+                            passwordagain: passwordAgainController,
+                          ),
+                    ]),
+                    controller: passwordAgainController,
+                  ),
                   SizedBox(height: 28.h),
                   if (isLoading)
                     const Center(child: CircularProgressIndicator()),
@@ -171,11 +172,12 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                       onPressed: () async {
                         if (formKey.currentState?.validate() ?? false) {
                           context.read<SignUpBloc>().add(SignUpRequired(
-                                login: emailController.text.trim(),
+                                email: emailController.text.trim(),
                                 password: passwordAgainController.text.trim(),
+                                username: userNameController.text.trim(),
                               ));
                           emailController.clear();
-                          nameController.clear();
+                          userNameController.clear();
                           passwordController.clear();
                           passwordAgainController.clear();
                         }

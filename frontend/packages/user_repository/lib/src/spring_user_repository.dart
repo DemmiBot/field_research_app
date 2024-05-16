@@ -69,11 +69,15 @@ class SpringUserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<Failure, String>> signUp(
-      {required String login, required String password}) async {
+  Future<Either<Failure, String>> signUp({
+    required String email,
+    required String username,
+    required String password,
+  }) async {
     final body = jsonEncode(
       {
-        'login': login,
+        'email': email,
+        'username': username,
         'password': password,
         'role': "USER",
       },

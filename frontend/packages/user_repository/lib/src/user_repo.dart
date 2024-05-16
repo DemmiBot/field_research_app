@@ -12,7 +12,8 @@ abstract class IUserRepository {
   Future logOut();
 
   Future<Either<Failure, String>> signUp({
-    required String login,
+    required String email,
+    required String username,
     required String password,
   });
 
