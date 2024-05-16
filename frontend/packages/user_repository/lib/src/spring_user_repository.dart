@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:app_client/app_client.dart';
 import 'package:dartz/dartz.dart';
+import 'package:http/http.dart';
 import 'package:user_repository/src/models/user_model.dart';
 import 'user_repo.dart';
 
@@ -110,6 +111,21 @@ class SpringUserRepository implements IUserRepository {
         return Right(users);
       } else {
         return const Left(Failure(message: ''));
+      }
+    } catch (e) {
+      return Left(Failure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> deleteUser({required String userId}) async {
+    try {
+      final response =
+          await client.delete(url: '${SpringConection.adressIP}/users/$userId');
+      if (response.statusCode == 200) {
+        return Right(response.body);
+      } else {
+        return Left(Failure(message: response.body));
       }
     } catch (e) {
       return Left(Failure(message: e.toString()));

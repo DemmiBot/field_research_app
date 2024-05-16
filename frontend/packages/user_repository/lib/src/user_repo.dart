@@ -21,4 +21,6 @@ abstract class IUserRepository {
   Future<Either<Failure, UserModel>> getMyUser({required String userId});
 
   Future<Either<Failure, List<UserModel>>> fetchUsers();
+
+  Future<Either<Failure, String>> deleteUser({required String userId});
 }
