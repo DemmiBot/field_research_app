@@ -7,8 +7,13 @@ abstract class ISignUpEvent extends Equatable {
 }
 
 final class SignUpRequired extends ISignUpEvent {
-  final String login;
+  final String email;
+  final String username;
   final String password;
 
-  const SignUpRequired({required this.login, required this.password});
+  const SignUpRequired({
+    required this.email,
+    required this.username,
+    required this.password,
+  });
 }

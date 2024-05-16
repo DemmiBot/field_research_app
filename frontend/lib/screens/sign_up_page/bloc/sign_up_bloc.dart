@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +16,10 @@ class SignUpBloc extends Bloc<ISignUpEvent, ISignUpState> {
       emit(SignUpProcess());
 
       final response = await _userRepository.signUp(
-          login: event.login, password: event.password);
+        email: event.email,
+        password: event.password,
+        username: event.password,
+      );
       response.fold(
         (failure) => emit(
           SignUpFailure(message: failure.message),

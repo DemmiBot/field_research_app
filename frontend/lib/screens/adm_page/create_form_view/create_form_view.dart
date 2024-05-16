@@ -9,6 +9,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:research_repository/research_repository.dart';
+
+class CreateFormPage extends StatelessWidget {
+  final IResearchRepository researchRepository;
+  const CreateFormPage({super.key, required this.researchRepository});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => CreateFormBloc(repository: researchRepository),
+      child: const CreateFormView(),
+    );
+  }
+}
 
 class CreateFormView extends StatefulWidget {
   const CreateFormView({super.key});

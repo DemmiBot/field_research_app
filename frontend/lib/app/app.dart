@@ -1,12 +1,10 @@
-import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
-import 'package:fieldresearch/screens/draggable_list.dart';
 import 'package:fieldresearch/screens/researcher_page/reseacher_home_view.dart';
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/screens/sign_in_page/sign_in_view.dart';
-import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
+
 import 'package:fieldresearch/screens/sign_up_page/sign_up_view.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -55,20 +53,10 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
-          '/draggable': (context) => MyForm(),
-          '/register': (context) => BlocProvider<SignUpBloc>(
-                create: (_) => SignUpBloc(userRepository: userRepository),
-                child: const RegisterView(),
-              ),
-          //  '/adm': (context) => const HomeAdmView(),
-          '/admUsers': (context) => const AdmUsers(),
-          '/admCreateForm': (context) => BlocProvider(
-                create: (context) => CreateFormBloc(
-                  repository: researchRepository,
-                ),
-                child: const CreateFormView(),
-              ),
-          //  '/researcher': (context) => const HomeResearcherView(),
+          '/register': (context) => SignUpPage(userRepository: userRepository),
+          '/admUsers': (context) => AdmUsers(usersRepository: userRepository),
+          '/admCreateForm': (context) =>
+              CreateFormPage(researchRepository: researchRepository),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -79,22 +67,10 @@ class MyAppView extends StatelessWidget {
           builder: (context, state) {
             //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return MultiBlocProvider(
-                providers: [
-                  BlocProvider(
-                    create: (context) => UserModelBloc(
-                      repository: userRepository,
-                    )..add(
-                        GetUserData(userId: state.userId),
-                      ),
-                  ),
-                  BlocProvider(
-                    create: (context) =>
-                        ResearchModelBloc(repository: researchRepository)
-                          ..add(GetAllResearches()),
-                  ),
-                ],
-                child: const HomeAdmView(),
+              return HomeAdmPage(
+                userId: state.userId,
+                userRepository: userRepository,
+                researchRepository: researchRepository,
               );
             }
 

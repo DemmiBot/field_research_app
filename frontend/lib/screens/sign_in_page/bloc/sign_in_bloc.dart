@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:app_client/app_client.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';

@@ -5,6 +5,38 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
+class HomeAdmPage extends StatelessWidget {
+  final IUserRepository userRepository;
+  final IResearchRepository researchRepository;
+  final String userId;
+  const HomeAdmPage({
+    super.key,
+    required this.userRepository,
+    required this.researchRepository,
+    required this.userId,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => UserModelBloc(
+            repository: userRepository,
+          )..add(
+              GetUserData(userId: userId),
+            ),
+        ),
+        BlocProvider(
+          create: (context) => ResearchModelBloc(repository: researchRepository)
+            ..add(GetAllResearches()),
+        ),
+      ],
+      child: const HomeAdmView(),
+    );
+  }
+}
+
 class HomeAdmView extends StatefulWidget {
   const HomeAdmView({super.key});
 
@@ -117,8 +149,9 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                           child: MyButtonAdm(
                             text: 'Gerenciar Pesquisadores',
                             width: 10.w,
-                            onPressed: () =>
-                                Navigator.pushNamed(context, '/admUsers'),
+                            onPressed: () => Navigator.pushNamed(
+                                context, '/admUsers',
+                                arguments: user),
                           ),
                         ),
                       ],
