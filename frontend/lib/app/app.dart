@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
@@ -61,7 +62,7 @@ class MyAppView extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Poppins',
-          scaffoldBackgroundColor: backGroundColor,
+          scaffoldBackgroundColor: MyColors.white,
         ),
         home: BlocBuilder<SignInBloc, ISignInState>(
           builder: (context, state) {

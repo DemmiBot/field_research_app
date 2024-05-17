@@ -1,4 +1,5 @@
 import 'package:app_mixins/app_mixins.dart';
+import 'package:app_ui/app_ui.dart';
 
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/widgets/custom_text_field.dart';
@@ -57,6 +58,7 @@ class _SignupViewState extends State<SignupView> with FormMixin {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const MyLogo(),
                   CustomTextField(
                     controller: emailController,
                     textLabel: ' Email',
