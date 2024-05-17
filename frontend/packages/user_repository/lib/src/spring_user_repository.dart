@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:app_client/app_client.dart';
 import 'package:dartz/dartz.dart';
+import 'package:http/http.dart';
 import 'package:user_repository/src/models/user_model.dart';
 import 'user_repo.dart';
 
