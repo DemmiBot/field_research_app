@@ -1,11 +1,14 @@
+import 'package:app_ui/app_ui.dart';
+import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
 import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
 import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
 import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/screens/researcher_page/reseacher_home_view.dart';
 import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
-import 'package:fieldresearch/screens/sign_in_page/sign_in_view.dart';
 
-import 'package:fieldresearch/screens/sign_up_page/sign_up_view.dart';
+import 'package:fieldresearch/screens/sign_in_page/view/sign_in_view.dart';
+import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
+import 'package:fieldresearch/screens/sign_up_page/view/sign_up_view.dart';
 import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -61,7 +64,7 @@ class MyAppView extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           fontFamily: 'Poppins',
-          scaffoldBackgroundColor: backGroundColor,
+          scaffoldBackgroundColor: MyColors.white,
         ),
         home: BlocBuilder<SignInBloc, ISignInState>(
           builder: (context, state) {
@@ -82,7 +85,7 @@ class MyAppView extends StatelessWidget {
 
             // failure login
             else {
-              return const SignupView();
+              return const SignInView();
             }
           },
         ),

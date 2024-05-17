@@ -29,10 +29,10 @@ dependencies:
     path: packages/app_mixins
   app_client:
     path: packages/app_client
+  app_ui:
+    path: packages/app_ui
   flutter_native_splash: ^2.4.0
-  flutter_launcher_icons: ^0.13.1
-
-
+  
 
 dev_dependencies:
   flutter_test:
