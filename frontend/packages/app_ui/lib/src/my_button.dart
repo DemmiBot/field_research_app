@@ -42,9 +42,6 @@ class _MyButtonState extends State<MyButton> {
               style: ButtonStyle(
                 backgroundColor:
                     MaterialStateProperty.all(MyColors.primaryColor),
-                // padding: MaterialStateProperty.all(
-                //   EdgeInsets.symmetric(horizontal: 1.w, vertical: 9.h),
-                // ),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),
