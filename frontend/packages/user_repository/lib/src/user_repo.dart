@@ -12,11 +12,16 @@ abstract class IUserRepository {
   Future logOut();
 
   Future<Either<Failure, String>> signUp({
-    required String login,
+    required String email,
+    required String username,
     required String password,
   });
 
   Future resetPassword();
 
   Future<Either<Failure, UserModel>> getMyUser({required String userId});
+
+  Future<Either<Failure, List<UserModel>>> fetchUsers();
+
+  Future<Either<Failure, String>> deleteUser({required String userId});
 }
