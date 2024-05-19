@@ -18,7 +18,7 @@ class SignUpBloc extends Bloc<ISignUpEvent, ISignUpState> {
       final response = await _userRepository.signUp(
         email: event.email,
         password: event.password,
-        username: event.password,
+        username: event.username,
       );
       response.fold(
         (failure) => emit(

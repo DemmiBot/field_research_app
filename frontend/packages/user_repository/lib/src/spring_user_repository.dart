@@ -42,7 +42,7 @@ class SpringUserRepository implements IUserRepository {
   Future<Either<Failure, Map<String, dynamic>>> signIn(
       {required String login, required String password}) async {
     final body = jsonEncode({
-      'login': login,
+      'email': login,
       'password': password,
     });
     try {
@@ -79,7 +79,7 @@ class SpringUserRepository implements IUserRepository {
         'email': email,
         'username': username,
         'password': password,
-        'role': "USER",
+        'role': "ADMIN",
       },
     );
     try {
@@ -107,14 +107,16 @@ class SpringUserRepository implements IUserRepository {
     try {
       final response =
           await client.get(url: '${SpringConection.adressIP}/users');
-      List<dynamic> jsonData = jsonDecode(response.body);
-      List<UserModel> users = jsonData.map((e) {
-        return UserModel.fromJson(e);
-      }).toList();
+
       if (response.statusCode == 200) {
+        List<Map<String, dynamic>> jsonData = jsonDecode(response.body);
+        List<UserModel> users = jsonData.map((e) {
+          return UserModel.fromJson(e);
+        }).toList();
         return Right(users);
       } else {
-        return const Left(Failure(message: ''));
+        Map<String, dynamic> jsonData = jsonDecode(response.body);
+        return Left(Failure(message: jsonData['error']));
       }
     } catch (e) {
       return Left(Failure(message: e.toString()));
