@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:app_mixins/app_mixins.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
@@ -9,13 +8,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:user_repository/user_repository.dart';
 
 class SignUpPage extends StatelessWidget {
-  final IUserRepository userRepository;
-  const SignUpPage({super.key, required this.userRepository});
+  const SignUpPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => SignUpBloc(userRepository: userRepository),
+      create: (context) =>
+          SignUpBloc(userRepository: context.read<IUserRepository>()),
       child: const SignUpView(),
     );
   }

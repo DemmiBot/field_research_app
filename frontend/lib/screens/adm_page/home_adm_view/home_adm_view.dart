@@ -6,13 +6,9 @@ import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class HomeAdmPage extends StatelessWidget {
-  final IUserRepository userRepository;
-  final IResearchRepository researchRepository;
   final String userId;
   const HomeAdmPage({
     super.key,
-    required this.userRepository,
-    required this.researchRepository,
     required this.userId,
   });
 
@@ -22,14 +18,15 @@ class HomeAdmPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => UserModelBloc(
-            repository: userRepository,
+            repository: context.read<IUserRepository>(),
           )..add(
               GetUserData(userId: userId),
             ),
         ),
         BlocProvider(
-          create: (context) => ResearchModelBloc(repository: researchRepository)
-            ..add(GetAllResearches()),
+          create: (context) =>
+              ResearchModelBloc(repository: context.read<IResearchRepository>())
+                ..add(GetAllResearches()),
         ),
       ],
       child: const HomeAdmView(),

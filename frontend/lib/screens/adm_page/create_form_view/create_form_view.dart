@@ -12,13 +12,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:research_repository/research_repository.dart';
 
 class CreateFormPage extends StatelessWidget {
-  final IResearchRepository researchRepository;
-  const CreateFormPage({super.key, required this.researchRepository});
+  const CreateFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CreateFormBloc(repository: researchRepository),
+      create: (context) =>
+          CreateFormBloc(repository: context.read<IResearchRepository>()),
       child: const CreateFormView(),
     );
   }

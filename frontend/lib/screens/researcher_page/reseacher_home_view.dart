@@ -3,12 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeResearcherPage extends StatelessWidget {
-  const HomeResearcherPage({super.key});
+  final String userId;
+
+  const HomeResearcherPage({
+    super.key,
+    required this.userId,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BottomNavBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => BottomNavBloc(),
+        ),
+      ],
       child: const HomeResearcherView(),
     );
   }
@@ -47,6 +56,7 @@ class _ResearcherViewState extends State<HomeResearcherView> {
               .read<BottomNavBloc>()
               .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
           children: const [
+            // ResearchesViewPage(researchRepository: ,userRepository: ,userId: ,)
             Center(child: Text('Page 1')),
             Center(child: Text('Page 2')),
             Center(child: Text('Page 3')),
