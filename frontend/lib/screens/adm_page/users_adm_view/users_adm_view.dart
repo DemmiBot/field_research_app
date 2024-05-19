@@ -8,14 +8,14 @@ import 'package:user_repository/user_repository.dart';
 import 'package:fieldresearch/utils/utils.dart';
 
 class AdmUsers extends StatelessWidget {
-  final IUserRepository usersRepository;
-  const AdmUsers({super.key, required this.usersRepository});
+  const AdmUsers({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) =>
-          ManageUsersCubit(userRepository: usersRepository)..fetchUsers(),
+      create: (context) =>
+          ManageUsersCubit(userRepository: context.read<IUserRepository>())
+            ..fetchUsers(),
       child: const AdmUsersView(),
     );
   }

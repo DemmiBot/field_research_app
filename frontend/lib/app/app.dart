@@ -13,36 +13,34 @@ import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MainApp extends StatelessWidget {
-  final IUserRepository userRepository;
-  final IResearchRepository researchRepository;
-  const MainApp(
-      {super.key,
-      required this.userRepository,
-      required this.researchRepository});
+  final IUserRepository _userRepository;
+  final IResearchRepository _researchRepository;
+
+  const MainApp({
+    super.key,
+    required IUserRepository userRepository,
+    required IResearchRepository researchRepository,
+  })  : _userRepository = userRepository,
+        _researchRepository = researchRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (_) => SignInBloc(userRepository: userRepository),
-        ),
+        RepositoryProvider.value(value: _userRepository),
+        RepositoryProvider.value(value: _researchRepository),
       ],
-      child: MyAppView(
-        userRepository: userRepository,
-        researchRepository: researchRepository,
+      child: BlocProvider(
+        create: (context) =>
+            SignInBloc(userRepository: context.read<IUserRepository>()),
+        child: const MyAppView(),
       ),
     );
   }
 }
 
 class MyAppView extends StatelessWidget {
-  final IUserRepository userRepository;
-  final IResearchRepository researchRepository;
-  const MyAppView(
-      {super.key,
-      required this.userRepository,
-      required this.researchRepository});
+  const MyAppView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +50,9 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
-          '/register': (context) => SignUpPage(userRepository: userRepository),
-          '/admUsers': (context) => AdmUsers(usersRepository: userRepository),
-          '/admCreateForm': (context) =>
-              CreateFormPage(researchRepository: researchRepository),
+          '/register': (context) => const SignUpPage(),
+          '/admUsers': (context) => const AdmUsers(),
+          '/admCreateForm': (context) => const CreateFormPage(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -66,17 +63,13 @@ class MyAppView extends StatelessWidget {
           builder: (context, state) {
             //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return HomeAdmPage(
-                userId: state.userId,
-                userRepository: userRepository,
-                researchRepository: researchRepository,
-              );
+              return HomeAdmPage(userId: state.userId);
             }
 
             // success login researcher
             else if (state is SignInSuccess &&
                 state.typeUser == TypeUser.user) {
-              return const HomeResearcherPage();
+              return HomeResearcherPage(userId: state.userId);
             }
 
             // failure login
