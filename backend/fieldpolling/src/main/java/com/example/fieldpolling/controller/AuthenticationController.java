@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.fieldpolling.dtos.AuthenticationDTO;
 import com.example.fieldpolling.dtos.LoginResponseDTO;
 import com.example.fieldpolling.dtos.RegisterDTO;
-import com.example.fieldpolling.helpers.OnRegistrationCompleteEvent;
 import com.example.fieldpolling.infra.security.TokenService;
 import com.example.fieldpolling.models.User;
 import com.example.fieldpolling.models.VerificationToken;
@@ -49,7 +48,7 @@ public class AuthenticationController {
     @SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email() != null ? data.email() : data.username(), data.password());
         try {
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((User) auth.getPrincipal());
@@ -60,9 +59,10 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().body("User is locked/banned");
         } catch (BadCredentialsException e) {
             return ResponseEntity.badRequest().body("Bad Credentials");
+        } catch (AuthenticationException e) {
+            return ResponseEntity.badRequest().body("Auth exception: " + e);
+
         }
-
-
         // return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
@@ -79,8 +79,8 @@ public class AuthenticationController {
 
         try {
             this.repository.save(newUser);
-            eventPublisher.publishEvent(
-                    new OnRegistrationCompleteEvent(newUser, request.getLocale(), request.getContextPath()));
+        //    eventPublisher.publishEvent(
+        //            new OnRegistrationCompleteEvent(newUser, request.getLocale(), request.getContextPath()));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error on saving/sending email" + e);
         }
