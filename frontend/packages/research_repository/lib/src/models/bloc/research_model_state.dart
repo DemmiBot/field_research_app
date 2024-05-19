@@ -1,6 +1,6 @@
 part of 'research_model_bloc.dart';
 
-enum ResearchStatus { success, loading, failure, empty }
+enum ResearchStatus { success, loading, failure }
 
 class ResearchModelState extends Equatable {
   final ResearchStatus status;
@@ -15,9 +15,6 @@ class ResearchModelState extends Equatable {
   const ResearchModelState.loading() : this._();
 
   const ResearchModelState.failure() : this._(status: ResearchStatus.failure);
-
-  ResearchModelState.empty()
-      : this._(status: ResearchStatus.empty, researches: []);
 
   @override
   List<Object?> get props => [status, researches];

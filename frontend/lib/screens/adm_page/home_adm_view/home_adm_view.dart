@@ -1,3 +1,4 @@
+import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -117,7 +118,7 @@ class _HomeAdmViewState extends State<HomeAdmView> {
                             child: ListView.builder(
                               itemCount: research.length,
                               itemBuilder: (context, index) {
-                                return SearchTile(
+                                return SurveyTile(
                                   name: research[index].name,
                                   status: research[index].status,
                                 );
@@ -160,51 +161,6 @@ class _HomeAdmViewState extends State<HomeAdmView> {
           },
         );
       },
-    );
-  }
-}
-
-// widget for discovered searches
-class SearchTile extends StatefulWidget {
-  final String name;
-  final String status;
-  const SearchTile({super.key, required this.name, required this.status});
-
-  @override
-  State<SearchTile> createState() => _SearchTileState();
-}
-
-class _SearchTileState extends State<SearchTile> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Text(
-            widget.name,
-            style: TextStyle(fontSize: 14.sp, color: Colors.white),
-          ),
-        ),
-        SizedBox(height: 1.h),
-        Row(
-          children: [
-            Container(
-              width: 4.w,
-              height: 4.h,
-              decoration: BoxDecoration(
-                color: widget.status == 'OPEN' ? Colors.green : Colors.red,
-                shape: BoxShape.circle,
-              ),
-            ),
-            Text(
-              ' ${widget.status} | 1246 entradas',
-              style: TextStyle(fontSize: 10.sp, color: Colors.white),
-            ),
-          ],
-        ),
-        SizedBox(height: 20.h),
-      ],
     );
   }
 }
