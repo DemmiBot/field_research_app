@@ -1,6 +1,10 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:fieldresearch/screens/researcher_page/researches_view.dart';
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:research_repository/research_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class HomeResearcherPage extends StatelessWidget {
   final String userId;
@@ -16,6 +20,18 @@ class HomeResearcherPage extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => BottomNavBloc(),
+        ),
+        BlocProvider(
+          create: (context) =>
+              ResearchModelBloc(repository: context.read<IResearchRepository>())
+                ..add(GetAllResearches()),
+        ),
+        BlocProvider(
+          create: (context) => UserModelBloc(
+            repository: context.read<IUserRepository>(),
+          )..add(
+              GetUserData(userId: userId),
+            ),
         ),
       ],
       child: const HomeResearcherView(),
@@ -49,19 +65,17 @@ class _ResearcherViewState extends State<HomeResearcherView> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: MyNavBar(pageController: _pageController),
-      body: IgnorePointer(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (value) => context
-              .read<BottomNavBloc>()
-              .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
-          children: const [
-            // ResearchesViewPage(researchRepository: ,userRepository: ,userId: ,)
-            Center(child: Text('Page 1')),
-            Center(child: Text('Page 2')),
-            Center(child: Text('Page 3')),
-          ],
-        ),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        onPageChanged: (value) => context
+            .read<BottomNavBloc>()
+            .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
+        children: const [
+          ResearchesView(),
+          Center(child: Text('Page 2')),
+          Center(child: Text('Page 3')),
+        ],
       ),
     );
   }
