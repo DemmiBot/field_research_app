@@ -1,4 +1,5 @@
 import 'package:app_ui/app_ui.dart';
+import 'package:fieldresearch/researcher_page/options_researcher_view.dart';
 import 'package:fieldresearch/researcher_page/researches_user_view.dart';
 
 import 'package:flutter/material.dart';
@@ -74,7 +75,7 @@ class _ResearcherViewState extends State<HomeResearcherView> {
             .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
         children: const [
           ResearchesUserView(),
-          Center(child: Text('Page 2')),
+          OptionsResearcher(),
           Center(child: Text('Page 3')),
         ],
       ),
