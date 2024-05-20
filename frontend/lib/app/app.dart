@@ -1,7 +1,7 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/create_form_page/create_form_view.dart';
-import 'package:fieldresearch/home_adm_page/home_adm_view.dart';
-import 'package:fieldresearch/users_adm_page/users_adm_view.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/create_form_view.dart';
+import 'package:fieldresearch/home_adm_page/adm_home_view.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/researcher_page/reseacher_home_view.dart';
 import 'package:fieldresearch/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/sign_in_page/view/sign_in_view.dart';
@@ -29,8 +29,6 @@ class MainApp extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _researchRepository),
-        RepositoryProvider.value(value: _userRepository),
-        RepositoryProvider.value(value: _researchRepository),
       ],
       child: BlocProvider(
         create: (context) =>
@@ -53,7 +51,6 @@ class MyAppView extends StatelessWidget {
       child: MaterialApp(
         routes: {
           '/register': (context) => const SignUpPage(),
-          '/admUsers': (context) => const AdmUsers(),
           '/admCreateForm': (context) => const CreateFormPage(),
         },
         debugShowCheckedModeBanner: false,
@@ -65,13 +62,13 @@ class MyAppView extends StatelessWidget {
           builder: (context, state) {
             //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return HomeAdmPage(userId: state.userId);
+              return AdmHomeViewPage(currentUser: state.currentUser);
             }
 
             // success login researcher
             else if (state is SignInSuccess &&
                 state.typeUser == TypeUser.user) {
-              return HomeResearcherPage(userId: state.userId);
+              return HomeResearcherPage(userId: state.currentUser.id);
             }
 
             // failure login

@@ -16,9 +16,12 @@ class BottomNavBloc extends Bloc<BottomNavigationEvent, BottomNavigationState> {
         return BottomNavItem.survey;
 
       case 1:
-        return BottomNavItem.settings;
+        return BottomNavItem.userManager;
 
       case 2:
+        return BottomNavItem.settings;
+
+      case 3:
         return BottomNavItem.profile;
 
       default:
@@ -31,11 +34,14 @@ class BottomNavBloc extends Bloc<BottomNavigationEvent, BottomNavigationState> {
       case BottomNavItem.survey:
         return 0;
 
-      case BottomNavItem.settings:
+      case BottomNavItem.userManager:
         return 1;
 
-      case BottomNavItem.profile:
+      case BottomNavItem.settings:
         return 2;
+
+      case BottomNavItem.profile:
+        return 3;
 
       default:
         return 0;

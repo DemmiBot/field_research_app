@@ -5,15 +5,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyNavBar extends StatelessWidget {
   final PageController pageController;
-  const MyNavBar({super.key, required this.pageController});
+  final bool? isAdm;
+
+  const MyNavBar.user({
+    super.key,
+    required this.pageController,
+    this.isAdm = false,
+  });
+
+  const MyNavBar.adm({
+    super.key,
+    required this.pageController,
+  }) : isAdm = true;
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => BottomNavBloc(),
-      child: MyBottomNav(
-        pageController: pageController,
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => BottomNavBloc(),
+        ),
+        RepositoryProvider.value(value: isAdm),
+      ],
+      child: MyBottomNav(pageController: pageController),
     );
   }
 }
@@ -32,8 +46,10 @@ class _MyBottomNavState extends State<MyBottomNav> {
 
   @override
   Widget build(BuildContext context) {
-    final double left = MediaQuery.of(context).size.width / 3 * currentIndex +
-        (MediaQuery.of(context).size.width / 3 - 56.w) / 2;
+    final bool isAdm = context.read<bool?>()!;
+
+    final double left = MediaQuery.of(context).size.width / (isAdm ? 4 : 3);
+
     return BlocListener<BottomNavBloc, BottomNavigationState>(
       listener: (context, state) {
         if (state is InitialIndex) {
@@ -61,6 +77,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
               child: SizedBox(
                 height: 98.h,
                 child: BottomNavigationBar(
+                  type: BottomNavigationBarType.fixed,
                   unselectedItemColor: MyColors.black,
                   iconSize: 26.sp,
                   elevation: 0,
@@ -72,19 +89,27 @@ class _MyBottomNavState extends State<MyBottomNav> {
                         newIndex: BottomNavBloc.toEnum(value)));
                     widget.pageController.jumpToPage(value);
                   },
-                  items: const [
+                  items: [
                     /// Survey
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.toc),
                       label: '',
                     ),
+
+                    // User Management
+                    if (isAdm)
+                      const BottomNavigationBarItem(
+                        icon: Icon(Icons.manage_accounts_outlined),
+                        label: '',
+                      ),
+
                     // Settings
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.settings_outlined),
                       label: '',
                     ),
                     // Person
-                    BottomNavigationBarItem(
+                    const BottomNavigationBarItem(
                       icon: Icon(Icons.person_outlined),
                       label: '',
                     ),
@@ -96,7 +121,7 @@ class _MyBottomNavState extends State<MyBottomNav> {
             ),
             Positioned(
               top: 0,
-              left: left,
+              left: left * currentIndex + (left - 56.w) / 2,
               child: Container(
                 width: 56.w,
                 height: 2.h,

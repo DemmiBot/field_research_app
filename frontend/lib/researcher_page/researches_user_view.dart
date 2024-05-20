@@ -5,14 +5,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-class ResearchesView extends StatefulWidget {
-  const ResearchesView({super.key});
+class ResearchesUserView extends StatefulWidget {
+  const ResearchesUserView({super.key});
 
   @override
-  State<ResearchesView> createState() => _ResearchesViewState();
+  State<ResearchesUserView> createState() => _ResearchesUserViewState();
 }
 
-class _ResearchesViewState extends State<ResearchesView> {
+class _ResearchesUserViewState extends State<ResearchesUserView> {
   List<ResearchModel> research = [];
 
   UserModel user = UserModel.empty;

@@ -1,5 +1,5 @@
 import 'package:app_mixins/app_mixins.dart';
-import 'package:fieldresearch/create_form_page/widgets/int_type_data.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/widgets/int_type_data.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';

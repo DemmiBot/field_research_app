@@ -1,6 +1,6 @@
 part of 'bottom_nav_bloc.dart';
 
-enum BottomNavItem { settings, survey, profile }
+enum BottomNavItem { settings, survey, profile, userManager }
 
 abstract class BottomNavigationState extends Equatable {
   const BottomNavigationState();

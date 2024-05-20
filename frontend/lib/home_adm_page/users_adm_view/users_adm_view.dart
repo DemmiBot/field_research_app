@@ -1,27 +1,14 @@
-import 'package:fieldresearch/users_adm_page/cubit/manage_users_cubit.dart';
-import 'package:fieldresearch/users_adm_page/widgets/popup_button.dart';
+import 'package:app_ui/app_ui.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/cubit/manage_users_cubit.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:user_repository/user_repository.dart';
 
-class AdmUsers extends StatelessWidget {
-  const AdmUsers({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          ManageUsersCubit(userRepository: context.read<IUserRepository>())
-            ..fetchUsers(),
-      child: const AdmUsersView(),
-    );
-  }
-}
-
 class AdmUsersView extends StatefulWidget {
-  const AdmUsersView({super.key});
+  final UserModel currentUser;
+  const AdmUsersView({super.key, required this.currentUser});
 
   @override
   State<AdmUsersView> createState() => _AdmUsersView();
@@ -36,8 +23,6 @@ class _AdmUsersView extends State<AdmUsersView> {
 
   @override
   Widget build(BuildContext context) {
-    final UserModel currentUser =
-        ModalRoute.of(context)!.settings.arguments as UserModel;
     return Scaffold(
       floatingActionButton: context
               .read<ManageUsersCubit>()
@@ -49,10 +34,6 @@ class _AdmUsersView extends State<AdmUsersView> {
               child: const Icon(Icons.delete),
             )
           : null,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        forceMaterialTransparency: true,
-      ),
       body: BlocListener<ManageUsersCubit, ManageUsersState>(
         listener: (context, state) {
           if (state.state == UsersState.deletionSuccess) {
@@ -72,8 +53,8 @@ class _AdmUsersView extends State<AdmUsersView> {
           }
           if (state.state == UsersState.success) {
             users = state.users!;
-            if (users.any((user) => user.name == currentUser.name)) {
-              users.removeWhere((user) => user.name == currentUser.name);
+            if (users.any((user) => user.name == widget.currentUser.name)) {
+              users.removeWhere((user) => user.name == widget.currentUser.name);
             }
             selectedMap = {
               for (var index in users.asMap().keys) index: false,
@@ -82,6 +63,7 @@ class _AdmUsersView extends State<AdmUsersView> {
         },
         child: SafeArea(
           child: RefreshIndicator(
+            backgroundColor: MyColors.primaryColor,
             onRefresh: () async =>
                 context.read<ManageUsersCubit>().fetchUsers(),
             child: Padding(
@@ -93,7 +75,7 @@ class _AdmUsersView extends State<AdmUsersView> {
                   Text(
                     'Pesquisadores',
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                     ),
@@ -129,14 +111,21 @@ class _AdmUsersView extends State<AdmUsersView> {
                   BlocBuilder<ManageUsersCubit, ManageUsersState>(
                       builder: (context, state) {
                     if (state.state == UsersState.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
+                      return const Expanded(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
                       );
                     } else if (state.state == UsersState.failure) {
-                      return Center(
-                        child: Text(
-                          state.message!,
-                          style: const TextStyle(color: Colors.white),
+                      return Expanded(
+                        child: Center(
+                          child: Text(
+                            state.message!,
+                            style: const TextStyle(
+                              color: MyColors.black,
+                              fontSize: 15,
+                            ),
+                          ),
                         ),
                       );
                     }
@@ -249,5 +238,44 @@ class _AdmUsersView extends State<AdmUsersView> {
         };
       }
     });
+  }
+}
+
+// ignore: must_be_immutable
+class PopUpButton extends StatefulWidget {
+  String adm = '';
+
+  PopUpButton({super.key, required this.adm});
+
+  @override
+  State<PopUpButton> createState() => _PopUpButtonState();
+}
+
+class _PopUpButtonState extends State<PopUpButton> {
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: (value) {
+        setState(() {
+          widget.adm = value;
+        });
+      },
+      itemBuilder: (BuildContext context) => [
+        const PopupMenuItem<String>(
+          value: 'ADMIN',
+          child: Text('ADMIN'),
+        ),
+        const PopupMenuItem<String>(
+          value: 'USER',
+          child: Text('USER'),
+        ),
+      ],
+      child: Row(
+        children: [
+          Text(widget.adm),
+          const Icon(Icons.keyboard_arrow_down),
+        ],
+      ),
+    );
   }
 }

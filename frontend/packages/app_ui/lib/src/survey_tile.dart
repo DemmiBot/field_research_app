@@ -10,40 +10,35 @@ class SurveyTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 800),
-      minTextAdapt: true,
-      splitScreenMode: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: Alignment.topLeft,
-            child: Text(
-              name,
-              style: TextStyle(fontSize: 14.sp, color: MyColors.black),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Text(
+            name,
+            style: TextStyle(fontSize: 14.sp, color: MyColors.black),
+          ),
+        ),
+        SizedBox(height: 1.h),
+        Row(
+          children: [
+            Container(
+              width: 4.w,
+              height: 4.h,
+              decoration: BoxDecoration(
+                color: status == 'OPEN' ? Colors.green : Colors.red,
+                shape: BoxShape.circle,
+              ),
             ),
-          ),
-          SizedBox(height: 1.h),
-          Row(
-            children: [
-              Container(
-                width: 4.w,
-                height: 4.h,
-                decoration: BoxDecoration(
-                  color: status == 'OPEN' ? Colors.green : Colors.red,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              Text(
-                ' ${translate(status)} | 1246 entradas | 4 pesquisador(es)',
-                style: TextStyle(fontSize: 10.sp, color: MyColors.black),
-              ),
-            ],
-          ),
-          SizedBox(height: 20.h),
-        ],
-      ),
+            Text(
+              ' ${translate(status)} | 1246 entradas | 4 pesquisador(es)',
+              style: TextStyle(fontSize: 10.sp, color: MyColors.black),
+            ),
+          ],
+        ),
+        SizedBox(height: 20.h),
+      ],
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/researcher_page/researches_view.dart';
+import 'package:fieldresearch/researcher_page/researches_user_view.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +65,7 @@ class _ResearcherViewState extends State<HomeResearcherView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: MyNavBar(pageController: _pageController),
+      bottomNavigationBar: MyNavBar.user(pageController: _pageController),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
@@ -72,7 +73,7 @@ class _ResearcherViewState extends State<HomeResearcherView> {
             .read<BottomNavBloc>()
             .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
         children: const [
-          ResearchesView(),
+          ResearchesUserView(),
           Center(child: Text('Page 2')),
           Center(child: Text('Page 3')),
         ],

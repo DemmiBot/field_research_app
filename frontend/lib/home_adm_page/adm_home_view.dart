@@ -1,17 +1,18 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/screens/researcher_page/researches_view.dart';
+import 'package:fieldresearch/home_adm_page/researches_adm_view.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/cubit/manage_users_cubit.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/users_adm_view.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
-class HomeResearcherPage extends StatelessWidget {
-  final String userId;
+class AdmHomeViewPage extends StatelessWidget {
+  final UserModel currentUser;
 
-  const HomeResearcherPage({
+  const AdmHomeViewPage({
     super.key,
-    required this.userId,
+    required this.currentUser,
   });
 
   @override
@@ -30,23 +31,29 @@ class HomeResearcherPage extends StatelessWidget {
           create: (context) => UserModelBloc(
             repository: context.read<IUserRepository>(),
           )..add(
-              GetUserData(userId: userId),
+              GetUserData(userId: currentUser.id),
             ),
         ),
+        BlocProvider(
+          create: (context) =>
+              ManageUsersCubit(userRepository: context.read<IUserRepository>())
+                ..fetchUsers(),
+        ),
       ],
-      child: const HomeResearcherView(),
+      child: AdmHomeView(currentUser: currentUser),
     );
   }
 }
 
-class HomeResearcherView extends StatefulWidget {
-  const HomeResearcherView({super.key});
+class AdmHomeView extends StatefulWidget {
+  final UserModel currentUser;
+  const AdmHomeView({super.key, required this.currentUser});
 
   @override
-  State<HomeResearcherView> createState() => _ResearcherViewState();
+  State<AdmHomeView> createState() => _AdmHomeViewState();
 }
 
-class _ResearcherViewState extends State<HomeResearcherView> {
+class _AdmHomeViewState extends State<AdmHomeView> {
   late PageController _pageController;
 
   @override
@@ -64,17 +71,18 @@ class _ResearcherViewState extends State<HomeResearcherView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: MyNavBar(pageController: _pageController),
+      bottomNavigationBar: MyNavBar.adm(pageController: _pageController),
       body: PageView(
         controller: _pageController,
         physics: const NeverScrollableScrollPhysics(),
         onPageChanged: (value) => context
             .read<BottomNavBloc>()
             .add(IndexChangedEvent(newIndex: BottomNavBloc.toEnum(value))),
-        children: const [
-          ResearchesView(),
-          Center(child: Text('Page 2')),
-          Center(child: Text('Page 3')),
+        children: [
+          const ResearchesAdmView(),
+          AdmUsersView(currentUser: widget.currentUser),
+          const Center(child: Text('Page 3')),
+          const Center(child: Text('Page 4')),
         ],
       ),
     );

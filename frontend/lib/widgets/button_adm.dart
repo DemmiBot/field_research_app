@@ -30,7 +30,7 @@ class MyButtonAdm extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(text, style: TextStyle(fontSize: 12.sp, color: Colors.white)),
+      child: Text(text, style: TextStyle(fontSize: 12.sp, color: Colors.black)),
     );
   }
 }
