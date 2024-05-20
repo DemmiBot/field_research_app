@@ -45,41 +45,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
   bool obscureText = true;
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 800),
-      minTextAdapt: true,
-      splitScreenMode: false,
-      child: TextFormField(
-        keyboardType: widget.textInputType,
-        validator: widget.validator,
-        controller: widget.controller,
-        obscureText: widget.isPassword ? obscureText : false,
-        cursorColor: MyColors.black,
-        cursorHeight: 28.h,
-        style: TextStyle(color: MyColors.black, fontSize: 14.sp),
-        decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: const BorderSide(color: MyColors.borderField),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.r),
-            borderSide: const BorderSide(color: MyColors.borderField),
-          ),
-          suffixIcon: widget.isPassword
-              ? IconButton(
-                  icon: obscureText
-                      ? const Icon(Icons.visibility_off_outlined)
-                      : const Icon(Icons.visibility_outlined),
-                  onPressed: () => setState(() => obscureText = !obscureText),
-                )
-              : null,
-          contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.h),
-          filled: true,
-          fillColor: MyColors.textFill,
-          hintText: widget.textLabel,
-          hintStyle: TextStyle(color: MyColors.borderField, fontSize: 14.sp),
+    return TextFormField(
+      keyboardType: widget.textInputType,
+      validator: widget.validator,
+      controller: widget.controller,
+      obscureText: widget.isPassword ? obscureText : false,
+      cursorColor: MyColors.black,
+      cursorHeight: 28.h,
+      style: TextStyle(color: MyColors.black, fontSize: 14.sp),
+      decoration: InputDecoration(
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: const BorderSide(color: MyColors.borderField),
         ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.r),
+          borderSide: const BorderSide(color: MyColors.borderField),
+        ),
+        suffixIcon: widget.isPassword
+            ? IconButton(
+                icon: obscureText
+                    ? const Icon(Icons.visibility_off_outlined)
+                    : const Icon(Icons.visibility_outlined),
+                onPressed: () => setState(() => obscureText = !obscureText),
+              )
+            : null,
+        contentPadding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 5.h),
+        filled: true,
+        fillColor: MyColors.textFill,
+        hintText: widget.textLabel,
+        hintStyle: TextStyle(color: MyColors.borderField, fontSize: 14.sp),
       ),
     );
   }

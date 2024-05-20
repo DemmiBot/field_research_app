@@ -46,69 +46,64 @@ class _MyBottomNavState extends State<MyBottomNav> {
           });
         }
       },
-      child: ScreenUtilInit(
-        designSize: const Size(360, 800),
-        minTextAdapt: true,
-        splitScreenMode: false,
-        child: Container(
-          height: 98.h,
-          decoration: BoxDecoration(
-            color: MyColors.textFill,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(10.0.r),
-              topRight: Radius.circular(10.0.r),
+      child: Container(
+        height: 98.h,
+        decoration: BoxDecoration(
+          color: MyColors.textFill,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(10.0.r),
+            topRight: Radius.circular(10.0.r),
+          ),
+        ),
+        child: Stack(
+          children: [
+            Center(
+              child: SizedBox(
+                height: 98.h,
+                child: BottomNavigationBar(
+                  unselectedItemColor: MyColors.black,
+                  iconSize: 26.sp,
+                  elevation: 0,
+                  backgroundColor: MyColors.transparent,
+                  selectedItemColor: MyColors.primaryColor,
+                  currentIndex: currentIndex,
+                  onTap: (value) {
+                    context.read<BottomNavBloc>().add(IndexChangedEvent(
+                        newIndex: BottomNavBloc.toEnum(value)));
+                    widget.pageController.jumpToPage(value);
+                  },
+                  items: const [
+                    /// Survey
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.toc),
+                      label: '',
+                    ),
+                    // Settings
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.settings_outlined),
+                      label: '',
+                    ),
+                    // Person
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.person_outlined),
+                      label: '',
+                    ),
+                  ],
+                  showSelectedLabels: false,
+                  showUnselectedLabels: false,
+                ),
+              ),
             ),
-          ),
-          child: Stack(
-            children: [
-              Center(
-                child: SizedBox(
-                  height: 98.h,
-                  child: BottomNavigationBar(
-                    unselectedItemColor: MyColors.black,
-                    iconSize: 26.sp,
-                    elevation: 0,
-                    backgroundColor: MyColors.transparent,
-                    selectedItemColor: MyColors.primaryColor,
-                    currentIndex: currentIndex,
-                    onTap: (value) {
-                      context.read<BottomNavBloc>().add(IndexChangedEvent(
-                          newIndex: BottomNavBloc.toEnum(value)));
-                      widget.pageController.jumpToPage(value);
-                    },
-                    items: const [
-                      /// Survey
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.toc),
-                        label: '',
-                      ),
-                      // Settings
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.settings_outlined),
-                        label: '',
-                      ),
-                      // Person
-                      BottomNavigationBarItem(
-                        icon: Icon(Icons.person_outlined),
-                        label: '',
-                      ),
-                    ],
-                    showSelectedLabels: false,
-                    showUnselectedLabels: false,
-                  ),
-                ),
+            Positioned(
+              top: 0,
+              left: left,
+              child: Container(
+                width: 56.w,
+                height: 2.h,
+                color: Colors.blue,
               ),
-              Positioned(
-                top: 0,
-                left: left,
-                child: Container(
-                  width: 56.w,
-                  height: 2.h,
-                  color: Colors.blue,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

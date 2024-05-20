@@ -1,11 +1,10 @@
-import 'package:fieldresearch/screens/adm_page/users_adm_view/cubit/manage_users_cubit.dart';
-import 'package:fieldresearch/screens/adm_page/users_adm_view/widgets/popup_button.dart';
+import 'package:fieldresearch/users_adm_page/cubit/manage_users_cubit.dart';
+import 'package:fieldresearch/users_adm_page/widgets/popup_button.dart';
 import 'package:fieldresearch/widgets/button_adm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:user_repository/user_repository.dart';
-import 'package:fieldresearch/utils/utils.dart';
 
 class AdmUsers extends StatelessWidget {
   const AdmUsers({super.key});
@@ -45,7 +44,7 @@ class _AdmUsersView extends State<AdmUsersView> {
               .usersSelected
               .isNotEmpty
           ? FloatingActionButton(
-              backgroundColor: textColorForm,
+              backgroundColor: Colors.amber,
               onPressed: () => context.read<ManageUsersCubit>().deleteUsers(),
               child: const Icon(Icons.delete),
             )
@@ -149,11 +148,11 @@ class _AdmUsersView extends State<AdmUsersView> {
                             border: const TableBorder(
                               verticalInside: BorderSide(
                                 width: 0.3,
-                                color: buttonColor,
+                                color: Colors.amber,
                               ),
                             ),
                             decoration: const BoxDecoration(
-                              color: buttonColor,
+                              color: Colors.amber,
                             ),
                             columnSpacing: 10.w,
                             columns: const [

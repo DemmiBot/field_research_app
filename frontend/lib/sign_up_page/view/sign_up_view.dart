@@ -1,6 +1,6 @@
 import 'package:app_mixins/app_mixins.dart';
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
+import 'package:fieldresearch/sign_up_page/bloc/sign_up_bloc.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,6 +1,6 @@
 import 'package:app_mixins/app_mixins.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/int_type_data.dart';
-import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/create_form_page/widgets/int_type_data.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -38,13 +38,13 @@ class _DefaultTypeState extends State<DefaultType> with FormMixin {
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(vertical: 14.h),
               filled: true,
-              fillColor: fillFormColor,
+              fillColor: Colors.amber,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(3.r),
                 borderSide: BorderSide.none,
               ),
               hintText: ' Nome do campo',
-              hintStyle: TextStyle(color: textColorForm, fontSize: 16.sp),
+              hintStyle: TextStyle(color: Colors.amber, fontSize: 16.sp),
             ),
             name: 'fieldItem${widget.identity}',
           ),
@@ -62,13 +62,13 @@ class _DefaultTypeState extends State<DefaultType> with FormMixin {
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.symmetric(vertical: 14.h),
                     filled: true,
-                    fillColor: fillFormColor,
+                    fillColor: Colors.amber,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(3.r),
                       borderSide: BorderSide.none,
                     ),
                     hintText: ' Tipo de dado',
-                    hintStyle: TextStyle(color: textColorForm, fontSize: 13.sp),
+                    hintStyle: TextStyle(color: Colors.amber, fontSize: 13.sp),
                   ),
                   onChanged: (value) {
                     setState(() {

@@ -29,44 +29,35 @@ class MyButton extends StatefulWidget {
 class _MyButtonState extends State<MyButton> {
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 800),
-      minTextAdapt: true,
-      splitScreenMode: false,
-      builder: (context, child) {
-        return Center(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(maxHeight: 40.h, maxWidth: 136.w),
-            child: ElevatedButton(
-              onPressed: widget.onPressed,
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(MyColors.primaryColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.r),
-                  ),
-                ),
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxHeight: 40.h, maxWidth: 136.w),
+        child: ElevatedButton(
+          onPressed: widget.onPressed,
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(MyColors.primaryColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.r),
               ),
-              child: widget.isLoading
-                  ? Center(
-                      child: LoadingAnimationWidget.discreteCircle(
-                          color: MyColors.white,
-                          secondRingColor: MyColors.textFill,
-                          thirdRingColor: MyColors.borderField,
-                          size: 20.sp),
-                    )
-                  : Center(
-                      child: Text(
-                        widget.text,
-                        style:
-                            TextStyle(fontSize: 16.sp, color: MyColors.white),
-                      ),
-                    ),
             ),
           ),
-        );
-      },
+          child: widget.isLoading
+              ? Center(
+                  child: LoadingAnimationWidget.discreteCircle(
+                      color: MyColors.white,
+                      secondRingColor: MyColors.textFill,
+                      thirdRingColor: MyColors.borderField,
+                      size: 20.sp),
+                )
+              : Center(
+                  child: Text(
+                    widget.text,
+                    style: TextStyle(fontSize: 16.sp, color: MyColors.white),
+                  ),
+                ),
+        ),
+      ),
     );
   }
 }

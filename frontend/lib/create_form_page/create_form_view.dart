@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:app_mixins/app_mixins.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/default_type.dart';
-import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/create_form_page/bloc/create_form_bloc.dart';
+import 'package:fieldresearch/create_form_page/widgets/default_type.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -100,7 +100,7 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
                       style: const TextStyle(color: Colors.white),
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: fillFormColor,
+                        fillColor: Colors.amber,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(3.r),
                           borderSide: BorderSide.none,

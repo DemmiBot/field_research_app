@@ -7,28 +7,23 @@ class MyLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      designSize: const Size(360, 800),
-      minTextAdapt: true,
-      splitScreenMode: false,
-      child: RichText(
-        text: TextSpan(
-          text: 'SURVEY',
-          style: TextStyle(
-            color: MyColors.black,
-            fontSize: 40.sp,
-            fontWeight: FontWeight.w900,
-          ),
-          children: <TextSpan>[
-            TextSpan(
-              text: 'APP',
-              style: TextStyle(
-                  fontWeight: FontWeight.w900,
-                  color: MyColors.primaryColor,
-                  fontSize: 40.sp),
-            ),
-          ],
+    return RichText(
+      text: TextSpan(
+        text: 'SURVEY',
+        style: TextStyle(
+          color: MyColors.black,
+          fontSize: 40.sp,
+          fontWeight: FontWeight.w900,
         ),
+        children: <TextSpan>[
+          TextSpan(
+            text: 'APP',
+            style: TextStyle(
+                fontWeight: FontWeight.w900,
+                color: MyColors.primaryColor,
+                fontSize: 40.sp),
+          ),
+        ],
       ),
     );
   }
