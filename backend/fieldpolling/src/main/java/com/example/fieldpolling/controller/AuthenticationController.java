@@ -48,11 +48,14 @@ public class AuthenticationController {
     @SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email() != null ? data.email() : data.username(), data.password());
+        String login = data.email() != null ? data.email() : data.username();
+        var usernamePassword = new UsernamePasswordAuthenticationToken(login, data.password());
         try {
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((User) auth.getPrincipal());
-            return ResponseEntity.ok(new LoginResponseDTO(token, (User) repository.findByEmail(data.email())));
+            // findbyemail ? findbyemail : findbyusername
+            User user = repository.findByEmail(login) != null ? (User) repository.findByEmail(login) : (User) repository.findByUsername(login);
+            return ResponseEntity.ok(new LoginResponseDTO(token, user));
         } catch (DisabledException e) {
             return ResponseEntity.badRequest().body("User is not confirmed");
         } catch (LockedException e) {
