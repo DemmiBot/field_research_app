@@ -82,6 +82,8 @@ public class AuthenticationController {
 
         try {
             this.repository.save(newUser);
+        // uncomment to send email on user saving
+        // needs enviroment variables SPRING_EMAIL and SPRING_PASSWORD to work
         //    eventPublisher.publishEvent(
         //            new OnRegistrationCompleteEvent(newUser, request.getLocale(), request.getContextPath()));
         } catch (Exception e) {
