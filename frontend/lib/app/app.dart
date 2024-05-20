@@ -29,6 +29,8 @@ class MainApp extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _researchRepository),
+        RepositoryProvider.value(value: _userRepository),
+        RepositoryProvider.value(value: _researchRepository),
       ],
       child: BlocProvider(
         create: (context) =>

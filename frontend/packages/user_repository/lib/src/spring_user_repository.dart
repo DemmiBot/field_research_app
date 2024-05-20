@@ -77,7 +77,7 @@ class SpringUserRepository implements IUserRepository {
         'email': email,
         'username': username,
         'password': password,
-        'role': "USER",
+        'role': "ADMIN",
       },
     );
     try {
