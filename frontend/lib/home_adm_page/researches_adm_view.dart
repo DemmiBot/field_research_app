@@ -117,7 +117,9 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                                     child: Text(
                                       'Nenhuma pesquisa disponível',
                                       style: TextStyle(
-                                          fontSize: 14.sp, color: Colors.white),
+                                        fontSize: 14.sp,
+                                        color: MyColors.black,
+                                      ),
                                     ),
                                   );
                           } else if (state.status == ResearchStatus.loading) {
@@ -129,7 +131,7 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                               child: Text(
                                 'Erro ao buscar pesquisas',
                                 style: TextStyle(
-                                    fontSize: 14.sp, color: Colors.white),
+                                    fontSize: 14.sp, color: MyColors.black),
                               ),
                             );
                           }

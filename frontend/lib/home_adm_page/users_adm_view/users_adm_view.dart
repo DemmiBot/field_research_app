@@ -148,22 +148,22 @@ class _AdmUsersView extends State<AdmUsersView> {
                               DataColumn(
                                 label: Text(
                                   'id',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: MyColors.black),
                                 ),
                               ),
                               DataColumn(
                                 label: Text(
                                   'Nome',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: MyColors.black),
                                 ),
                               ),
                               DataColumn(
                                 label: Text('Adm',
-                                    style: TextStyle(color: Colors.white)),
+                                    style: TextStyle(color: MyColors.black)),
                               ),
                               DataColumn(
                                 label: Text('Email',
-                                    style: TextStyle(color: Colors.white)),
+                                    style: TextStyle(color: MyColors.black)),
                               ),
                             ],
                             rows: users.asMap().entries.map(
@@ -173,7 +173,7 @@ class _AdmUsersView extends State<AdmUsersView> {
                                 return DataRow(
                                   color: MaterialStateProperty.all(index.isEven
                                       ? Colors.grey[300]
-                                      : Colors.white),
+                                      : MyColors.white),
                                   cells: [
                                     DataCell(
                                       remove
