@@ -20,6 +20,8 @@ class MyColors {
   // TextFields
   static const Color textFill = Color(0xffF3F3F3);
   static const Color borderField = Color(0xffB8B8B8);
+
+  static const Color variantPrimaryColor = Color(0xff0C48A3);
 }
 
 

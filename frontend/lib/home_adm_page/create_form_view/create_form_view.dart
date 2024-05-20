@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:app_mixins/app_mixins.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/widgets/default_type.dart';
-import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/bloc/create_form_bloc.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/widgets/default_type.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,13 +12,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:research_repository/research_repository.dart';
 
 class CreateFormPage extends StatelessWidget {
-  final IResearchRepository researchRepository;
-  const CreateFormPage({super.key, required this.researchRepository});
+  const CreateFormPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CreateFormBloc(repository: researchRepository),
+      create: (context) =>
+          CreateFormBloc(repository: context.read<IResearchRepository>()),
       child: const CreateFormView(),
     );
   }
@@ -86,27 +86,27 @@ class _CreateFormViewState extends State<CreateFormView> with FormMixin {
                     FormBuilderTextField(
                       validator: (value) => isNotEmptyFlutterForm(value),
                       name: 'name',
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
                         hintText: 'Nome da pesquisa...',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: Colors.black),
                       ),
                     ),
                     FormBuilderTextField(
                       validator: (value) => isNotEmptyFlutterForm(value),
                       maxLines: 3,
                       name: 'description',
-                      style: const TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         filled: true,
-                        fillColor: fillFormColor,
+                        fillColor: Colors.amber,
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(3.r),
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Descrição...',
-                        hintStyle: const TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.black),
                       ),
                     ),
                     const Divider(),

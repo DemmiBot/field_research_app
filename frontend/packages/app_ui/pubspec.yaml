@@ -10,8 +10,10 @@ environment:
 
 
 dependencies:
+  equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_bloc: ^8.1.5
   flutter_screenutil: ^5.0.1+2
   loading_animation_widget: ^1.2.1
   

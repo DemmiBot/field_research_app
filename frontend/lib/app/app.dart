@@ -1,15 +1,11 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/bloc/create_form_bloc.dart';
-import 'package:fieldresearch/screens/adm_page/create_form_view/create_form_view.dart';
-import 'package:fieldresearch/screens/adm_page/home_adm_view/home_adm_view.dart';
-import 'package:fieldresearch/screens/adm_page/users_adm_view/users_adm_view.dart';
-import 'package:fieldresearch/screens/researcher_page/reseacher_home_view.dart';
-import 'package:fieldresearch/screens/sign_in_page/bloc/sign_in_bloc.dart';
-
-import 'package:fieldresearch/screens/sign_in_page/view/sign_in_view.dart';
-import 'package:fieldresearch/screens/sign_up_page/bloc/sign_up_bloc.dart';
-import 'package:fieldresearch/screens/sign_up_page/view/sign_up_view.dart';
-import 'package:fieldresearch/utils/utils.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/create_form_view.dart';
+import 'package:fieldresearch/home_adm_page/adm_home_view.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/users_adm_view.dart';
+import 'package:fieldresearch/researcher_page/reseacher_home_view.dart';
+import 'package:fieldresearch/sign_in_page/bloc/sign_in_bloc.dart';
+import 'package:fieldresearch/sign_in_page/view/sign_in_view.dart';
+import 'package:fieldresearch/sign_up_page/view/sign_up_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,36 +13,34 @@ import 'package:research_repository/research_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class MainApp extends StatelessWidget {
-  final IUserRepository userRepository;
-  final IResearchRepository researchRepository;
-  const MainApp(
-      {super.key,
-      required this.userRepository,
-      required this.researchRepository});
+  final IUserRepository _userRepository;
+  final IResearchRepository _researchRepository;
+
+  const MainApp({
+    super.key,
+    required IUserRepository userRepository,
+    required IResearchRepository researchRepository,
+  })  : _userRepository = userRepository,
+        _researchRepository = researchRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        BlocProvider(
-          create: (_) => SignInBloc(userRepository: userRepository),
-        ),
+        RepositoryProvider.value(value: _userRepository),
+        RepositoryProvider.value(value: _researchRepository),
       ],
-      child: MyAppView(
-        userRepository: userRepository,
-        researchRepository: researchRepository,
+      child: BlocProvider(
+        create: (context) =>
+            SignInBloc(userRepository: context.read<IUserRepository>()),
+        child: const MyAppView(),
       ),
     );
   }
 }
 
 class MyAppView extends StatelessWidget {
-  final IUserRepository userRepository;
-  final IResearchRepository researchRepository;
-  const MyAppView(
-      {super.key,
-      required this.userRepository,
-      required this.researchRepository});
+  const MyAppView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,10 +50,8 @@ class MyAppView extends StatelessWidget {
       splitScreenMode: false,
       child: MaterialApp(
         routes: {
-          '/register': (context) => SignUpPage(userRepository: userRepository),
-          '/admUsers': (context) => AdmUsers(usersRepository: userRepository),
-          '/admCreateForm': (context) =>
-              CreateFormPage(researchRepository: researchRepository),
+          '/register': (context) => const SignUpPage(),
+          '/admCreateForm': (context) => const CreateFormPage(),
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -70,17 +62,13 @@ class MyAppView extends StatelessWidget {
           builder: (context, state) {
             //success login adm
             if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return HomeAdmPage(
-                userId: state.userId,
-                userRepository: userRepository,
-                researchRepository: researchRepository,
-              );
+              return AdmHomeViewPage(currentUser: state.currentUser);
             }
 
             // success login researcher
             else if (state is SignInSuccess &&
                 state.typeUser == TypeUser.user) {
-              return const HomeResearcherView();
+              return HomeResearcherPage(userId: state.currentUser.id);
             }
 
             // failure login

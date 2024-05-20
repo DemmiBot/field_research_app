@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:app_client/app_client.dart';
 import 'package:dartz/dartz.dart';
-import 'package:http/http.dart';
 import 'package:user_repository/src/models/user_model.dart';
 import 'user_repo.dart';
 
@@ -39,10 +37,10 @@ class SpringUserRepository implements IUserRepository {
   }
 
   @override
-  Future<Either<Failure, Map<String, dynamic>>> signIn(
+  Future<Either<Failure, UserModel>> signIn(
       {required String login, required String password}) async {
     final body = jsonEncode({
-      'login': login,
+      'email': login,
       'password': password,
     });
     try {
@@ -54,12 +52,16 @@ class SpringUserRepository implements IUserRepository {
       Map<String, dynamic> jsonData = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        Map<String, dynamic> userData = {
-          'userId': jsonData['user']['user_id'],
-          'typeUser': jsonData['user']['role']
-        };
+        UserModel user = UserModel.empty;
 
-        return Right(userData);
+        return Right(
+          user.copyWith(
+            id: jsonData['user']['user_id'],
+            adm: jsonData['user']['role'],
+            name: jsonData['user']['username'],
+            email: jsonData['user']['email'],
+          ),
+        );
       } else {
         return Left(Failure(message: jsonData['error']));
       }
@@ -68,6 +70,25 @@ class SpringUserRepository implements IUserRepository {
     }
   }
 
+//       {
+//     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InRlc3RlQGdtYWlsLmNvbSIsImV4cCI6MTcxNjI0MDM5Mn0.3z8iYBaVtL0Ay1ZscH5zRrM4-GpXgayALyb86OYL508",
+//     "user": {
+//         "user_id": "4c4d6e9d-afec-476a-a30d-6eee2be27326",
+//         "username": "fulano",
+//         "email": "teste@gmail.com",
+//         "password": "$2a$10$aUiJCSoFjopPG8W5YMPcvOMRvnB.SR3LjmlHtKlZtd0k5/y40O58q",
+//         "role": "USER",
+//         "enabled": true,
+//         "accountNonLocked": true,
+//         "authorities": [
+//             {
+//                 "authority": "ROLE_USER"
+//             }
+//         ],
+//         "credentialsNonExpired": true,
+//         "accountNonExpired": true
+//     }
+// }
   @override
   Future<Either<Failure, String>> signUp({
     required String email,
@@ -79,7 +100,7 @@ class SpringUserRepository implements IUserRepository {
         'email': email,
         'username': username,
         'password': password,
-        'role': "USER",
+        'role': "ADMIN",
       },
     );
     try {
@@ -107,14 +128,16 @@ class SpringUserRepository implements IUserRepository {
     try {
       final response =
           await client.get(url: '${SpringConection.adressIP}/users');
-      List<dynamic> jsonData = jsonDecode(response.body);
-      List<UserModel> users = jsonData.map((e) {
-        return UserModel.fromJson(e);
-      }).toList();
+
       if (response.statusCode == 200) {
+        List<Map<String, dynamic>> jsonData = jsonDecode(response.body);
+        List<UserModel> users = jsonData.map((e) {
+          return UserModel.fromJson(e);
+        }).toList();
         return Right(users);
       } else {
-        return const Left(Failure(message: ''));
+        Map<String, dynamic> jsonData = jsonDecode(response.body);
+        return Left(Failure(message: jsonData['error']));
       }
     } catch (e) {
       return Left(Failure(message: e.toString()));

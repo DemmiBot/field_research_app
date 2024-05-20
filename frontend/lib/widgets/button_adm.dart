@@ -1,4 +1,3 @@
-import 'package:fieldresearch/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -27,11 +26,11 @@ class MyButtonAdm extends StatelessWidget {
           ),
         ),
         backgroundColor: const MaterialStatePropertyAll(
-          buttonColor,
+          Colors.grey,
         ),
       ),
       onPressed: onPressed,
-      child: Text(text, style: TextStyle(fontSize: 12.sp, color: Colors.white)),
+      child: Text(text, style: TextStyle(fontSize: 12.sp, color: Colors.black)),
     );
   }
 }

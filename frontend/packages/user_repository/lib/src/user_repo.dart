@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'models/models.dart';
 
 abstract class IUserRepository {
-  Future<Either<Failure, Map<String, dynamic>>> signIn({
+  Future<Either<Failure, UserModel>> signIn({
     required String login,
     required String password,
   });

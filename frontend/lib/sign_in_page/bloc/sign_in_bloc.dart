@@ -24,11 +24,11 @@ class SignInBloc extends Bloc<ISignInBlocEvent, ISignInState> {
         ),
         (success) => emit(
           SignInSuccess(
-              typeUser: getTypeUser(success['typeUser']),
-              userId: success['userId']),
+              currentUser: success, typeUser: getTypeUser(success.adm!)),
         ),
       );
     });
+
     //trigger logOut event
     on<SignOutRequired>((event, emit) async {
       await _userRepository.logOut();

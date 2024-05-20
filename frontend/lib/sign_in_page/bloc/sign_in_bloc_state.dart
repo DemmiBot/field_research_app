@@ -13,11 +13,11 @@ final class SignInInitial extends ISignInState {}
 
 final class SignInSuccess extends ISignInState {
   final TypeUser typeUser;
-  final String userId;
-  const SignInSuccess({required this.typeUser, required this.userId});
+  final UserModel currentUser;
+  const SignInSuccess({required this.typeUser, required this.currentUser});
 
   @override
-  List<Object> get props => [typeUser, userId];
+  List<Object> get props => [typeUser, currentUser];
 }
 
 final class SignInFailure extends ISignInState {
