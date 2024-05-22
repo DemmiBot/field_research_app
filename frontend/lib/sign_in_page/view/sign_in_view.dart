@@ -1,4 +1,5 @@
 import 'package:app_mixins/app_mixins.dart';
+import 'package:app_repositories/app_repositories.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInView extends StatefulWidget {
-  const SignInView({super.key});
+  final IStorageRepository storage;
+  const SignInView({super.key, required this.storage});
 
   @override
   State<SignInView> createState() => _SignInViewState();
@@ -107,6 +109,10 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                                       password: passwordController.text.trim(),
                                     ),
                                   );
+                              await widget.storage.setLogin(
+                                login: emailController,
+                                password: passwordController,
+                              );
                             }
                           },
                         ),

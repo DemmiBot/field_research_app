@@ -80,7 +80,7 @@ class MyAppView extends StatelessWidget {
 
             // failure login
             else {
-              return const SignInView();
+              return SignInView(storage: FlutterSecureStorageRepository());
             }
           },
         ),
