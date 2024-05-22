@@ -2,6 +2,8 @@
      <!-- Required to fetch data from the internet. -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.USE_BIOMETRIC"/>
+    
     <application
         android:label="SurveyDM"
         android:name="${applicationName}"

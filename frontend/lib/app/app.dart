@@ -1,3 +1,4 @@
+import 'package:app_repositories/app_repositories.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/home_adm_page/create_form_view/view/create_form_view.dart';
 import 'package:fieldresearch/home_adm_page/adm_home_view.dart';
@@ -31,8 +32,13 @@ class MainApp extends StatelessWidget {
         RepositoryProvider.value(value: _researchRepository),
       ],
       child: BlocProvider(
-        create: (context) =>
-            SignInBloc(userRepository: context.read<IUserRepository>()),
+        create: (context) => SignInBloc(
+          userRepository: context.read<IUserRepository>(),
+          biometric: BiometricRepository(
+            storage: FlutterSecureStorageRepository(),
+          ),
+          storage: FlutterSecureStorageRepository(),
+        )..add(SignInBiometricRequired()),
         child: const MyAppView(),
       ),
     );

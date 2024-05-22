@@ -31,6 +31,8 @@ dependencies:
     path: packages/app_client
   app_ui:
     path: packages/app_ui
+  app_repositories:
+    path: packages/app_repositories
   flutter_native_splash: ^2.4.0
   
 

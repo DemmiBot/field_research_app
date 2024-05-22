@@ -15,3 +15,5 @@ final class SignInRequired extends ISignInBlocEvent {
 final class SignOutRequired extends ISignInBlocEvent {
   SignOutRequired();
 }
+
+final class SignInBiometricRequired extends ISignInBlocEvent {}
