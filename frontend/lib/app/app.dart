@@ -1,8 +1,8 @@
 import 'package:app_ui/app_ui.dart';
-import 'package:fieldresearch/home_adm_page/create_form_view/create_form_view.dart';
+import 'package:fieldresearch/home_adm_page/create_form_view/view/create_form_view.dart';
 import 'package:fieldresearch/home_adm_page/adm_home_view.dart';
-import 'package:fieldresearch/home_adm_page/users_adm_view/users_adm_view.dart';
 import 'package:fieldresearch/researcher_page/reseacher_home_view.dart';
+import 'package:fieldresearch/researcher_page/survey_submission_view/view/survey_submission_view.dart';
 import 'package:fieldresearch/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:fieldresearch/sign_in_page/view/sign_in_view.dart';
 import 'package:fieldresearch/sign_up_page/view/sign_up_view.dart';
@@ -52,6 +52,7 @@ class MyAppView extends StatelessWidget {
         routes: {
           '/register': (context) => const SignUpPage(),
           '/admCreateForm': (context) => const CreateFormPage(),
+          '/surveySubmission': (context) => const SurveySubmissionPage()
         },
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

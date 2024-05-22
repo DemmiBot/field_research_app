@@ -1,16 +1,15 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class OptionsResearcher extends StatefulWidget {
-  const OptionsResearcher({super.key});
+class OptionsResearcherView extends StatefulWidget {
+  const OptionsResearcherView({super.key});
 
   @override
-  State<OptionsResearcher> createState() => _OptionsResearcherState();
+  State<OptionsResearcherView> createState() => _OptionsResearcherViewState();
 }
 
-class _OptionsResearcherState extends State<OptionsResearcher> {
+class _OptionsResearcherViewState extends State<OptionsResearcherView> {
   bool selected = false;
   bool selected2 = false;
 

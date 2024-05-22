@@ -1,12 +1,16 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class MyForm extends StatefulWidget {
+  const MyForm({super.key});
+
   @override
   _MyFormState createState() => _MyFormState();
 }
 
 class _MyFormState extends State<MyForm> {
-  List<String> _types = ['text', 'int', 'enum'];
+  final List<String> _types = ['text', 'int', 'enum'];
   List<_FieldData> _fieldDataList = [];
 
   String? _selectedType;
@@ -15,7 +19,7 @@ class _MyFormState extends State<MyForm> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Draggable List'),
+        title: const Text('Draggable List'),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,7 +37,7 @@ class _MyFormState extends State<MyForm> {
                 _selectedType = newValue;
               });
             },
-            decoration: InputDecoration(labelText: 'Select Type'),
+            decoration: const InputDecoration(labelText: 'Select Type'),
           ),
           Expanded(
             child: DraggableList(
@@ -54,13 +58,13 @@ class _MyFormState extends State<MyForm> {
                     key: UniqueKey(),
                     child: Text(
                       '${_selectedType!.toUpperCase()} Widget',
-                      style: TextStyle(fontSize: 18),
+                      style: const TextStyle(fontSize: 18),
                     ),
                   ));
                 });
               }
             },
-            child: Text('Add Field'),
+            child: const Text('Add Field'),
           ),
         ],
       ),

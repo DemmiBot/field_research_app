@@ -1,7 +1,7 @@
 import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/home_adm_page/researches_adm_view.dart';
 import 'package:fieldresearch/home_adm_page/users_adm_view/cubit/manage_users_cubit.dart';
-import 'package:fieldresearch/home_adm_page/users_adm_view/users_adm_view.dart';
+import 'package:fieldresearch/home_adm_page/users_adm_view/view/users_adm_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:research_repository/research_repository.dart';

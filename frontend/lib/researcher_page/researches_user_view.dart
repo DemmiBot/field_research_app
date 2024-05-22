@@ -39,13 +39,17 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                     children: [
                       SizedBox(height: height * 0.03),
                       user.name == ''
-                          ? Text('Bem vindo!',
-                              style: TextStyle(fontSize: 14.sp))
-                          : Text('Bem vindo, ${user.name}!',
-                              style: TextStyle(fontSize: 14.sp)),
-                      SizedBox(height: height * 0.01375),
-                      Text('[OrganizationName]',
-                          style: TextStyle(fontSize: 14.sp)),
+                          ? ShimmerUserInfo(height: height)
+                          : Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Bem vindo, ${user.name}!',
+                                    style: TextStyle(fontSize: 14.sp)),
+                                SizedBox(height: height * 0.01375),
+                                Text('[OrganizationName]',
+                                    style: TextStyle(fontSize: 14.sp)),
+                              ],
+                            ),
                       SizedBox(height: height * 0.03),
                       const Divider(color: MyColors.dividerColor),
                       BlocBuilder<ResearchModelBloc, ResearchModelState>(
@@ -61,50 +65,49 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                                         children: [
                                           if (index == 0)
                                             SizedBox(height: height * 0.03),
-                                          Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              SurveyTile(
-                                                name: research[index].name,
-                                                status: research[index].status,
-                                              ),
-                                              IconButton(
-                                                onPressed: () {},
-                                                icon: Icon(
-                                                  Icons.help_outline,
-                                                  size: 26.sp,
-                                                  color: MyColors.primaryColor,
-                                                ),
-                                              ),
-                                            ],
+                                          SurveyTile.user(
+                                            research: research[index],
                                           ),
                                         ],
                                       );
                                     },
                                   ),
                                 )
-                              : Center(
-                                  child: Text(
-                                    'Nenhuma pesquisa disponível',
-                                    style: TextStyle(
-                                      fontSize: 14.sp,
-                                      color: MyColors.black,
+                              : Expanded(
+                                  child: Center(
+                                    child: Text(
+                                      'Nenhuma pesquisa disponível',
+                                      style: TextStyle(
+                                        fontSize: 14.sp,
+                                        color: MyColors.black,
+                                      ),
                                     ),
                                   ),
                                 );
                         } else if (state.status == ResearchStatus.loading) {
-                          return const Center(
-                              child: CircularProgressIndicator());
+                          return Expanded(
+                            child: ListView.builder(
+                              itemCount: 8,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    if (index == 0)
+                                      SizedBox(height: height * 0.03),
+                                    const ShimmerSurveyTile()
+                                  ],
+                                );
+                              },
+                            ),
+                          );
                         } else {
-                          return Center(
-                            child: Text(
-                              'Erro ao buscar pesquisas',
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                                color: MyColors.black,
+                          return Expanded(
+                            child: Center(
+                              child: Text(
+                                'Erro ao buscar pesquisas',
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: MyColors.black,
+                                ),
                               ),
                             ),
                           );
