@@ -12,20 +12,23 @@ class SignUpBloc extends Bloc<ISignUpEvent, ISignUpState> {
   SignUpBloc({required IUserRepository userRepository})
       : _userRepository = userRepository,
         super(SignUpInitial()) {
-    on<SignUpRequired>((event, emit) async {
-      emit(SignUpProcess());
+    on<SignUpRequired>(_onSignUpRequired);
+  }
 
-      final response = await _userRepository.signUp(
-        email: event.email,
-        password: event.password,
-        username: event.username,
-      );
-      response.fold(
-        (failure) => emit(
-          SignUpFailure(message: failure.message),
-        ),
-        (success) => emit(SignUpSuccess(message: success)),
-      );
-    });
+  Future<void> _onSignUpRequired(
+      SignUpRequired event, Emitter<ISignUpState> emit) async {
+    emit(SignUpProcess());
+
+    final response = await _userRepository.signUp(
+      email: event.email,
+      password: event.password,
+      username: event.username,
+    );
+    response.fold(
+      (failure) => emit(
+        SignUpFailure(message: failure.message),
+      ),
+      (success) => emit(SignUpSuccess(message: success)),
+    );
   }
 }

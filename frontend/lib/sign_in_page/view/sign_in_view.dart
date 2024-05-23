@@ -1,5 +1,4 @@
 import 'package:app_mixins/app_mixins.dart';
-import 'package:app_repositories/app_repositories.dart';
 import 'package:app_ui/app_ui.dart';
 import 'package:fieldresearch/sign_in_page/bloc/sign_in_bloc.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignInView extends StatefulWidget {
-  final IStorageRepository storage;
-  const SignInView({super.key, required this.storage});
+  const SignInView({super.key});
 
   @override
   State<SignInView> createState() => _SignInViewState();
@@ -18,7 +16,7 @@ class SignInView extends StatefulWidget {
 class _SignInViewState extends State<SignInView> with FormMixin {
   final formKey = GlobalKey<FormState>();
 
-  TextEditingController emailController = TextEditingController();
+  TextEditingController loginController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
 
@@ -26,6 +24,7 @@ class _SignInViewState extends State<SignInView> with FormMixin {
 
   @override
   Widget build(BuildContext context) {
+    final signInBloc = context.read<SignInBloc>();
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
@@ -74,12 +73,11 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                               fontSize: 14.sp, fontWeight: FontWeight.bold),
                         ),
                         CustomTextField.email(
-                          controller: emailController,
+                          controller: loginController,
                           textLabel: ' Insira o seu login ou email',
                           validator: (value) => combine(
                             [
                               () => isNotEmpty(value),
-                              //() => emailValidator(value),
                             ],
                           ),
                         ),
@@ -103,15 +101,11 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                           text: 'Entrar',
                           onPressed: () async {
                             if (formKey.currentState?.validate() ?? false) {
-                              context.read<SignInBloc>().add(
-                                    SignInRequired(
-                                      email: emailController.text.trim(),
-                                      password: passwordController.text.trim(),
-                                    ),
-                                  );
-                              await widget.storage.setLogin(
-                                login: emailController,
-                                password: passwordController,
+                              signInBloc.add(
+                                SignInRequiredAndSave(
+                                  login: loginController,
+                                  password: passwordController,
+                                ),
                               );
                             }
                           },

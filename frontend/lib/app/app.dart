@@ -16,13 +16,16 @@ import 'package:user_repository/user_repository.dart';
 class MainApp extends StatelessWidget {
   final IUserRepository _userRepository;
   final IResearchRepository _researchRepository;
+  final IStorageRepository _storageRepository;
 
-  const MainApp({
-    super.key,
-    required IUserRepository userRepository,
-    required IResearchRepository researchRepository,
-  })  : _userRepository = userRepository,
-        _researchRepository = researchRepository;
+  const MainApp(
+      {super.key,
+      required IUserRepository userRepository,
+      required IResearchRepository researchRepository,
+      required IStorageRepository storageRepository})
+      : _userRepository = userRepository,
+        _researchRepository = researchRepository,
+        _storageRepository = storageRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +33,12 @@ class MainApp extends StatelessWidget {
       providers: [
         RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _researchRepository),
+        RepositoryProvider.value(value: _storageRepository),
       ],
       child: BlocProvider(
         create: (context) => SignInBloc(
           userRepository: context.read<IUserRepository>(),
-          biometric: BiometricRepository(
-            storage: FlutterSecureStorageRepository(),
-          ),
-          storage: FlutterSecureStorageRepository(),
+          storage: context.read<IStorageRepository>(),
         )..add(SignInBiometricRequired()),
         child: const MyAppView(),
       ),
@@ -80,7 +81,7 @@ class MyAppView extends StatelessWidget {
 
             // failure login
             else {
-              return SignInView(storage: FlutterSecureStorageRepository());
+              return const SignInView();
             }
           },
         ),

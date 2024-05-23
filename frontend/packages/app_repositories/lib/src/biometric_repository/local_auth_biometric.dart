@@ -1,9 +1,8 @@
-import 'package:app_repositories/src/biometric_repository/biometric_repo.dart';
 import 'package:app_repositories/src/flutter_segure_storage_repository/storage_repo.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
 
-class BiometricRepository implements IBiometricRepository {
+class BiometricRepository {
   final LocalAuthentication _localAuthentication = LocalAuthentication();
 
   bool isAuthenticated = false;
@@ -14,8 +13,7 @@ class BiometricRepository implements IBiometricRepository {
     required IStorageRepository storage,
   }) : _storage = storage;
 
-  @override
-  Future<void> authenticate(Function function) async {
+  Future<bool> authenticate() async {
     if (await isBiometricAvailable() && await _storage.isLoggedIn == 'true') {
       isAuthenticated = await _localAuthentication.authenticate(
         localizedReason: ' ',
@@ -27,13 +25,10 @@ class BiometricRepository implements IBiometricRepository {
           ),
         ],
       );
-      if (isAuthenticated) {
-        function();
-      }
     }
+    return isAuthenticated;
   }
 
-  @override
   Future<bool> isBiometricAvailable() async {
     try {
       bool isAvaliable = await _localAuthentication.canCheckBiometrics;

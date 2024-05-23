@@ -5,11 +5,14 @@ abstract class ISignInBlocEvent extends Equatable {
   List<Object> get props => [];
 }
 
-final class SignInRequired extends ISignInBlocEvent {
-  final String email;
-  final String password;
+final class SignInRequiredAndSave extends ISignInBlocEvent {
+  final TextEditingController login;
+  final TextEditingController password;
 
-  SignInRequired({required this.email, required this.password});
+  SignInRequiredAndSave({required this.login, required this.password});
+
+  @override
+  List<Object> get props => [login, password];
 }
 
 final class SignOutRequired extends ISignInBlocEvent {

@@ -1,4 +1,5 @@
 import 'package:app_client/app_client.dart';
+import 'package:app_repositories/app_repositories.dart';
 import 'package:fieldresearch/app/app.dart';
 import 'package:fieldresearch/app/simple_bloc_observer.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,8 @@ void main() async {
   runApp(
     MainApp(
       userRepository: SpringUserRepository(client: HttpClient()),
-      researchRepository: SpringResearchRepository(
-        client: HttpClient(),
-      ),
+      researchRepository: SpringResearchRepository(client: HttpClient()),
+      storageRepository: FlutterSecureStorageRepository(),
     ),
   );
 }

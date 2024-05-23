@@ -10,16 +10,20 @@ class CreateFormBloc extends Bloc<ICreateFormEvent, ICreateFormState> {
   CreateFormBloc({required IResearchRepository repository})
       : _repository = repository,
         super(CreateFormInitial()) {
-    on<CreateFormRequired>((event, emit) async {
-      final response = await _repository.createPoll(pollData: event.pollData);
+    on<CreateFormRequired>(_onCreateFormRequired);
 
-      response.fold(
-        (failure) => emit(CreateFormFailure(message: failure.message)),
-        (success) => emit(CreateFormSuccess(message: success)),
-      );
-    });
     on<ResetStateBloc>((event, emit) {
       emit(CreateFormInitial());
     });
+  }
+
+  Future<void> _onCreateFormRequired(
+      CreateFormRequired event, Emitter<ICreateFormState> emit) async {
+    final response = await _repository.createPoll(pollData: event.pollData);
+
+    response.fold(
+      (failure) => emit(CreateFormFailure(message: failure.message)),
+      (success) => emit(CreateFormSuccess(message: success)),
+    );
   }
 }
