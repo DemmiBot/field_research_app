@@ -1,5 +1,5 @@
-name: app_ui
-description: "Dart package which manages the ui."
+name: app_repositories
+description: "Dart package that manages app repositories."
 
 publish_to: 'none' 
 
@@ -13,13 +13,10 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
-  flutter_bloc: ^8.1.5
-  flutter_screenutil: ^5.0.1+2
-  loading_animation_widget: ^1.2.1
-  shimmer: ^3.0.0
-  research_repository:
-    path: ../research_repository
-
+  local_auth_android: ^1.0.38
+  local_auth: ^2.2.0
+  flutter_secure_storage: ^9.2.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
