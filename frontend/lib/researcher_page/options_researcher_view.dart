@@ -17,8 +17,6 @@ class _OptionsResearcherViewState extends State<OptionsResearcherView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final height = constraints.maxHeight;
-
         return SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: kMargin),

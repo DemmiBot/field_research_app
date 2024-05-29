@@ -37,7 +37,7 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: 22.h),
                       user.name == ''
                           ? ShimmerUserInfo()
                           : Column(
@@ -45,12 +45,12 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                               children: [
                                 Text('Bem vindo, ${user.name}!',
                                     style: TextStyle(fontSize: 14.sp)),
-                                SizedBox(height: height * 0.01375),
+                                SizedBox(height: 11.h),
                                 Text('[OrganizationName]',
                                     style: TextStyle(fontSize: 14.sp)),
                               ],
                             ),
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: 26.h),
                       const Divider(color: MyColors.dividerColor),
                       BlocBuilder<ResearchModelBloc, ResearchModelState>(
                         builder: (context, state) {
@@ -62,13 +62,19 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                                       itemCount: research.length + 1,
                                       separatorBuilder:
                                           (BuildContext context, int index) {
-                                        return const SizedBox(height: 7);
+                                        return SizedBox(height: 7.h);
                                       },
                                       itemBuilder:
                                           (BuildContext context, int index) {
                                         if (index < research.length) {
-                                          return SurveyTile.admin(
-                                            research: research[index],
+                                          return Column(
+                                            children: [
+                                              if (index == 0)
+                                                SizedBox(height: 20.h),
+                                              SurveyTile.admin(
+                                                research: research[index],
+                                              ),
+                                            ],
                                           );
                                         } else {
                                           return Column(
@@ -96,9 +102,9 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                                                   Navigator.pushNamed(context,
                                                       '/admCreateForm');
                                                 },
-                                                icon: const Icon(
+                                                icon: Icon(
                                                   Icons.add,
-                                                  size: 33,
+                                                  size: 33.h,
                                                   color: MyColors.primaryColor,
                                                 ),
                                                 label: Text(
@@ -109,7 +115,7 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(height: 27),
+                                              SizedBox(height: 27.h),
                                             ],
                                           );
                                         }
@@ -134,8 +140,7 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                                 itemBuilder: (context, index) {
                                   return Column(
                                     children: [
-                                      if (index == 0)
-                                        SizedBox(height: height * 0.03),
+                                      if (index == 0) SizedBox(height: 20.h),
                                       const ShimmerSurveyTile()
                                     ],
                                   );
