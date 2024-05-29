@@ -51,7 +51,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       controller: widget.controller,
       obscureText: widget.isPassword ? obscureText : false,
       cursorColor: MyColors.black,
-      cursorHeight: 20.h,
+      // cursorHeight: ,
       style: TextStyle(color: MyColors.black, fontSize: 14.sp),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
@@ -65,8 +65,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: obscureText
-                    ? const Icon(Icons.visibility_off_outlined)
-                    : const Icon(Icons.visibility_outlined),
+                    ? Icon(Icons.visibility_off_outlined, size: 24.w)
+                    : Icon(Icons.visibility_outlined, size: 24.w),
                 onPressed: () => setState(() => obscureText = !obscureText),
               )
             : null,

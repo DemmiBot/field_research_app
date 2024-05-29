@@ -74,16 +74,15 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
           },
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final maxHeight = constraints.maxHeight;
               return SingleChildScrollView(
                 child: Form(
                   key: formKey,
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: kMargin.w),
                     child: Column(children: [
-                      SizedBox(height: maxHeight * 0.15),
+                      SizedBox(height: 120.h),
                       const Hero(tag: ('logo'), child: MyLogo()),
-                      SizedBox(height: maxHeight * 0.06),
+                      SizedBox(height: 55.h),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -102,7 +101,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                           () => emailValidator(value),
                         ]),
                       ),
-                      SizedBox(height: maxHeight * 0.041),
+                      SizedBox(height: 30.h),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -120,7 +119,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                         ]),
                         controller: userNameController,
                       ),
-                      SizedBox(height: maxHeight * 0.041),
+                      SizedBox(height: 30.h),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -139,7 +138,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                         ]),
                         controller: passwordController,
                       ),
-                      SizedBox(height: maxHeight * 0.041),
+                      SizedBox(height: 30.h),
                       Align(
                         alignment: Alignment.topLeft,
                         child: Text(
@@ -162,7 +161,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                         ]),
                         controller: passwordAgainController,
                       ),
-                      SizedBox(height: maxHeight * 0.11),
+                      SizedBox(height: 90.h),
                       MyButton.loading(
                           isLoading: isLoading,
                           text: 'Registrar',
@@ -176,6 +175,7 @@ class _SignUpViewState extends State<SignUpView> with FormMixin {
                                   ));
                             }
                           }),
+                      SizedBox(height: 30.h),
                     ]),
                   ),
                 ),

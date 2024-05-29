@@ -31,7 +31,7 @@ class _MyButtonState extends State<MyButton> {
   Widget build(BuildContext context) {
     return Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 40.h, maxWidth: 136.w),
+        constraints: BoxConstraints(maxHeight: 40.w, maxWidth: 136.w),
         child: ElevatedButton(
           onPressed: widget.onPressed,
           style: ButtonStyle(
@@ -45,10 +45,11 @@ class _MyButtonState extends State<MyButton> {
           child: widget.isLoading
               ? Center(
                   child: LoadingAnimationWidget.discreteCircle(
-                      color: MyColors.white,
-                      secondRingColor: MyColors.textFill,
-                      thirdRingColor: MyColors.borderField,
-                      size: 20.sp),
+                    color: MyColors.white,
+                    secondRingColor: MyColors.textFill,
+                    thirdRingColor: MyColors.borderField,
+                    size: 20.sp,
+                  ),
                 )
               : Center(
                   child: Text(

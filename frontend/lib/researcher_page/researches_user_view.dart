@@ -37,7 +37,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: 22.h),
                       user.name == ''
                           ? ShimmerUserInfo(height: height)
                           : Column(
@@ -45,7 +45,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                               children: [
                                 Text('Bem vindo, ${user.name}!',
                                     style: TextStyle(fontSize: 14.sp)),
-                                SizedBox(height: height * 0.01375),
+                                SizedBox(height: 11.h),
                                 Text('[OrganizationName]',
                                     style: TextStyle(fontSize: 14.sp)),
                               ],

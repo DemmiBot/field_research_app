@@ -54,37 +54,38 @@ class MyAppView extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       minTextAdapt: true,
-      splitScreenMode: false,
-      child: MaterialApp(
-        routes: {
-          '/register': (context) => const SignUpPage(),
-          '/admCreateForm': (context) => const CreateFormPage(),
-          '/surveySubmission': (context) => const SurveySubmissionPage()
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+            routes: {
+              '/register': (context) => const SignUpPage(),
+              '/admCreateForm': (context) => const CreateFormPage(),
+              '/surveySubmission': (context) => const SurveySubmissionPage()
+            },
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              fontFamily: 'Poppins',
+              scaffoldBackgroundColor: MyColors.white,
+            ),
+            home: child);
+      },
+      child: BlocBuilder<SignInBloc, ISignInState>(
+        builder: (context, state) {
+          //success login adm
+          if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
+            return AdmHomeViewPage(currentUser: state.currentUser);
+          }
+
+          // success login researcher
+          else if (state is SignInSuccess && state.typeUser == TypeUser.user) {
+            return HomeResearcherPage(userId: state.currentUser.id);
+          }
+
+          // failure login
+          else {
+            return const SignInView();
+          }
         },
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Poppins',
-          scaffoldBackgroundColor: MyColors.white,
-        ),
-        home: BlocBuilder<SignInBloc, ISignInState>(
-          builder: (context, state) {
-            //success login adm
-            if (state is SignInSuccess && state.typeUser == TypeUser.admin) {
-              return AdmHomeViewPage(currentUser: state.currentUser);
-            }
-
-            // success login researcher
-            else if (state is SignInSuccess &&
-                state.typeUser == TypeUser.user) {
-              return HomeResearcherPage(userId: state.currentUser.id);
-            }
-
-            // failure login
-            else {
-              return const SignInView();
-            }
-          },
-        ),
       ),
     );
   }

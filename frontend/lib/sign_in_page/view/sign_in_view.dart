@@ -52,7 +52,6 @@ class _SignInViewState extends State<SignInView> with FormMixin {
           },
           child: LayoutBuilder(
             builder: (context, constraints) {
-              final maxHeight = constraints.maxHeight;
               return SingleChildScrollView(
                 child: Form(
                   key: formKey,
@@ -61,12 +60,12 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: maxHeight * 0.15),
+                        SizedBox(height: 120.h),
                         const Align(
                           alignment: Alignment.center,
                           child: Hero(tag: ('logo'), child: MyLogo()),
                         ),
-                        SizedBox(height: maxHeight * 0.10),
+                        SizedBox(height: 85.h),
                         Text(
                           'Login',
                           style: TextStyle(
@@ -81,7 +80,7 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                             ],
                           ),
                         ),
-                        SizedBox(height: maxHeight * 0.041),
+                        SizedBox(height: 31.h),
                         Text(
                           'Senha',
                           style: TextStyle(
@@ -95,7 +94,7 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                             () => passwordValidador(shit),
                           ]),
                         ),
-                        SizedBox(height: maxHeight * 0.03),
+                        SizedBox(height: 30.h),
                         MyButton.loading(
                           isLoading: _isLoading,
                           text: 'Entrar',
@@ -110,7 +109,7 @@ class _SignInViewState extends State<SignInView> with FormMixin {
                             }
                           },
                         ),
-                        SizedBox(height: maxHeight * 0.02),
+                        SizedBox(height: 18.h),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
