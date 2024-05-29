@@ -21,7 +21,6 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final height = constraints.maxHeight;
         return BlocBuilder<UserModelBloc, UserModelState>(
           builder: (context, state) {
             if (state.status == GetStatus.success) {
@@ -39,7 +38,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                     children: [
                       SizedBox(height: 22.h),
                       user.name == ''
-                          ? ShimmerUserInfo(height: height)
+                          ? ShimmerUserInfo()
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -50,7 +49,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                                     style: TextStyle(fontSize: 14.sp)),
                               ],
                             ),
-                      SizedBox(height: height * 0.03),
+                      SizedBox(height: 26.h),
                       const Divider(color: MyColors.dividerColor),
                       BlocBuilder<ResearchModelBloc, ResearchModelState>(
                           builder: (context, state) {
@@ -64,7 +63,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                                       return Column(
                                         children: [
                                           if (index == 0)
-                                            SizedBox(height: height * 0.03),
+                                            SizedBox(height: 15.h),
                                           SurveyTile.user(
                                             research: research[index],
                                           ),
@@ -91,8 +90,7 @@ class _ResearchesUserViewState extends State<ResearchesUserView> {
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
-                                    if (index == 0)
-                                      SizedBox(height: height * 0.03),
+                                    if (index == 0) SizedBox(height: 26.h),
                                     const ShimmerSurveyTile()
                                   ],
                                 );

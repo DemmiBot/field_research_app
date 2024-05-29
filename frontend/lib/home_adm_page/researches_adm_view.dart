@@ -39,7 +39,7 @@ class _ResearchesAdmViewState extends State<ResearchesAdmView> {
                     children: [
                       SizedBox(height: height * 0.03),
                       user.name == ''
-                          ? ShimmerUserInfo(height: height)
+                          ? ShimmerUserInfo()
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [

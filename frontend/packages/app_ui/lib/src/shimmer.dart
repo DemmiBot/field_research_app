@@ -43,9 +43,7 @@ class ShimmerSurveyTile extends StatelessWidget {
 }
 
 class ShimmerUserInfo extends StatelessWidget {
-  ShimmerUserInfo({super.key, required this.height});
-
-  final double height;
+  ShimmerUserInfo({super.key});
 
   final shimmerBaseColor = Colors.grey[300];
   final shimmerHighlightColor = Colors.grey[100];
@@ -63,7 +61,7 @@ class ShimmerUserInfo extends StatelessWidget {
             height: 21.h,
             color: shimmerBaseColor,
           ),
-          SizedBox(height: height * 0.01375),
+          SizedBox(height: 11.h),
           Container(
             width: 145.w,
             height: 21.h,

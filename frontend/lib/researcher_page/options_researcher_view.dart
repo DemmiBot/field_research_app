@@ -25,25 +25,25 @@ class _OptionsResearcherViewState extends State<OptionsResearcherView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: height * 0.03),
+                SizedBox(height: 29.h),
                 Text(
                   'Opções da organização',
                   style: TextStyle(fontSize: 14.sp),
                 ),
-                SizedBox(height: height * 0.011),
+                SizedBox(height: 9.h),
                 const Divider(color: MyColors.dividerColor),
-                SizedBox(height: height * 0.041),
+                SizedBox(height: 30.h),
                 Text(
                   'Opções da organização',
                   style: TextStyle(
                       fontSize: 13.sp, color: MyColors.variantPrimaryColor),
                 ),
-                SizedBox(height: height * 0.025),
+                SizedBox(height: 21.h),
                 Column(
                   children: [
-                    SizedBox(height: height * 0.025),
+                    SizedBox(height: 21.h),
                     layoutSwitch(),
-                    SizedBox(height: height * 0.025),
+                    SizedBox(height: 21.h),
                     layoutSwitch(),
                   ],
                 ),

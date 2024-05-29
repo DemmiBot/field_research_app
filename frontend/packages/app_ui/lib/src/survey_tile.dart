@@ -24,7 +24,7 @@ class SurveyTile extends StatelessWidget {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       onTap: () =>
-          typeUser ? Navigator.pushNamed(context, '/surveySubmission') : () {},
+          typeUser ? Navigator.pushNamed(context, '/surveySubmission') : null,
       dense: true,
       trailing: typeUser
           ? IconButton(
@@ -32,7 +32,7 @@ class SurveyTile extends StatelessWidget {
               onPressed: () {},
               icon: Icon(
                 Icons.help_outline,
-                size: 26.sp,
+                size: 26.h,
                 color: MyColors.primaryColor,
               ),
             )
