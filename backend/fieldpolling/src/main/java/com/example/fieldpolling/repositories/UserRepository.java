@@ -1,16 +1,13 @@
 package com.example.fieldpolling.repositories;
 
-import java.util.UUID;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import com.example.fieldpolling.models.User;
-
-
+import com.example.fieldpolling.domain.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, UUID> {
+public interface UserRepository extends MongoRepository<User, String> {
     UserDetails findByUsername(String username);
     UserDetails findByEmail(String email);
 }

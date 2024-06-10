@@ -1,46 +1,40 @@
-package com.example.fieldpolling.models;
+package com.example.fieldpolling.domain;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.fieldpolling.helpers.UserRole;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
-@Entity(name = "users")
-@Table(name = "users")
-@Getter
-@NoArgsConstructor
+@Document(collection = "users")
 @AllArgsConstructor
-@EqualsAndHashCode(of = "user_id")
+@NoArgsConstructor
+@Getter
+@Setter
 public class User implements UserDetails {
     
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private UUID user_id;
-    @Column(unique = true)
+    private String id;
+
+    @Indexed(unique = true)
     private String username;
-    @Column(unique = true)
+    @Indexed(unique = true)
     private String email;
+    
     private String password;
     private UserRole role;
-
-    @Column(name = "enabled")
     private boolean enabled;
 
     public User(String email, String username, String password, UserRole role) {

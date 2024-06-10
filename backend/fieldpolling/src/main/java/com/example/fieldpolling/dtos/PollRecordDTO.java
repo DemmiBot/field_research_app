@@ -2,7 +2,7 @@ package com.example.fieldpolling.dtos;
 
 import java.util.List;
 
-import com.example.fieldpolling.helpers.Option;
+import com.example.fieldpolling.domain.Option;
 import com.example.fieldpolling.helpers.Status;
 
 import jakarta.validation.constraints.NotBlank;

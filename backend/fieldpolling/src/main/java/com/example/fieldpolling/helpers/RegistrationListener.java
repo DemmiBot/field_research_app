@@ -2,22 +2,18 @@ package com.example.fieldpolling.helpers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
 
-import com.example.fieldpolling.models.User;
-import com.example.fieldpolling.models.VerificationToken;
+import com.example.fieldpolling.domain.User;
+import com.example.fieldpolling.domain.VerificationToken;
 import com.example.fieldpolling.repositories.TokenRepository;
 import com.example.fieldpolling.services.EmailService;
 
 @Component
 public class RegistrationListener implements 
   ApplicationListener<OnRegistrationCompleteEvent> {
- 
-    @Autowired
-    private MessageSource messages;
  
     @Autowired
     private EmailService emailService;
@@ -34,7 +30,7 @@ public class RegistrationListener implements
     private void confirmRegistration(OnRegistrationCompleteEvent event) {
         User user = event.getUser();
         String token = UUID.randomUUID().toString();
-        VerificationToken vtoken = new VerificationToken(user, token);
+        VerificationToken vtoken = new VerificationToken(user.getId(), token);
         
         String recipientAddress = user.getEmail();
         String subject = "Registration Confirmation";

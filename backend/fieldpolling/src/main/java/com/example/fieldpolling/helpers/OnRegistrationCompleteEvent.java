@@ -2,7 +2,7 @@ package com.example.fieldpolling.helpers;
 
 import org.springframework.context.ApplicationEvent;
 
-import com.example.fieldpolling.models.User;
+import com.example.fieldpolling.domain.User;
 
 import lombok.Getter;
 import lombok.Setter;

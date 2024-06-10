@@ -45,51 +45,20 @@ Easily copy the postman workspace for API endpoint testing!
 
 [<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://god.gw.postman.com/run-collection/19908095-7755153a-48a3-41b4-8850-7a6f901d5271?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D19908095-7755153a-48a3-41b4-8850-7a6f901d5271%26entityType%3Dcollection%26workspaceId%3D54d25f1d-8807-4819-9592-ebfc13f8c872)
 
-## 🚀 Instalando SurveyDM
+## 🚀 Pre-requisites
 
-🚧 Método de instalação em andamento! Prometo que fica pronto no próximo commit 😎 🚧
-<!--
-Para instalar o <nome_do_projeto>, siga estas etapas:
+1. Docker
+2. Mongosh
 
-Linux e macOS:
+## 📫 How to contribute
 
-```
-<comando_de_instalação>
-```
+Feel free to fork and send your suggestions of course!
 
-Windows:
+[How to make a pull request](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
 
-```
-<comando_de_instalação>
-```
-->
+## 🤝 Contributors
 
-## ☕ Usando <nome_do_projeto>
-
-Para usar <nome_do_projeto>, siga estas etapas:
-
-```
-<exemplo_de_uso>
-```
-
-Adicione comandos de execução e exemplos que você acha que os usuários acharão úteis. Fornece uma referência de opções para pontos de bônus!
--->
-<!--
-## 📫 Contribuindo para <nome_do_projeto>
-
-Para contribuir com <nome_do_projeto>, siga estas etapas:
-
-1. Bifurque este repositório.
-2. Crie um branch: `git checkout -b <nome_branch>`.
-3. Faça suas alterações e confirme-as: `git commit -m '<mensagem_commit>'`
-4. Envie para o branch original: `git push origin <nome_do_projeto> / <local>`
-5. Crie a solicitação de pull.
-
-Como alternativa, consulte a documentação do GitHub em [como criar uma solicitação pull](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request).
--->
-## 🤝 Colaboradores
-
-Agradecemos às seguintes pessoas que contribuíram para este projeto:
+We're grateful for the time and effort put in by the main contributors of the repository:
 
 <table>
   <tr>
@@ -121,7 +90,15 @@ Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais
 ## Docker and database:
 
 To facilitate the testing and development of the project, we need to have a convenient way of testing database functionality. This can be achieved through a docker container.
-To do this run the following on a cmd **after installing docker**:
 
-    docker pull postgres
-    docker run --name my-postgres-container -e POSTGRES_PASSWORD=Alleck@2024 -e POSTGRES_DB=teste-api -p 5432:5432 -d postgres
+After making sure docker is running, run the following on any terminal  
+**(make sure to change at least the password under ROOT_PASSWORD)**:
+
+    docker run -d \
+    --name pollsapp-mongo \
+    -e MONGO_INITDB_ROOT_USERNAME=admin \
+    -e MONGO_INITDB_ROOT_PASSWORD=yourpassword \
+    -e MONGO_INITDB_DATABASE=pollsapp \
+    -p 27017:27017 \
+    -v mongodb_data:/data/db \
+    mongo:latest
