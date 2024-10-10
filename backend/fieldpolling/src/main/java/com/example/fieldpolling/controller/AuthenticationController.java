@@ -94,7 +94,7 @@ public class AuthenticationController {
 
     @GetMapping("/registrationConfirm")
     public ResponseEntity<Object> confirmRegistration
-    (@RequestParam("token") String token) {
+    (@RequestParam String token) {
         
         VerificationToken verificationToken = tokenRepository.findByToken(token);
 
