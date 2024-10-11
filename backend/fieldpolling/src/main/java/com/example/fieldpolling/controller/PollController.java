@@ -51,7 +51,7 @@ public class PollController {
     public ResponseEntity<?> createPoll(@Valid @RequestBody PollRecordDTO pollDTO) throws JsonProcessingException {
         Poll poll = new Poll();
         // Copy properties from DTO to entity (except questions)
-        BeanUtils.copyProperties(pollDTO, poll, "questions");
+        BeanUtils.copyProperties(pollDTO, poll);
 
         // Use ObjectMapper to serialize questions to JSON
         poll.setQuestions(objectMapper.writeValueAsString(pollDTO.questions()));

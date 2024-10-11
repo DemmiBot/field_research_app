@@ -2,7 +2,7 @@ package com.example.fieldpolling.helpers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.MessageSource;
+// import org.springframework.context.MessageSource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import java.util.UUID;
@@ -16,8 +16,8 @@ import com.example.fieldpolling.services.EmailService;
 public class RegistrationListener implements 
   ApplicationListener<OnRegistrationCompleteEvent> {
  
-    @Autowired
-    private MessageSource messages;
+    // @Autowired
+    // private MessageSource messages;
  
     @Autowired
     private EmailService emailService;
