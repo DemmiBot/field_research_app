@@ -1,61 +1,55 @@
+import 'dart:convert';
 
-/*
-  Poll possui várias questões e várias entradas (forms preenchidos), e cada entrada possui várias respostas
-*/
+class Poll {
+  final int pollId;
+  final String title;
+  final String description;
+  final String status;
+  final int entryCount;
+  final List<Question> questions;
 
-class Poll{
-  const Poll({
-    required this.poll_id,
-    required this.name,
+  Poll({
+    required this.pollId,
+    required this.title,
     required this.description,
     required this.status,
-    required this.questions
+    required this.entryCount,
+    required this.questions,
   });
 
-  final String poll_id;
-  final String name;
-  final String description;
-  final Status status;
-  final List<Question> questions;
+  // Factory method to create a Poll from JSON
+  factory Poll.fromJson(Map<String, dynamic> json) {
+    // Decode the questions field (which is a string) into a List<Question>
+    List<dynamic> questionsJson = jsonDecode(json['questions']);
+    List<Question> questions = questionsJson.map((q) => Question.fromJson(q)).toList();
+
+    return Poll(
+      pollId: json['pollId'],
+      title: json['title'],
+      description: json['description'],
+      status: json['status'],
+      entryCount: json['entryCount'],
+      questions: questions,
+    );
+  }
 }
 
-enum Status {
-  open,
-  closed
-}
+class Question {
+  String text;
+  String type;
+  List<String>? enumValues;
 
+  Question({
+    required this.text,
+    required this.type,
+    this.enumValues
+  });
 
-class Question{
-  const Question({required this.id, required this.label, required this.poll_id, required this.questionType, this.imageList});
-
-  final String id;
-  final String poll_id;
-  final String label;
-  final QuestionType questionType;
-  final List<String>? imageList;
-}
-
-//Tipos aceitos
-enum QuestionType {
-  string,
-  integer,
-  boolean,
-  images
-}
-
-// Entradas / Respostas da pesquisa
-class Entry{
-  Entry({required this.id, required this.answers, required this.poll_id});
-
-  final String id;
-  final String poll_id;
-  final List<Answer> answers;
-}
-
-class Answer {
-  const Answer({required this.id, required this.question_id, required this.value});
-
-  final String id;
-  final String question_id;
-  final String value;
+  // Factory method to create a Question from JSON
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      text: json['text'],
+      type: json['type'],
+    );
+  }
 }

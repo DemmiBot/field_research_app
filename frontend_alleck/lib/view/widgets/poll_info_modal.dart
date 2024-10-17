@@ -13,10 +13,10 @@ class PollInfoModal extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Id: ${poll.poll_id}"),
-          Text("Titulo: ${poll.name}"),
+          Text("Id: ${poll.pollId}"),
+          Text("Titulo: ${poll.title}"),
           Text("Descrição: ${poll.description}"),
-          Text("Status: ${poll.status.name}"),
+          Text("Status: ${poll.status}"),
           Text("Quantidade de contribuintes: 9999"),          
           Text("Quantidade de respostas: 9999"),
         ],

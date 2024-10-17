@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_alleck/model/poll.dart';
-import 'package:frontend_alleck/view/screens/user_poll.dart';
+import 'package:frontend_alleck/view/screens/dynamic_form.dart';
 import 'package:frontend_alleck/view/widgets/poll_info_modal.dart';
 
 class PollListItem extends StatelessWidget {
@@ -12,12 +12,15 @@ class PollListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UserPoll(questions: poll.questions),
-          ),
-        ),
+        onTap: () {
+          if(poll.status != "CLOSED")
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DynamicForm(fields: poll.questions),
+              ),
+            );
+        },
         child: Row(
           children: [
             Expanded(
@@ -26,7 +29,7 @@ class PollListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(poll.name), //Nome da Poll
+                    Text(poll.title), //Nome da Poll
                     Container(
                       height: 20,
                       child: Row(
@@ -35,7 +38,7 @@ class PollListItem extends StatelessWidget {
                             width: 8,
                             height: 8,
                             decoration: BoxDecoration(
-                                color: poll.status == Status.closed
+                                color: poll.status == "CLOSED"
                                     ? Colors.red
                                     : Colors.green,
                                 shape: BoxShape.circle),
@@ -43,8 +46,8 @@ class PollListItem extends StatelessWidget {
                           SizedBox(
                             width: 8,
                           ),
-                          Text(poll.status.name[0].toUpperCase() +
-                              poll.status.name.substring(1)),
+                          Text(poll.status[0].toUpperCase() +
+                              poll.status.substring(1).toLowerCase()),
                           VerticalDivider(
                             thickness: 2,
                           ),
@@ -55,10 +58,11 @@ class PollListItem extends StatelessWidget {
                             thickness: 2,
                           ),
                           Expanded(
-                              child: Text(
-                            "99+ pesquisadores",
-                            overflow: TextOverflow.ellipsis,
-                          )),
+                            child: Text(
+                              "99+ pesquisadores",
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                     ),

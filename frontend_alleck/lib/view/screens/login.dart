@@ -49,7 +49,7 @@ class Login extends StatelessWidget {
                   FilledButton(onPressed: () {
                     Navigator.pushNamed(context, "/user");
                   }, child: Text("Entrar")),
-                  TextButton(onPressed: () {}, child: Text("Não sei qual organização devo utilizar"))
+                  TextButton(onPressed: () {}, child: Text("Não sei qual organização devo utilizar")),
                 ],
               ),
             ),
