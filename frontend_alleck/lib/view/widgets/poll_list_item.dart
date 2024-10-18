@@ -17,7 +17,7 @@ class PollListItem extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DynamicForm(fields: poll.questions),
+                builder: (context) => DynamicForm(fields: poll.questions, pollId: poll.pollId,),
               ),
             );
         },
@@ -52,7 +52,7 @@ class PollListItem extends StatelessWidget {
                             thickness: 2,
                           ),
                           Text(
-                            "123450 entradas",
+                            poll.entryCount.toString() + ' Entries',
                           ),
                           VerticalDivider(
                             thickness: 2,

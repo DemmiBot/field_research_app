@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/model/poll.dart';
+import 'package:frontend_alleck/providers/api_client_provider.dart';
 import 'package:frontend_alleck/view/form_fields/enum_field_form.dart';
 import 'package:frontend_alleck/view/form_fields/int_field_form.dart';
 import 'package:frontend_alleck/view/form_fields/text_field_form.dart';
 
-class DynamicForm extends StatefulWidget {
+/* O propósito dessa tela é gerar um formulário a partir das opções obtidas de uma poll e retornar uma entry, uma lista de Strings com as respostas.
+  Futuras atualizações: backend: Campos obrigatórios ou não e aceitar enumerados, assim como limites máximos e mínimos de numéricos
+  frontend: aplicar constrições descritas acima
+ */
+
+class DynamicForm extends ConsumerStatefulWidget {
+  final int pollId;
   final List<Question> fields;
 
-  DynamicForm({required this.fields});
+  DynamicForm({required this.fields, required this.pollId});
 
   @override
   _DynamicFormState createState() => _DynamicFormState();
 }
 
-class _DynamicFormState extends State<DynamicForm> {
+class _DynamicFormState extends ConsumerState<DynamicForm> {
   final _formKey = GlobalKey<FormState>();
 
   // Store form values as a List of Strings
@@ -24,6 +32,23 @@ class _DynamicFormState extends State<DynamicForm> {
     super.initState();
     // Initialize formData with null values, matching the length of the fields list
     formData = List.filled(widget.fields.length, null);
+  }
+
+  void _submitEntry() async {
+    final apiClient = ref.read(apiClientProvider);
+
+    final data = {
+      'pollId': widget.pollId,
+      'responses': formData
+    };
+
+    try {
+      final response = await apiClient.post('entries', data);
+      print('Form created successfully: $response');
+      Navigator.pop(context);
+    } catch (e) {
+      print('Failed to create form: $e');
+    }
   }
 
   @override
@@ -46,7 +71,7 @@ class _DynamicFormState extends State<DynamicForm> {
                     return TextFieldForm(field.text, (value) {
                       formData[index] = value;
                     });
-                  case 'integer':
+                  case 'numerical':
                     return IntFieldForm(field.text, (value) {
                       formData[index] = value;
                     });
@@ -65,6 +90,7 @@ class _DynamicFormState extends State<DynamicForm> {
                     _formKey.currentState!.save();
                     // Process formData
                     print(formData); // Values will be in order of the fields list
+                    _submitEntry();
                   }
                 },
                 child: Text('Submit'),
