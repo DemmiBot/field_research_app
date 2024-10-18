@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:frontend_alleck/providers/api_client_provider.dart';
 import 'package:frontend_alleck/services/api_client.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +10,8 @@ class PollRepository {
   PollRepository(this.apiClient);
 
   Future<List<dynamic>> fetchPolls() async {
-    return await apiClient.get('polls');
+    String response = await apiClient.get('polls');
+    return jsonDecode(response);
   }
 
   Future<void> createPoll(Map<String, dynamic> pollData) async {

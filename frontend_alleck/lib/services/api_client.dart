@@ -3,18 +3,18 @@ import 'package:http/http.dart' as http;
 
 class ApiClient {
   final String baseUrl;
+  final http.Client client;
 
-  ApiClient({required this.baseUrl});
+  ApiClient({required this.baseUrl, required this.client});
 
-  // Example GET request method
   Future<dynamic> get(String endpoint) async {
-    final response = await http.get(Uri.parse('$baseUrl/$endpoint'));
+    final response = await client.get(Uri.parse('$baseUrl/$endpoint'));
     return _handleResponse(response);
   }
 
-  // Example POST request method
+  // Posso utilizar isso para lidar com a segurança do Oauth JWT
   Future<dynamic> post(String endpoint, Map<String, dynamic> data) async {
-    final response = await http.post(
+    final response = await client.post(
       Uri.parse('$baseUrl/$endpoint'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode(data),
@@ -25,7 +25,8 @@ class ApiClient {
   // Common function to handle response and errors
   dynamic _handleResponse(http.Response response) {
     if (response.statusCode == 200) {
-      return jsonDecode(response.body);
+      
+      return response.body;
     } else {
       throw Exception('Failed to load data: ${response.statusCode}');
     }
