@@ -10,4 +10,5 @@ import com.example.fieldpolling.models.Entry;
 @Repository
 public interface EntryRepository extends JpaRepository<Entry, Long> {
     List<Entry> findByPoll_PollId(Long pollId);
+    void deleteByPoll_PollId(Long pollId);
 }

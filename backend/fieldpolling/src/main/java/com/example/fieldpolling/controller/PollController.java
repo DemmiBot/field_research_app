@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,7 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.fieldpolling.dtos.PollRecordDTO;
+import com.example.fieldpolling.models.Entry;
 import com.example.fieldpolling.models.Poll;
+import com.example.fieldpolling.repositories.EntryRepository;
 import com.example.fieldpolling.repositories.PollRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +40,9 @@ public class PollController {
     public ResponseEntity<List<Poll>> getAllPolls() {
         return ResponseEntity.status(HttpStatus.OK).body(pollRepository.findAll());
     }
+
+    @Autowired
+    EntryRepository entryRepository;
 
 
     @GetMapping("/{id}")
@@ -60,12 +67,17 @@ public class PollController {
         return ResponseEntity.ok("Poll created successfully");
     }
     
+    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deletePoll(@PathVariable Long id) {
-        Optional<Poll> pollO = pollRepository.findById(id);
-        if(pollO.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Poll not found.");
+        Poll poll = pollRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Poll not found"));
+
+        if(poll.getEntryCount()>0) {
+            entryRepository.deleteByPoll_PollId(id);
         }
+        
+        pollRepository.delete(poll);
         return ResponseEntity.status(HttpStatus.OK).body("Poll deleted successfully.");
     }
 

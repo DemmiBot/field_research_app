@@ -22,6 +22,11 @@ class ApiClient {
     return _handleResponse(response);
   }
 
+  Future<dynamic> delete(String endpoint) async {
+    final response = await client.delete(Uri.parse('$baseUrl/$endpoint'));
+    return _handleResponse(response);
+  }
+
   // Common function to handle response and errors
   dynamic _handleResponse(http.Response response) {
     if (response.statusCode == 200) {
