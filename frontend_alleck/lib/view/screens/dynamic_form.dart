@@ -44,7 +44,7 @@ class _DynamicFormState extends ConsumerState<DynamicForm> {
 
     try {
       final response = await apiClient.post('entries', data);
-      print('Form created successfully: $response');
+      print('Formulário criado com sucesso: $response');
       Navigator.pop(context);
     } catch (e) {
       print('Failed to create form: $e');
@@ -68,15 +68,15 @@ class _DynamicFormState extends ConsumerState<DynamicForm> {
                 // Choose the widget based on fieldType
                 switch (field.type) {
                   case 'text':
-                    return TextFieldForm(field.text, (value) {
+                    return TextFieldForm(field.label, (value) {
                       formData[index] = value;
                     });
                   case 'numerical':
-                    return IntFieldForm(field.text, (value) {
+                    return IntFieldForm(field.label, (value) {
                       formData[index] = value;
                     });
                   case 'enum':
-                    return EnumFieldForm(field.text, field.enumValues ?? [], (value) {
+                    return EnumFieldForm(field.label, field.enumValues ?? [], (value) {
                       formData[index] = value;
                     });
                   default:

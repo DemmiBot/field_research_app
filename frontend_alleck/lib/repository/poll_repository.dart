@@ -14,9 +14,6 @@ class PollRepository {
     return jsonDecode(response);
   }
 
-  Future<void> createPoll(Map<String, dynamic> pollData) async {
-    await apiClient.post('polls', pollData);
-  }
 }
 
 // Create a provider for PollRepository that uses ApiClient

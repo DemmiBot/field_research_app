@@ -24,6 +24,7 @@ public class Poll {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     private int entryCount = 0;

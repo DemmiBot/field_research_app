@@ -37,7 +37,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
     return GestureDetector(
       onTap: () {
         setState(() {
-          currentQuestions.add(Question(text: '', type: type));
+          currentQuestions.add(Question(label: '', type: type));
         });
         Navigator.pop(context); // Close the modal
       },
@@ -60,9 +60,11 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
       'description': formDescription,
       'status': formStatus, // OPEN or CLOSED
       'questions': currentQuestions.map((q) => {
-        'text': q.text,
+        'text': q.label,
         'type': q.type,
-        // 'enumValues': q.enumValues, // Uncomment once API supports enum values
+        'enumValues': q.enumValues == null ? q.enumValues!.join(',') : null,
+        'min': q.min,
+        'max': q.max
       }).toList(),
     };
 
@@ -135,7 +137,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
                   Question question = currentQuestions[index];
 
                   // Render enum-specific widget if the type is 'enum'
-                  if (question.type == 'enum') {
+                  if (question.type == 'LIST') {
                     return customList.ReorderableItem(
                       key: ValueKey(question),
                       childBuilder: (BuildContext context, customList.ReorderableItemState state) {
@@ -156,7 +158,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
 
                             // Show SnackBar with undo option
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Field '${removedQuestion.text}' dismissed"),
+                              content: Text("Field '${removedQuestion.label}' dismissed"),
                               action: SnackBarAction(
                                 label: "Undo",
                                 onPressed: () {
@@ -172,13 +174,13 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 TextFormField(
-                                  initialValue: question.text,
+                                  initialValue: question.label,
                                   decoration: InputDecoration(
                                     hintText: 'Enter question label',
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      question.text = value;
+                                      question.label = value;
                                     });
                                   },
                                 ),
@@ -190,7 +192,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
                                   ),
                                   onChanged: (value) {
                                     setState(() {
-                                      // question.enumValues = value.split(',').map((e) => e.trim()).toList();
+                                      question.enumValues = value.split(',').map((e) => e.trim()).toList();
                                     });
                                   },
                                 ),
@@ -224,7 +226,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
                             });
 
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text("Field '${removedQuestion.text}' dismissed"),
+                              content: Text("Field '${removedQuestion.label}' dismissed"),
                               action: SnackBarAction(
                                 label: "Undo",
                                 onPressed: () {
@@ -237,13 +239,13 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
                           },
                           child: ListTile(
                             title: TextFormField(
-                              initialValue: question.text,
+                              initialValue: question.label,
                               decoration: InputDecoration(
                                 hintText: 'Enter question label',
                               ),
                               onChanged: (value) {
                                 setState(() {
-                                  question.text = value;
+                                  question.label = value;
                                 });
                               },
                             ),

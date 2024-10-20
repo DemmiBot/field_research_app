@@ -51,9 +51,11 @@ public class AuthenticationController {
         String login = data.email() != null ? data.email() : data.username();
         var usernamePassword = new UsernamePasswordAuthenticationToken(login, data.password());
         try {
+            // Lança as exceptions abaixo
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((User) auth.getPrincipal());
-            // findbyemail ? findbyemail : findbyusername
+            
+            // Isso tá certo??? ALO ALO ALO
             User user = repository.findByEmail(login) != null ? (User) repository.findByEmail(login) : (User) repository.findByUsername(login);
             return ResponseEntity.ok(new LoginResponseDTO(token, user));
         } catch (DisabledException e) {

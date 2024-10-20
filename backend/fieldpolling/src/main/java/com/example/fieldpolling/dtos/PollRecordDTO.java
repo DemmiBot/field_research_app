@@ -2,6 +2,7 @@ package com.example.fieldpolling.dtos;
 
 import java.util.List;
 
+import com.example.fieldpolling.helpers.AcceptedTypes;
 import com.example.fieldpolling.helpers.Status;
 
 import jakarta.validation.constraints.NotBlank;
@@ -10,7 +11,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 public record PollRecordDTO(@NotBlank String title, @NotBlank String description, @NotNull Status status, @NotEmpty List<Question> questions) {
     /* Type é o tipo de resposta esperado (textual, numérica etc... Open ended por enquanto, estudar colocar um enum para tipos suportados) */
-    public static record Question(@NotBlank String text, @NotBlank String type) {
+    public static record Question(@NotBlank String label, @NotBlank AcceptedTypes type, String listValues, String min, String max) {
     }
 }
 

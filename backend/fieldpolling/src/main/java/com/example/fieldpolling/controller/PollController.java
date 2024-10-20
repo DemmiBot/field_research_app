@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.fieldpolling.dtos.PollRecordDTO;
-import com.example.fieldpolling.models.Entry;
 import com.example.fieldpolling.models.Poll;
 import com.example.fieldpolling.repositories.EntryRepository;
 import com.example.fieldpolling.repositories.PollRepository;

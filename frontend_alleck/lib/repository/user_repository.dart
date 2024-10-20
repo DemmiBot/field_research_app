@@ -1,19 +1,25 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend_alleck/providers/api_client_provider.dart';
+import 'package:frontend_alleck/services/api_client.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
-  final String baseUrl = 'http://10.0.2.2:8080/users';
+  final ApiClient apiClient;
+
+  UserRepository(this.apiClient);
 
   Future<http.Response> fetchUsers() async {
-    final response = await http.get(Uri.parse(baseUrl));
+    final response = await apiClient.get('users');
     return response;
   }
 
-  Future<http.Response> createUser(String name) async {
-    final response = await http.post(
-      Uri.parse(baseUrl),
-      headers: {'Content-Type': 'application/json'},
-      body: '{"name": "$name"}',
-    );
+  Future<http.Response> createUser(User user) async {
+    final response = await apiClient.post('', );
     return response;
   }
 }
+
+final userRepositoryProvider = Provider((ref) {
+  final apiClient = ref.watch(apiClientProvider);
+  return UserRepository(apiClient);
+});
