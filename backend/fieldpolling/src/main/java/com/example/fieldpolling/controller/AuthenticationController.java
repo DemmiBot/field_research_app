@@ -40,6 +40,7 @@ public class AuthenticationController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    
     @Autowired
     ApplicationEventPublisher eventPublisher;
     @Autowired

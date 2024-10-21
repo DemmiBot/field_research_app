@@ -93,13 +93,13 @@ public class EntryController {
 
         // Parse questions from the poll to extract headers
         JsonNode questionsNode = objectMapper.readTree(poll.getQuestions());
-        List<String> headers = questionsNode.findValues("text").stream()
+        List<String> headers = questionsNode.findValues("label").stream()
                 .map(JsonNode::asText)
                 .collect(Collectors.toList());
 
         // Build the CSV
         StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("Entry ID"); // Add "Entry ID" as the first column
+        csvBuilder.append("Id");
         csvBuilder.append(",");
         csvBuilder.append(String.join(",", headers)); // Add question texts as headers
         csvBuilder.append("\n");

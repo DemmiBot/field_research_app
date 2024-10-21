@@ -37,27 +37,29 @@ class Poll {
 class Question {
   String label;
   String type;
-  List<String>? enumValues;
+  List<String>? listValues;
   String? min;
   String? max;
 
   Question({
     required this.label,
     required this.type,
-    this.enumValues,
+    this.listValues,
     this.min,
     this.max    
   });
 
   // Factory method to create a Question from JSON
   factory Question.fromJson(Map<String, dynamic> json) {
-    String enumString = json['enumValues'];
-    List<String> enumValues = enumString.split(',').map((e) => e.trim()).toList();
+    String? enumString = json['listValues'];
+
+
+    List<String>? enumList = enumString != null ? enumString.split(',').map((e) => e.trim()).toList() : null;
 
     return Question(
       label: json['label'],
       type: json['type'],
-      enumValues: enumValues,
+      listValues: enumList,
       min: json['min'],
       max: json['max'],
     );

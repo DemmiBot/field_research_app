@@ -67,16 +67,16 @@ class _DynamicFormState extends ConsumerState<DynamicForm> {
 
                 // Choose the widget based on fieldType
                 switch (field.type) {
-                  case 'text':
+                  case 'TEXT':
                     return TextFieldForm(field.label, (value) {
                       formData[index] = value;
                     });
-                  case 'numerical':
-                    return IntFieldForm(field.label, (value) {
+                  case 'NUMBER':
+                    return IntFieldForm(field.label, minValue: field.min != null ? int.parse(field.min!) : null , maxValue:  field.max != null ? int.parse(field.max!) : null ,(value) {
                       formData[index] = value;
                     });
-                  case 'enum':
-                    return EnumFieldForm(field.label, field.enumValues ?? [], (value) {
+                  case 'LIST':
+                    return EnumFieldForm(field.label, field.listValues ?? [], (value) {
                       formData[index] = value;
                     });
                   default:
