@@ -24,15 +24,16 @@ class _LoginState extends ConsumerState<Login> {
         password: _password,
       );
 
-      final isLogged = await userRepository.login(ref, user);
-
-      if (isLogged) {
-        Navigator.pushNamed(context, "/user");
-      } else {
+      try {
+        final isLogged = await userRepository.login(ref, user);
+        if(isLogged)
+          Navigator.pushNamed(context, "/home");
+      } catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed')),
         );
       }
+
     }
   }
 

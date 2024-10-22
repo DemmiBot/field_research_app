@@ -52,16 +52,7 @@ class PollListItem extends StatelessWidget {
                             thickness: 2,
                           ),
                           Text(
-                            poll.entryCount.toString() + ' Entries',
-                          ),
-                          VerticalDivider(
-                            thickness: 2,
-                          ),
-                          Expanded(
-                            child: Text(
-                              "99+ pesquisadores",
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            poll.entryCount > 1 ? poll.entryCount.toString() + ' Respostas' : poll.entryCount.toString() + ' Resposta',
                           ),
                         ],
                       ),

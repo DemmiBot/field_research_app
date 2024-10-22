@@ -65,7 +65,6 @@ class _PollInfoModal extends ConsumerState<PollInfoModal> {
           Text("Titulo: ${widget.poll.title}"),
           Text("Descrição: ${widget.poll.description}"),
           Text("Status: ${widget.poll.status}"),
-          Text("Quantidade de contribuintes: 9999"),
           Text("Quantidade de respostas: ${widget.poll.entryCount}"),
           ElevatedButton(
             onPressed: () {

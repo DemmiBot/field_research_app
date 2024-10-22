@@ -29,6 +29,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.DELETE, "/polls").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/polls").hasRole("ADMIN")  
+                .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                     .anyRequest().authenticated()
                 )
