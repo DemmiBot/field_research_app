@@ -7,8 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.fieldpolling.models.User;
 
-
-
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
     UserDetails findByUsername(String username);

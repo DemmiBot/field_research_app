@@ -40,6 +40,7 @@ public class AuthenticationController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+
     @Autowired
     ApplicationEventPublisher eventPublisher;
     @Autowired
@@ -51,9 +52,11 @@ public class AuthenticationController {
         String login = data.email() != null ? data.email() : data.username();
         var usernamePassword = new UsernamePasswordAuthenticationToken(login, data.password());
         try {
+            // Lança as exceptions abaixo
             var auth = this.authenticationManager.authenticate(usernamePassword);
             var token = tokenService.generateToken((User) auth.getPrincipal());
-            // findbyemail ? findbyemail : findbyusername
+            
+            // Isso tá certo??? ALO ALO ALO
             User user = repository.findByEmail(login) != null ? (User) repository.findByEmail(login) : (User) repository.findByUsername(login);
             return ResponseEntity.ok(new LoginResponseDTO(token, user));
         } catch (DisabledException e) {
@@ -89,12 +92,12 @@ public class AuthenticationController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error on saving/sending email" + e);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("User created!");
     }
 
     @GetMapping("/registrationConfirm")
     public ResponseEntity<Object> confirmRegistration
-    (@RequestParam("token") String token) {
+    (@RequestParam String token) {
         
         VerificationToken verificationToken = tokenRepository.findByToken(token);
 
