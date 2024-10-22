@@ -1,12 +1,12 @@
 
 class User {
-  final String email;
-  final String username;
-  final String password;
-  final UserRole role;
-  final bool enabled;
+  final String? email;
+  final String? username;
+  final String? password;
+  final UserRole? role;
+  final bool? enabled;
 
-  User({required this.email, required this.enabled, required this.password, required this.role, required this.username});
+  User({this.email, this.enabled, this.password, this.role, this.username});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(email: json['email'],

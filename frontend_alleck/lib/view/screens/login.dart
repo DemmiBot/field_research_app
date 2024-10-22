@@ -1,6 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend_alleck/model/user.dart';
+import 'package:frontend_alleck/repository/user_repository.dart';
 
-class Login extends StatelessWidget {
+class Login extends ConsumerStatefulWidget {
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends ConsumerState<Login> {
+  final _formKey = GlobalKey<FormState>();
+  String _emailOrUsername = '';
+  String _password = '';
+  String _organization = '';
+
+  Future<void> _loginUser() async {
+    if (_formKey.currentState!.validate()) {
+      final userRepository = ref.read(userRepositoryProvider);
+
+      final user = User(
+        email: _emailOrUsername.contains('@') ? _emailOrUsername : null,
+        username: _emailOrUsername.contains('@') ? null : _emailOrUsername,
+        password: _password,
+      );
+
+      final isLogged = await userRepository.login(ref, user);
+
+      if (isLogged) {
+        Navigator.pushNamed(context, "/user");
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Login failed')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,6 +49,7 @@ class Login extends StatelessWidget {
               width: 100,
             ),
             Form(
+              key: _formKey,
               child: Column(
                 children: [
                   Column(
@@ -22,34 +58,41 @@ class Login extends StatelessWidget {
                       Text("Login"),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Insira o seu login ou email"
+                          hintText: "Insira o seu login ou email",
                         ),
                         keyboardType: TextInputType.emailAddress,
+                        onChanged: (value) => _emailOrUsername = value,
                       ),
-                      SizedBox(height: 24,),
+                      SizedBox(height: 24),
                       Text("Senha"),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Insira a sua senha"
+                          hintText: "Insira a sua senha",
                         ),
                         obscureText: true,
+                        onChanged: (value) => _password = value,
                       ),
-                      SizedBox(height: 24,),
+                      SizedBox(height: 24),
                       Text("Organização"),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: "Organização que deseja usar para login"
+                          hintText: "Organização que deseja usar para login",
                         ),
+                        onChanged: (value) => _organization = value,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
+                  SizedBox(height: 20),
+                  FilledButton(
+                    onPressed: _loginUser,
+                    child: Text("Entrar"),
                   ),
-                  FilledButton(onPressed: () {
-                    Navigator.pushNamed(context, "/user");
-                  }, child: Text("Entrar")),
-                  TextButton(onPressed: () {}, child: Text("Não sei qual organização devo utilizar")),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, "/register");
+                    },
+                    child: Text("Não sei qual organização devo utilizar"),
+                  ),
                 ],
               ),
             ),

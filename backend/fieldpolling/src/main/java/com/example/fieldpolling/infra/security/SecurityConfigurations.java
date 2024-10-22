@@ -27,15 +27,10 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.DELETE, "/polls").permitAll()
-                .requestMatchers(HttpMethod.POST, "/polls").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/polls").permitAll()
-                .requestMatchers(HttpMethod.GET, "/polls").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/polls").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                    .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()          /* Organizar permições após testes */
-                    .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")        /* Sugestão: registro de usuario permitido, alteração de usuario */  
-                    .anyRequest().permitAll()                                                        /* para admin necessita de role admin */
+                .requestMatchers(HttpMethod.DELETE, "/polls").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/polls").hasRole("ADMIN")  
+                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                    .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

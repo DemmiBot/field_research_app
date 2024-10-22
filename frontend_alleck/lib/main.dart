@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/view/screens/login.dart';
+import 'package:frontend_alleck/view/screens/register.dart';
 import 'package:frontend_alleck/view/screens/user_home.dart';
 
 void main() {
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => Login(),
         '/user': (context) => UserHome(),
+        '/register': (context) => RegisterScreen(),
       },
       title: 'SurveyDMAlleck',
       theme: ThemeData(

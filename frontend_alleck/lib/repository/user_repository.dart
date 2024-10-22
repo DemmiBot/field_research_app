@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/model/user.dart';
 import 'package:frontend_alleck/providers/api_client_provider.dart';
+import 'package:frontend_alleck/providers/authentication_provider.dart';
 import 'package:frontend_alleck/services/api_client.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,19 +17,19 @@ class UserRepository {
     return response;
   }
 
-  Future<http.Response> createUser(User user) async {
+  dynamic createUser(User user) async {
     final userData = {
       'email': user.email,
       'username': user.username,
       'password': user.password,
-      'role': user.role
+      'role': user.role!.name
     };
 
     final response = await apiClient.post('auth/register', userData);
     return response;
   }
 
-  Future<http.Response> login(User user) async {
+  Future<bool> login(WidgetRef ref, User user) async {
     final userData = {
       'email': user.email,
       'username': user.username,
@@ -34,7 +37,10 @@ class UserRepository {
     };
 
     final response = await apiClient.post('auth/login', userData);
-    return response;
+    final token = jsonDecode(response)['token'];
+    ref.read(tokenNotifierProvider.notifier).setToken(token);
+
+    return true;
   }
 }
 

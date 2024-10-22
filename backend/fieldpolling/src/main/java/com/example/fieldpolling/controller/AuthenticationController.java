@@ -40,7 +40,7 @@ public class AuthenticationController {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
-    
+
     @Autowired
     ApplicationEventPublisher eventPublisher;
     @Autowired
@@ -92,7 +92,7 @@ public class AuthenticationController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error on saving/sending email" + e);
         }
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("User created!");
     }
 
     @GetMapping("/registrationConfirm")
