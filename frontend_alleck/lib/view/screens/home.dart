@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/model/poll.dart';
+import 'package:frontend_alleck/model/user.dart';
+import 'package:frontend_alleck/providers/authentication_provider.dart';
 import 'package:frontend_alleck/providers/poll_data_provider.dart';
 import 'package:frontend_alleck/view/screens/new_form_screen.dart';
 import 'package:frontend_alleck/view/widgets/poll_list_item.dart';
 
-class UserHome extends ConsumerStatefulWidget {
-  const UserHome({super.key});
+class Home extends ConsumerStatefulWidget {
+  const Home({super.key});
 
   @override
-  ConsumerState<UserHome> createState() => _UserHomeState();
+  ConsumerState<Home> createState() => _HomeState();
 }
 
-class _UserHomeState extends ConsumerState<UserHome> {
+class _HomeState extends ConsumerState<Home> {
   final username = "Alleck";
-  final orgname = "PesquisasAlleck";
+  final orgname = "Pesquisas Alleck";
 
   // Function to reload polls when user pulls to refresh
   Future<void> _refreshPolls() async {
@@ -23,26 +25,50 @@ class _UserHomeState extends ConsumerState<UserHome> {
     await ref.refresh(pollDataProvider.future); // Await the fresh data fetch
   }
 
+  AppBar _appBar() {
+    return AppBar(
+      title: Text("${orgname}"),
+      backgroundColor: Theme.of(context).primaryColor,
+      automaticallyImplyLeading: false,
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewFormScreen(),
+                ),
+              );
+            },
+            icon: Icon(Icons.add)),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Watching the pollDataProvider to fetch poll data
     final pollAsyncValue = ref.watch(pollDataProvider);
+    final user = ref.watch(userNotifierProvider);
 
     return Scaffold(
+      appBar: user?.role == UserRole.ADMIN ? _appBar() : null,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Bem vindo, $username!"),
-              Text(orgname),
+              Text("Bem vindo, ${user?.username}!"),
+              if (user?.role == UserRole.USER) Text(orgname),
+              SizedBox(height: 10),
               const Divider(height: 2),
-              
+              SizedBox(height: 10),
+
               // Expanded section for poll list and refresh functionality
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: _refreshPolls,  // Pull-to-refresh action
+                  onRefresh: _refreshPolls, // Pull-to-refresh action
                   child: pollAsyncValue.when(
                     data: (pollList) {
                       return ListView.builder(
@@ -53,21 +79,12 @@ class _UserHomeState extends ConsumerState<UserHome> {
                         },
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator()),
-                    error: (error, stack) => Center(child: Text('Error: $error')),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) =>
+                        Center(child: Text('Error: $error')),
                   ),
                 ),
-              ),
-
-              // Button to navigate to NewFormScreen
-              FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewFormScreen()),
-                  );
-                },
-                child: const Text("Entrar"),
               ),
             ],
           ),

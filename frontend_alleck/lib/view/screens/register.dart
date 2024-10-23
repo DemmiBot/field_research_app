@@ -34,7 +34,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Register')),
+      appBar: AppBar(title: Text('Registrar novo usuário')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -42,7 +42,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           child: Column(
             children: [
               TextFormField(
-                decoration: InputDecoration(labelText: 'Username'),
+                decoration: InputDecoration(labelText: 'Apelido'),
                 onChanged: (value) => _username = value,
               ),
               TextFormField(
@@ -51,27 +51,27 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 onChanged: (value) => _email = value,
               ),
               TextFormField(
-                decoration: InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(labelText: 'Senha'),
                 obscureText: true,
                 onChanged: (value) => _password = value,
               ),
               DropdownButtonFormField<String>(
-                decoration: InputDecoration(labelText: 'Role'),
-                value: _role.name,
-                items: ['USER', 'ADMIN'].map((role) {
+                decoration: InputDecoration(labelText: 'Credencial'),
+                value: 'Usuário',
+                items: ['Usuário', 'Administrador'].map((role) {
                   return DropdownMenuItem<String>(
                     value: role,
                     child: Text(role),
                   );
                 }).toList(),
                 onChanged: (value) => setState(() {
-                  value == 'ADMIN' ? _role = UserRole.ADMIN : _role = UserRole.USER;
+                  value == 'Administrador' ? _role = UserRole.ADMIN : _role = UserRole.USER;
                 } ),
               ),
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _registerUser,
-                child: Text('Register'),
+                child: Text('Registrar'),
               ),
             ],
           ),

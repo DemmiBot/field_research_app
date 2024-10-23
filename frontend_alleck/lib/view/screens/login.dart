@@ -12,7 +12,7 @@ class _LoginState extends ConsumerState<Login> {
   final _formKey = GlobalKey<FormState>();
   String _emailOrUsername = '';
   String _password = '';
-  String _organization = '';
+  // String _organization = '';
 
   Future<void> _loginUser() async {
     if (_formKey.currentState!.validate()) {
@@ -24,11 +24,11 @@ class _LoginState extends ConsumerState<Login> {
         password: _password,
       );
 
-      final isLogged = await userRepository.login(ref, user);
-
-      if (isLogged) {
-        Navigator.pushNamed(context, "/user");
-      } else {
+      try {
+        final isLogged = await userRepository.login(ref, user);
+        if(isLogged)
+          Navigator.pushNamed(context, "/home");
+      } catch(e) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed')),
         );
@@ -61,6 +61,12 @@ class _LoginState extends ConsumerState<Login> {
                           hintText: "Insira o seu login ou email",
                         ),
                         keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if(value == null || value.isEmpty) {
+                            return "Campo vazio!";
+                          }
+                          return null;
+                        },
                         onChanged: (value) => _emailOrUsername = value,
                       ),
                       SizedBox(height: 24),
@@ -70,16 +76,22 @@ class _LoginState extends ConsumerState<Login> {
                           hintText: "Insira a sua senha",
                         ),
                         obscureText: true,
+                        validator: (value) {
+                          if(value == null || value.isEmpty) {
+                            return "Campo vazio!";
+                          }
+                          return null;
+                        },
                         onChanged: (value) => _password = value,
                       ),
                       SizedBox(height: 24),
-                      Text("Organização"),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintText: "Organização que deseja usar para login",
-                        ),
-                        onChanged: (value) => _organization = value,
-                      ),
+                      // Text("Organização"),
+                      // TextFormField(
+                      //   decoration: InputDecoration(
+                      //     hintText: "Organização que deseja usar para login",
+                      //   ),
+                      //   onChanged: (value) => _organization = value,
+                      // ),
                     ],
                   ),
                   SizedBox(height: 20),
@@ -91,7 +103,7 @@ class _LoginState extends ConsumerState<Login> {
                     onPressed: () {
                       Navigator.pushNamed(context, "/register");
                     },
-                    child: Text("Não sei qual organização devo utilizar"),
+                    child: Text("Registrar novo usuário"),
                   ),
                 ],
               ),

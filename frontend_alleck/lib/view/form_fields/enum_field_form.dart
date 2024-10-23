@@ -12,10 +12,20 @@ class EnumFieldForm extends StatefulWidget {
 }
 
 class _EnumFieldForm extends State<EnumFieldForm> {
+  String? _selectedValue;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the default selected value to the first option
+    _selectedValue = widget.options.isNotEmpty ? widget.options[0] : null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<String>(
       decoration: InputDecoration(labelText: widget.label),
+      value: _selectedValue,  // Set the selected value
       items: widget.options.map(
         (String option) {
           return DropdownMenuItem<String>(
@@ -25,7 +35,11 @@ class _EnumFieldForm extends State<EnumFieldForm> {
         },
       ).toList(),
       onSaved: widget.onSaved,
-      onChanged: (value) {},
+      onChanged: (value) {
+        setState(() {
+          _selectedValue = value;  // Update selected value
+        });
+      },
     );
   }
 }

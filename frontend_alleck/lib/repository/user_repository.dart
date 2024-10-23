@@ -36,10 +36,13 @@ class UserRepository {
       'password': user.password,
     };
 
-    final response = await apiClient.post('auth/login', userData);
-    final token = jsonDecode(response)['token'];
-    ref.read(tokenNotifierProvider.notifier).setToken(token);
+    final response = await apiClient.postWithoutToken('auth/login', userData);
+    final json = jsonDecode(response);
+    final token = json['token'];
+    final jsonUser = User.fromJson(json['user']);
 
+    ref.read(tokenNotifierProvider.notifier).setToken(token);
+    ref.read(userNotifierProvider.notifier).setUser(jsonUser);
     return true;
   }
 }

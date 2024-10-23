@@ -20,6 +20,7 @@ The next commits will focus on rounding up the app and implementing new function
 - [x] User creation and login security with OAuth and JWT;
 - [x] Mobile UI prototype;
 - [ ] Organizational instance support;
+- [ ] Submitter id column in poll submit;
 - [ ] Geographical data support for surveys;
 
 ## ✏️ Figma: https://www.figma.com/file/DONkjpP2sNxQQm9fuo8V13/Projeto-Pesquisa-App?type=design&node-id=0%3A1&mode=design&t=x0gn7yP51czxJ4Am-1

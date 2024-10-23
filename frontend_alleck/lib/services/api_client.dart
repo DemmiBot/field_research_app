@@ -25,6 +25,17 @@ class ApiClient {
     return _handleResponse(response);
   }
 
+  Future<dynamic> postWithoutToken(String endpoint, Map<String, dynamic> data) async {
+    final response = await client.post(
+      Uri.parse('$baseUrl/$endpoint'),
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+      body: jsonEncode(data),
+    );
+    return _handleResponse(response);
+  }
+
   Future<dynamic> delete(String endpoint) async {
     final response = await client.delete(
       Uri.parse('$baseUrl/$endpoint'),
@@ -40,7 +51,7 @@ class ApiClient {
       headers['Authorization'] = 'Bearer $token';
     }
     if (contentType) {
-      headers['Content-Type'] = 'application/json';
+      headers['Content-Type'] = 'application/json; charset=utf-8';
     }
     return headers;
   }
@@ -48,7 +59,7 @@ class ApiClient {
   // Handle response and errors
   dynamic _handleResponse(http.Response response) {
     if (response.statusCode == 200) {
-      return response.body;
+      return utf8.decode(response.bodyBytes);
     } else {
       throw Exception('Failed to load data: ${response.statusCode}');
     }

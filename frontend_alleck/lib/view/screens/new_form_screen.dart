@@ -20,13 +20,13 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create New Form'),
+        title: Text('Novo formulário'),
       ),
       body: Column(
         children: [
-          _buildTextField('Form Title', (value) => formTitle = value),
+          _buildTextField('Título', (value) => formTitle = value),
           _buildTextField(
-              'Form Description', (value) => formDescription = value),
+              'Descrição', (value) => formDescription = value),
           _buildStatusDropdown(),
           _buildQuestionsList(),
           _buildActionButtons(),
@@ -51,11 +51,11 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: DropdownButtonFormField<String>(
-        decoration: InputDecoration(labelText: 'Form Status'),
+        decoration: InputDecoration(labelText: 'Status do formulário'),
         value: formStatus,
         items: [
-          DropdownMenuItem(value: 'OPEN', child: Text('Open')),
-          DropdownMenuItem(value: 'CLOSED', child: Text('Closed')),
+          DropdownMenuItem(value: 'OPEN', child: Text('Aberto')),
+          DropdownMenuItem(value: 'CLOSED', child: Text('Fechado')),
         ],
         onChanged: (value) {
           setState(() {
@@ -123,7 +123,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
           TextFormField(
             initialValue: '', // Initially empty
             decoration:
-                InputDecoration(hintText: 'Enter comma-separated enum values'),
+                InputDecoration(hintText: 'Opção 1, Opção 2, Opção 3, ...'),
             onChanged: (value) {
               setState(() {
                 question.listValues =
@@ -137,7 +137,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
             children: [
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(hintText: 'Min Value'),
+                  decoration: InputDecoration(hintText: 'Valor mínimo'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
@@ -149,7 +149,7 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
               SizedBox(width: 8),
               Expanded(
                 child: TextFormField(
-                  decoration: InputDecoration(hintText: 'Max Value'),
+                  decoration: InputDecoration(hintText: 'Valor máximo'),
                   keyboardType: TextInputType.number,
                   onChanged: (value) {
                     setState(() {
@@ -176,13 +176,13 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
               children: [
                 Icon(Icons.add),
                 SizedBox(width: 5),
-                Text('Add Field'),
+                Text('Adicionar Campo'),
               ],
             ),
           ),
           ElevatedButton(
             onPressed: _createForm,
-            child: Text('Create Form'),
+            child: Text('Criar Formulário'),
           ),
         ],
       ),
@@ -197,9 +197,9 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
 
     // Show SnackBar with undo option
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text("Field '${removedQuestion.label}' dismissed"),
+      content: Text("Campo '${removedQuestion.label}' removido"),
       action: SnackBarAction(
-        label: "Undo",
+        label: "Desfazer",
         onPressed: () {
           setState(() {
             currentQuestions.insert(index, removedQuestion);
@@ -237,11 +237,11 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
         return GridView.count(
           crossAxisCount: 2,
           children: [
-            _buildFieldIcon('Text Field', Icons.text_fields, 'TEXT'),
+            _buildFieldIcon('Campo de texto', Icons.text_fields, 'TEXT'),
             _buildFieldIcon(
-                'Integer Field', Icons.format_list_numbered, 'NUMBER'),
+                'Campo de números', Icons.onetwothree, 'NUMBER'),
             _buildFieldIcon(
-                'Dropdown Field (Enum)', Icons.arrow_drop_down, 'LIST'),
+                'Campo de Lista', Icons.arrow_drop_down, 'LIST'),
           ],
         );
       },
@@ -289,6 +289,9 @@ class _NewFormScreenState extends ConsumerState<NewFormScreen> {
       Navigator.pop(context);
     } catch (e) {
       print('Failed to create form: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Falha na criação de formulário: $e')),
+      );
     }
   }
 }

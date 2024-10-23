@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/model/poll.dart';
+import 'package:frontend_alleck/model/user.dart';
 import 'package:frontend_alleck/providers/api_client_provider.dart';
+import 'package:frontend_alleck/providers/authentication_provider.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PollInfoModal extends ConsumerStatefulWidget {
@@ -36,7 +38,6 @@ class _PollInfoModal extends ConsumerState<PollInfoModal> {
 
       print('CSV downloaded and saved to $filePath');
       Navigator.pop(context);
-
     } catch (e) {
       print('Error occurred while downloading CSV: $e');
     }
@@ -51,35 +52,44 @@ class _PollInfoModal extends ConsumerState<PollInfoModal> {
       Navigator.pop(context);
     } catch (e) {
       print('Error occurred while deleting poll: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Could not delete: $e')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Id: ${widget.poll.pollId}"),
-          Text("Titulo: ${widget.poll.title}"),
-          Text("Descrição: ${widget.poll.description}"),
-          Text("Status: ${widget.poll.status}"),
-          Text("Quantidade de contribuintes: 9999"),
-          Text("Quantidade de respostas: ${widget.poll.entryCount}"),
-          ElevatedButton(
-            onPressed: () {
-              _downloadPoll(widget.poll.pollId.toString());
-            },
-            child: Text("Download"),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              _deletePoll(widget.poll.pollId.toString());
-            },
-            child: Text("Delete"),
-          ),
-        ],
+    final user = ref.watch(userNotifierProvider);
+    return Container(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Id: ${widget.poll.pollId}"),
+            Text("Titulo: ${widget.poll.title}"),
+            Text("Descrição: ${widget.poll.description}"),
+            Text("Status: ${widget.poll.status}"),
+            Text("Quantidade de respostas: ${widget.poll.entryCount}"),
+            if (user?.role == UserRole.ADMIN)
+              FilledButton(
+                onPressed: () {
+                  _downloadPoll(widget.poll.pollId.toString());
+                },
+                child: Text("Baixar CSV"),
+              ),
+            if (user?.role == UserRole.ADMIN)
+              FilledButton(
+                onPressed: () {
+                  _deletePoll(widget.poll.pollId.toString());
+                },
+                child: Text("Deletar"),
+              ),
+          ],
+        ),
       ),
     );
   }
