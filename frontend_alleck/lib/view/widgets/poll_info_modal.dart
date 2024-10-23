@@ -61,31 +61,35 @@ class _PollInfoModal extends ConsumerState<PollInfoModal> {
   @override
   Widget build(BuildContext context) {
     final user = ref.watch(userNotifierProvider);
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text("Id: ${widget.poll.pollId}"),
-          Text("Titulo: ${widget.poll.title}"),
-          Text("Descrição: ${widget.poll.description}"),
-          Text("Status: ${widget.poll.status}"),
-          Text("Quantidade de respostas: ${widget.poll.entryCount}"),
-          if (user?.role == UserRole.ADMIN)
-            FilledButton(
-              onPressed: () {
-                _downloadPoll(widget.poll.pollId.toString());
-              },
-              child: Text("Baixar CSV"),
-            ),
-          if (user?.role == UserRole.ADMIN)
-            FilledButton(
-              onPressed: () {
-                _deletePoll(widget.poll.pollId.toString());
-              },
-              child: Text("Deletar"),
-            ),
-        ],
+    return Container(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 40, 20, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text("Id: ${widget.poll.pollId}"),
+            Text("Titulo: ${widget.poll.title}"),
+            Text("Descrição: ${widget.poll.description}"),
+            Text("Status: ${widget.poll.status}"),
+            Text("Quantidade de respostas: ${widget.poll.entryCount}"),
+            if (user?.role == UserRole.ADMIN)
+              FilledButton(
+                onPressed: () {
+                  _downloadPoll(widget.poll.pollId.toString());
+                },
+                child: Text("Baixar CSV"),
+              ),
+            if (user?.role == UserRole.ADMIN)
+              FilledButton(
+                onPressed: () {
+                  _deletePoll(widget.poll.pollId.toString());
+                },
+                child: Text("Deletar"),
+              ),
+          ],
+        ),
       ),
     );
   }
