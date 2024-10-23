@@ -33,7 +33,6 @@ class _LoginState extends ConsumerState<Login> {
           SnackBar(content: Text('Login failed')),
         );
       }
-
     }
   }
 
