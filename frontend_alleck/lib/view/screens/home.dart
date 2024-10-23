@@ -16,7 +16,7 @@ class Home extends ConsumerStatefulWidget {
 
 class _HomeState extends ConsumerState<Home> {
   final username = "Alleck";
-  final orgname = "PesquisasAlleck";
+  final orgname = "Pesquisas Alleck";
 
   // Function to reload polls when user pulls to refresh
   Future<void> _refreshPolls() async {
@@ -27,7 +27,21 @@ class _HomeState extends ConsumerState<Home> {
 
   AppBar _appBar() {
     return AppBar(
-      title: Text("ADMIN"),
+      title: Text("${orgname}"),
+      backgroundColor: Theme.of(context).primaryColor,
+      automaticallyImplyLeading: false,
+      actions: [
+        IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => NewFormScreen(),
+                ),
+              );
+            },
+            icon: Icon(Icons.add)),
+      ],
     );
   }
 
@@ -46,13 +60,15 @@ class _HomeState extends ConsumerState<Home> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text("Bem vindo, ${user?.username}!"),
-              Text(orgname),
+              if (user?.role == UserRole.USER) Text(orgname),
+              SizedBox(height: 10),
               const Divider(height: 2),
-              
+              SizedBox(height: 10),
+
               // Expanded section for poll list and refresh functionality
               Expanded(
                 child: RefreshIndicator(
-                  onRefresh: _refreshPolls,  // Pull-to-refresh action
+                  onRefresh: _refreshPolls, // Pull-to-refresh action
                   child: pollAsyncValue.when(
                     data: (pollList) {
                       return ListView.builder(
@@ -63,21 +79,12 @@ class _HomeState extends ConsumerState<Home> {
                         },
                       );
                     },
-                    loading: () => const Center(child: CircularProgressIndicator()),
-                    error: (error, stack) => Center(child: Text('Error: $error')),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                    error: (error, stack) =>
+                        Center(child: Text('Error: $error')),
                   ),
                 ),
-              ),
-
-              // Button to navigate to NewFormScreen
-              FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NewFormScreen()),
-                  );
-                },
-                child: const Text("Entrar"),
               ),
             ],
           ),

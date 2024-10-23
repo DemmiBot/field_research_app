@@ -24,14 +24,24 @@ class _IntFieldForm extends State<IntFieldForm> {
         if (value == null || value.isEmpty) {
           return 'Campo vazio!';
         }
-        if (widget.minValue != null && int.parse(value) < widget.minValue!) {
+        if(double.tryParse(value) == null) {
+          return 'Campo numérico';
+        }
+        if (widget.minValue != null && double.parse(value) < widget.minValue!) {
           return 'Valor mínimo aceito é ${widget.minValue}';
         }
-        if (widget.maxValue != null && int.parse(value) > widget.maxValue!) {
+        if (widget.maxValue != null && double.parse(value) > widget.maxValue!) {
           return 'Valor máximo aceito é ${widget.minValue}';
         }
         return null;
       },
     );
   }
+}
+
+bool isNumeric(String s) {
+  if(s == null) {
+    return false;
+  }
+  return double.tryParse(s) != null;
 }

@@ -17,7 +17,7 @@ class PollListItem extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => DynamicForm(fields: poll.questions, pollId: poll.pollId,),
+                builder: (context) => DynamicForm(fields: poll.questions, poll: poll,),
               ),
             );
         },
@@ -46,8 +46,7 @@ class PollListItem extends StatelessWidget {
                           SizedBox(
                             width: 8,
                           ),
-                          Text(poll.status[0].toUpperCase() +
-                              poll.status.substring(1).toLowerCase()),
+                          Text(poll.status == "CLOSED" ? "Fechado" : "Aberto"),
                           VerticalDivider(
                             thickness: 2,
                           ),
@@ -71,8 +70,8 @@ class PollListItem extends StatelessWidget {
                 );
               },
               icon: Icon(
-                Icons.question_mark_rounded,
-                color: Colors.blue,
+                Icons.edit,
+                color: Theme.of(context).primaryColor,
               ),
             ),
           ],

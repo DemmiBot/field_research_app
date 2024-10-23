@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend_alleck/view/screens/login.dart';
 import 'package:frontend_alleck/view/screens/register.dart';
 import 'package:frontend_alleck/view/screens/home.dart';
+import 'package:frontend_alleck/view/widgets/theme.dart';
 
 void main() {
   runApp(
@@ -17,6 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
         '/': (context) => Login(),
@@ -24,11 +26,9 @@ class MyApp extends StatelessWidget {
         '/register': (context) => RegisterScreen(),
       },
       title: 'SurveyDMAlleck',
-      theme: ThemeData(
-        
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 34, 148, 255)),
-        useMaterial3: true,
-      ),
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      themeMode: ThemeMode.light,
     );
   }
 }

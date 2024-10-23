@@ -12,10 +12,10 @@ import 'package:frontend_alleck/view/form_fields/text_field_form.dart';
  */
 
 class DynamicForm extends ConsumerStatefulWidget {
-  final int pollId;
+  final Poll poll;
   final List<Question> fields;
 
-  DynamicForm({required this.fields, required this.pollId});
+  DynamicForm({required this.fields, required this.poll});
 
   @override
   _DynamicFormState createState() => _DynamicFormState();
@@ -38,7 +38,7 @@ class _DynamicFormState extends ConsumerState<DynamicForm> {
     final apiClient = ref.read(apiClientProvider);
 
     final data = {
-      'pollId': widget.pollId,
+      'pollId': widget.poll.pollId,
       'responses': formData
     };
 
@@ -54,7 +54,7 @@ class _DynamicFormState extends ConsumerState<DynamicForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Dynamic Form')),
+      appBar: AppBar(title: Text('${widget.poll.title}', overflow: TextOverflow.ellipsis,)),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
